@@ -34,7 +34,7 @@ function NavigationScreen() {
           headerShown: false,
           animationEnabled: false,
         }}>
-        {/* <Stack.Screen name="DashboardUtama" component={DashboardUtama} /> */}
+        <Stack.Screen name="DashboardUtama" component={DashboardUtama} />
         <Stack.Screen name="DashboardMentor" component={DashboardMentor} />
         <Stack.Screen name="DashboardSantri" component={DashboardSantri} />
         <Stack.Screen name="ProfilePondok" component={ProfilePondok} />
