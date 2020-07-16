@@ -12,6 +12,7 @@ import Navbar from '../components/Navbar';
 import BackButton from '../components/BackButton';
 import AddButton from '../components/AddButton';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {auth_pengjajar} from '../config/utils';
 const axios = require('axios');
 
 class BuatKurikulum extends React.Component {
@@ -23,8 +24,7 @@ class BuatKurikulum extends React.Component {
   }
 
   getData = () => {
-    const token =
-      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvYXBpLnBvbmRva3Byb2dyYW1tZXIuY29tXC9hcGlcL3N0dWRlbnRfbG9naW4iLCJpYXQiOjE1OTQ4NjA2ODIsImV4cCI6MTU5NDg2NDI4MiwibmJmIjoxNTk0ODYwNjgyLCJqdGkiOiJYZlRBOFd6cDA4NFppc2ZHIiwic3ViIjozOCwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.v89Nt_sQYM910iAvqUG7yzClZ6B5--6Baz_cydyljP8';
+    const token = auth_pengjajar;
 
     axios
       .get('https://api.pondokprogrammer.com/api/kurikulum', {
@@ -101,7 +101,7 @@ class BuatKurikulum extends React.Component {
                         width: '50%',
                         justifyContent: 'center',
                         alignItems: 'center',
-                        backgroundColor: 'rgb(0,184,150)',
+                        backgroundColor: 'orange',
                       }}>
                       <Text style={{fontWeight: 'bold', color: 'white'}}>
                         Edit

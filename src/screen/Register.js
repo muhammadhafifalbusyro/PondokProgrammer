@@ -55,7 +55,7 @@ class Register extends React.Component {
           code: code,
           division: division,
         })
-        .then((response) => {
+        .then(response => {
           if (response.data.status == 'success') {
             this.setState({isLoading: false});
             console.log(response.data.status);
@@ -98,7 +98,7 @@ class Register extends React.Component {
             );
           }
         })
-        .catch((error) => {
+        .catch(error => {
           this.setState({isLoading: false});
           console.log(error);
           ToastAndroid.show(
@@ -132,13 +132,13 @@ class Register extends React.Component {
           style={styles.textInput}
           placeholder="Nama lengkap"
           placeholderTextColor="grey"
-          onChangeText={(text) => this.setState({username: text})}
+          onChangeText={text => this.setState({username: text})}
           value={this.state.username}
         />
         <TextInput
           style={styles.textInput}
           placeholder="Email"
-          onChangeText={(text) => this.setState({email: text})}
+          onChangeText={text => this.setState({email: text})}
           value={this.state.email}
           placeholderTextColor="grey"
         />
@@ -146,7 +146,7 @@ class Register extends React.Component {
           style={styles.textInput}
           placeholder="No Telepon"
           keyboardType="numeric"
-          onChangeText={(text) => this.setState({no_tlp: text})}
+          onChangeText={text => this.setState({no_tlp: text})}
           value={this.state.no_tlp}
           placeholderTextColor="grey"
         />
@@ -154,7 +154,7 @@ class Register extends React.Component {
           <TextInput
             style={styles.textInput}
             placeholder="Kata Sandi"
-            onChangeText={(text) => this.setState({password: text})}
+            onChangeText={text => this.setState({password: text})}
             value={this.state.password}
             placeholderTextColor="grey"
             secureTextEntry={this.state.secureText}
@@ -164,7 +164,7 @@ class Register extends React.Component {
         <TextInput
           style={styles.textInput}
           placeholder="Kode"
-          onChangeText={(text) => this.setState({code: text})}
+          onChangeText={text => this.setState({code: text})}
           value={this.state.code}
           placeholderTextColor="grey"
         />
@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     padding: 10,
     backgroundColor: 'rgb(0,184,150)',
-    marginTop: '15%',
+    marginTop: 50,
     elevation: 3,
     alignItems: 'center',
     justifyContent: 'center',

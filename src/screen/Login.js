@@ -39,8 +39,9 @@ class Login extends React.Component {
         .post('https://api.pondokprogrammer.com/api/student_login', {
           email: email,
           password: password,
+          mobile: true,
         })
-        .then((response) => {
+        .then(response => {
           if (response.data.token) {
             if (response.data.data.role == '1') {
               this.setState({isLoading: false});
@@ -91,7 +92,7 @@ class Login extends React.Component {
           //   console.log(response.data);
           // }
         })
-        .catch((error) => {
+        .catch(error => {
           this.setState({isLoading: false});
           console.log(error);
           ToastAndroid.show(
@@ -124,7 +125,7 @@ class Login extends React.Component {
         <TextInput
           style={styles.textInput}
           placeholder="Email"
-          onChangeText={(text) => this.setState({email: text})}
+          onChangeText={text => this.setState({email: text})}
           value={this.state.email}
           placeholderTextColor="grey"
         />
@@ -132,7 +133,7 @@ class Login extends React.Component {
           <TextInput
             style={styles.textInput}
             placeholder="Kata Sandi"
-            onChangeText={(text) => this.setState({password: text})}
+            onChangeText={text => this.setState({password: text})}
             value={this.state.password}
             placeholderTextColor="grey"
             secureTextEntry={this.state.secureText}
@@ -185,7 +186,7 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     padding: 10,
     backgroundColor: 'rgb(0,184,150)',
-    marginTop: '15%',
+    marginTop: 50,
     elevation: 3,
     alignItems: 'center',
     justifyContent: 'center',

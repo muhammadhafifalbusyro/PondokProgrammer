@@ -13,6 +13,7 @@ import Navbar from '../components/Navbar';
 import {Picker} from '@react-native-community/picker';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ImagePicker from 'react-native-image-picker';
+import {auth_pengjajar} from '../config/utils';
 const axios = require('axios');
 
 // More info on all the options is below in the API Reference... just some common use cases shown here
@@ -73,8 +74,7 @@ class BuatKurikulumCreate extends React.Component {
   };
   postData = (divisi, framework, sprint, desc) => {
     console.log(divisi, framework, sprint, desc);
-    const token =
-      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvYXBpLnBvbmRva3Byb2dyYW1tZXIuY29tXC9hcGlcL3N0dWRlbnRfbG9naW4iLCJpYXQiOjE1OTQ4NjA2ODIsImV4cCI6MTU5NDg2NDI4MiwibmJmIjoxNTk0ODYwNjgyLCJqdGkiOiJYZlRBOFd6cDA4NFppc2ZHIiwic3ViIjozOCwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.v89Nt_sQYM910iAvqUG7yzClZ6B5--6Baz_cydyljP8';
+    const token = auth_pengjajar;
 
     let image = {
       uri: this.state.uri,
