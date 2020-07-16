@@ -5,26 +5,33 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
-  ImageBackground,
   ToastAndroid,
+  RefreshControl,
+  Image,
+  Dimensions,
 } from 'react-native';
 import Navbar from '../components/Navbar';
 import BackButton from '../components/BackButton';
 import AddButton from '../components/AddButton';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import {auth_pengjajar} from '../config/utils';
+import {auth_kurikulum} from '../config/utils';
+
 const axios = require('axios');
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 class BuatKurikulum extends React.Component {
   state = {
     data: [],
+    refreshing: false,
+    status: true,
   };
   componentDidMount() {
     this.getData();
   }
 
   getData = () => {
-    const token = auth_pengjajar;
+    const token = auth_kurikulum;
+    this.setState({refreshing: true});
 
     axios
       .get('https://api.pondokprogrammer.com/api/kurikulum', {
@@ -34,7 +41,7 @@ class BuatKurikulum extends React.Component {
       })
       .then(response => {
         console.log(response.data);
-        this.setState({data: response.data});
+        this.setState({data: response.data, refreshing: false, status: true});
       })
       .catch(error => {
         console.log(error);
@@ -43,89 +50,74 @@ class BuatKurikulum extends React.Component {
           ToastAndroid.SHORT,
           ToastAndroid.CENTER,
         );
+        this.setState({refreshing: false, status: false});
       });
+  };
+  onRefreshScreen = () => {
+    this.getData();
+  };
+
+  previewKurikulum = value => {
+    this.props.navigation.navigate('PreviewKurikulum', {
+      id: value.id,
+      img: value.img,
+      division: value.division,
+      framework: value.framework,
+      description: value.description,
+      sprint: value.sprint.length,
+    });
+  };
+
+  renderListScreen = () => {
+    if (this.state.status) {
+      return this.state.data.map((value, key) => {
+        return (
+          <TouchableOpacity
+            activeOpacity={0.7}
+            delayPressIn={10}
+            key={key}
+            onPress={() => this.previewKurikulum(value)}>
+            <View style={styles.ListBox}>
+              <Image
+                source={{
+                  uri: `http://api.pondokprogrammer.com/img/kurikulum/${
+                    value.img
+                  }`,
+                }}
+                style={styles.imageKurikulum}
+              />
+              <View style={styles.boxFrameworkTitle}>
+                <Text style={styles.frameworkTitle}>{value.framework}</Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+        );
+      });
+    } else {
+      return (
+        <View style={styles.backgroundOffline}>
+          <Image
+            source={require('../assets/images/noconnectionlogo.png')}
+            style={styles.imageOffline}
+          />
+        </View>
+      );
+    }
   };
   render() {
     return (
       <View style={styles.container}>
         <Navbar name="Buat Kurikulum" />
-        <ScrollView style={{flex: 1}}>
-          {this.state.data.map((value, key) => {
-            return (
-              <View
-                style={{
-                  height: 160,
-                  width: '100%',
-                  justifyContent: 'center',
-                  backgroundColor: 'white',
-                  marginBottom: 10,
-                }}
-                key={key}>
-                <ImageBackground
-                  source={{
-                    uri: `http://api.pondokprogrammer.com/img/kurikulum/${
-                      value.img
-                    }`,
-                  }}
-                  style={{height: 160, width: '100%'}}>
-                  <View
-                    style={{
-                      height: 80,
-                      width: '100%',
-                    }}>
-                    <View
-                      style={{
-                        height: 30,
-                        width: 100,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        backgroundColor: 'rgba(0,184,150,0.8)',
-                      }}>
-                      <Text style={{fontWeight: 'bold', color: 'white'}}>
-                        {value.division}
-                      </Text>
-                    </View>
-                  </View>
-                  <View
-                    style={{
-                      height: 80,
-                      width: '100%',
-                      flexDirection: 'row',
-                      alignItems: 'flex-end',
-                    }}>
-                    <TouchableOpacity
-                      activeOpacity={0.8}
-                      delayPressIn={10}
-                      style={{
-                        height: 40,
-                        width: '50%',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        backgroundColor: 'orange',
-                      }}>
-                      <Text style={{fontWeight: 'bold', color: 'white'}}>
-                        Edit
-                      </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      activeOpacity={0.8}
-                      delayPressIn={10}
-                      style={{
-                        height: 40,
-                        width: '50%',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        backgroundColor: 'red',
-                      }}>
-                      <Text style={{fontWeight: 'bold', color: 'white'}}>
-                        Hapus
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                </ImageBackground>
-              </View>
-            );
-          })}
+        <ScrollView
+          style={{flex: 1}}
+          refreshControl={
+            <RefreshControl
+              colors={['rgb(0,184,150)']}
+              refreshing={this.state.refreshing}
+              onRefresh={() => this.onRefreshScreen()}
+            />
+          }>
+          {this.renderListScreen()}
         </ScrollView>
         <AddButton
           params={() => this.props.navigation.navigate('BuatKurikulumCreate')}
@@ -141,5 +133,44 @@ export default BuatKurikulum;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  ListBox: {
+    height: 200,
+    width: '100%',
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+    shadowOffset: {width: 10, height: 10},
+    shadowColor: 'black',
+    shadowOpacity: 1,
+    elevation: 3,
+    backgroundColor: 'white',
+  },
+  imageKurikulum: {
+    height: 150,
+    width: '95%',
+  },
+  boxFrameworkTitle: {
+    height: 50,
+    width: '95%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  frameworkTitle: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    color: 'grey',
+  },
+  backgroundOffline: {
+    height: windowHeight - 50,
+    width: windowWidth,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+  },
+  imageOffline: {
+    height: 100,
+    width: 100,
   },
 });

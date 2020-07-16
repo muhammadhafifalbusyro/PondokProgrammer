@@ -25,19 +25,21 @@ const options = {
   },
 };
 
-class BuatKurikulumCreate extends React.Component {
+class PreviewKurikulum extends React.Component {
   state = {
     avatarSource: {
-      uri: 'https://static.thenounproject.com/png/1560819-200.png',
+      uri: `https://www.api.pondokprogrammer.com/img/kurikulum/${
+        this.props.route.params.img
+      }`,
     },
     fileName: '',
     fileSize: '',
     type: '',
     uri: '',
-    framework: '',
-    jumlahSprint: '',
+    framework: this.props.route.params.framework,
+    jumlahSprint: `${this.props.route.params.sprint}`,
     picker: '',
-    deskripsi: '',
+    deskripsi: this.props.route.params.description,
     modalVisible: false,
   };
 
@@ -156,7 +158,7 @@ class BuatKurikulumCreate extends React.Component {
     const {picker, framework, jumlahSprint, deskripsi, fileName} = this.state;
     return (
       <View style={styles.container}>
-        <Navbar name="Buat Kurikulum" />
+        <Navbar name="Preview Kurikulum" />
         <Modal
           animationType="slide"
           transparent={true}
@@ -203,7 +205,11 @@ class BuatKurikulumCreate extends React.Component {
                     this.setState({picker: itemValue});
                   }
                 }}>
-                <Picker.Item label="Pilih Divisi" value="0" color="grey" />
+                <Picker.Item
+                  label={this.props.route.params.division}
+                  value="0"
+                  color="grey"
+                />
                 <Picker.Item label="Backend" value="1" />
                 <Picker.Item label="Frontend" value="2" />
                 <Picker.Item label="Mobile" value="3" />
@@ -253,14 +259,20 @@ class BuatKurikulumCreate extends React.Component {
                   fileName,
                 )
               }>
-              <Text style={styles.textButton}>Simpan</Text>
+              <Text style={styles.textButton}>Ubah</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => this.props.navigation.goBack()}
               style={{...styles.button, backgroundColor: 'red'}}
               activeOpacity={0.5}
               delayPressIn={10}>
-              <Text style={styles.textButton}>Batal</Text>
+              <Text style={styles.textButton}>hapus</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.goBack()}
+              style={{...styles.button, backgroundColor: 'rgb(0,184,150)'}}
+              activeOpacity={0.5}
+              delayPressIn={10}>
+              <Text style={styles.textButton}>Kembali</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -269,7 +281,7 @@ class BuatKurikulumCreate extends React.Component {
   }
 }
 
-export default BuatKurikulumCreate;
+export default PreviewKurikulum;
 
 const styles = StyleSheet.create({
   container: {
@@ -281,11 +293,11 @@ const styles = StyleSheet.create({
   },
   button: {
     height: 40,
-    width: '40%',
+    width: '30%',
     fontSize: 16,
     borderRadius: 3,
     padding: 10,
-    backgroundColor: 'rgb(0,184,150)',
+    backgroundColor: 'orange',
     elevation: 3,
     alignItems: 'center',
     justifyContent: 'center',

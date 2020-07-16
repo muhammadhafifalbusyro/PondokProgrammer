@@ -42,6 +42,7 @@ class Login extends React.Component {
           mobile: true,
         })
         .then(response => {
+          console.log(response);
           if (response.data.token) {
             if (response.data.data.role == '1') {
               this.setState({isLoading: false});
@@ -88,9 +89,14 @@ class Login extends React.Component {
           //     ToastAndroid.CENTER,
           //   );
           // }
-          // else {
-          //   console.log(response.data);
-          // }
+          else {
+            console.log(response.data);
+            ToastAndroid.show(
+              'Login gagal',
+              ToastAndroid.SHORT,
+              ToastAndroid.CENTER,
+            );
+          }
         })
         .catch(error => {
           this.setState({isLoading: false});

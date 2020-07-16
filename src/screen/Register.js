@@ -179,7 +179,7 @@ class Register extends React.Component {
                 this.setState({picker: itemValue});
               }
             }}>
-            <Picker.Item label="Pilih Divisi" value="0" />
+            <Picker.Item label="Pilih Divisi" value="0" color="grey" />
             <Picker.Item label="Backend" value="1" />
             <Picker.Item label="Frontend" value="2" />
             <Picker.Item label="Mobile" value="3" />
