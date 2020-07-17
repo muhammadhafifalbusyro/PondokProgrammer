@@ -7,8 +7,8 @@ import {
   Image,
   BackHandler,
   Alert,
+  ToastAndroid,
 } from 'react-native';
-import SplashScreen from '../components/SplashScreen';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import AsyncStorage from '@react-native-community/async-storage';
@@ -106,6 +106,44 @@ class DashboardMentor extends React.Component {
     BackHandler.exitApp();
     return true;
   }
+  logout = () => {
+    let data = this.props.authentication;
+    let token = data.token;
+    let id = data.id;
+
+    fetch('https://api.pondokprogrammer.com/api/student_logout', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        id: id,
+      }),
+    })
+      .then(response => response.json())
+      .then(json => {
+        if (json.status == 'success') {
+          console.log(json.status);
+          AsyncStorage.removeItem('data');
+          this.props.navigation.navigate('DashboardUtama');
+          ToastAndroid.show(
+            'Anda berhasil logout akun',
+            ToastAndroid.SHORT,
+            ToastAndroid.CENTER,
+          );
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        ToastAndroid.show(
+          'Network error',
+          ToastAndroid.SHORT,
+          ToastAndroid.CENTER,
+        );
+      });
+  };
   cautionExit = () => {
     Alert.alert(
       'Keluar Akun',
@@ -121,8 +159,7 @@ class DashboardMentor extends React.Component {
         {
           text: 'OK',
           onPress: () => {
-            AsyncStorage.removeItem('data');
-            this.props.navigation.navigate('DashboardUtama');
+            this.logout();
           },
         },
       ],
