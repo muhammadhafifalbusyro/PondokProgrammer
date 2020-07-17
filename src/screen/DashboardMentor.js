@@ -9,6 +9,8 @@ import {
   Alert,
   ToastAndroid,
   Modal,
+  Dimensions,
+  ScrollView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -16,6 +18,9 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {connect} from 'react-redux';
 import {authenticationChange} from '../redux/action';
 import Spinner from 'react-native-spinkit';
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 class DashboardMentor extends React.Component {
   state = {
@@ -234,34 +239,34 @@ class DashboardMentor extends React.Component {
             source={require('../assets/images/banner.png')}
             style={styles.banner}
           />
-          <View style={styles.iconTemplates}>
-            <View style={styles.dashboardTitleBox}>
-              <Text style={styles.dashboardTitle}>DASHBOARD MENTOR</Text>
-            </View>
-            {this.state.boxIcon.map((value, key) => {
-              return (
-                <View key={key} style={styles.iconField}>
-                  <TouchableOpacity
-                    onPress={() => this.changeScreen(key)}
-                    delayPressIn={10}
-                    activeOpacity={0.5}>
-                    <View
+          <ScrollView>
+            <View style={styles.iconTemplates}>
+              <View style={styles.dashboardTitleBox}>
+                <Text style={styles.dashboardTitle}>DASHBOARD MENTOR</Text>
+              </View>
+              {this.state.boxIcon.map((value, key) => {
+                return (
+                  <View key={key} style={styles.iconField}>
+                    <TouchableOpacity
                       style={{
                         ...styles.boxIcon,
                         borderColor: `${value.color}`,
-                      }}>
+                      }}
+                      onPress={() => this.changeScreen(key)}
+                      delayPressIn={10}
+                      activeOpacity={0.5}>
                       <Icon
                         name={value.iconName}
                         size={value.size}
                         color={value.color}
                       />
-                    </View>
-                  </TouchableOpacity>
-                  <Text style={styles.textIcon}>{value.title}</Text>
-                </View>
-              );
-            })}
-          </View>
+                    </TouchableOpacity>
+                    <Text style={styles.textIcon}>{value.title}</Text>
+                  </View>
+                );
+              })}
+            </View>
+          </ScrollView>
         </View>
       </View>
     );
@@ -286,40 +291,36 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   iconTemplates: {
-    padding: 10,
     flexWrap: 'wrap',
     flexDirection: 'row',
     backgroundColor: 'white',
-    justifyContent: 'center',
     marginTop: 15,
   },
   iconField: {
-    height: 80,
-    width: 80,
+    height: 115,
+    width: windowWidth / 4,
     alignItems: 'center',
-    marginBottom: 10,
-    marginTop: 10,
   },
   boxIcon: {
-    height: 60,
-    width: 60,
+    height: 65,
+    width: 65,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
     borderWidth: 1,
     borderRadius: 20,
     borderColor: 'rgb(0, 184, 150)',
-    marginBottom: 3,
   },
   textIcon: {
     textAlign: 'center',
     fontSize: 12,
+    marginTop: 5,
   },
   dashboardTitleBox: {
     width: '100%',
+    margin: 15,
   },
   dashboardTitle: {
-    margin: 5,
     fontWeight: 'bold',
     color: 'grey',
     fontSize: 14,

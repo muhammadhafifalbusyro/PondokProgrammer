@@ -9,6 +9,7 @@ import {
   Alert,
   ToastAndroid,
   Modal,
+  Dimensions,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -200,20 +201,18 @@ class DashboardSantri extends React.Component {
                 return (
                   <View key={key} style={styles.iconField}>
                     <TouchableOpacity
+                      style={{
+                        ...styles.boxIcon,
+                        borderColor: `${value.color}`,
+                      }}
                       onPress={() => this.changeScreen(key)}
                       delayPressIn={10}
                       activeOpacity={0.5}>
-                      <View
-                        style={{
-                          ...styles.boxIcon,
-                          borderColor: `${value.color}`,
-                        }}>
-                        <Icon
-                          name={value.iconName}
-                          size={value.size}
-                          color={value.color}
-                        />
-                      </View>
+                      <Icon
+                        name={value.iconName}
+                        size={value.size}
+                        color={value.color}
+                      />
                     </TouchableOpacity>
                     <Text style={styles.textIcon}>{value.title}</Text>
                   </View>
