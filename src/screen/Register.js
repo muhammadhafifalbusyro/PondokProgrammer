@@ -46,7 +46,7 @@ class Register extends React.Component {
       division != ''
     ) {
       axios
-        .post('https://api.pondokprogrammer.com/api/student_register', {
+        .post('http://api.pondokprogrammer.com/api/student_register', {
           name: name,
           email: email,
           password: password,

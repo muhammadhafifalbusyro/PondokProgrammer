@@ -39,7 +39,7 @@ class BuatKurikulum extends React.Component {
     this.setState({refreshing: true, animationLoad: true});
 
     axios
-      .get('https://api.pondokprogrammer.com/api/kurikulum', {
+      .get('http://api.pondokprogrammer.com/api/kurikulum', {
         headers: {
           Authorization: `Bearer ${token}`,
         },

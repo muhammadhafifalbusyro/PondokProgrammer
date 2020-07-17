@@ -59,7 +59,7 @@ class DashboardSantri extends React.Component {
     let id = data.id;
 
     this.setState({modalVisible: true});
-    fetch('https://api.pondokprogrammer.com/api/student_logout', {
+    fetch('http://api.pondokprogrammer.com/api/student_logout', {
       method: 'POST',
       headers: {
         Accept: 'application/json',

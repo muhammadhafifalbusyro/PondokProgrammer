@@ -28,7 +28,7 @@ const options = {
 class BuatKurikulumCreate extends React.Component {
   state = {
     avatarSource: {
-      uri: 'https://static.thenounproject.com/png/1560819-200.png',
+      uri: 'http://static.thenounproject.com/png/1560819-200.png',
     },
     fileName: '',
     fileSize: '',

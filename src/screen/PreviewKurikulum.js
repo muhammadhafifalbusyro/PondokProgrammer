@@ -27,7 +27,7 @@ const options = {
 class PreviewKurikulum extends React.Component {
   state = {
     avatarSource: {
-      uri: `https://www.api.pondokprogrammer.com/img/kurikulum/${
+      uri: `http://www.api.pondokprogrammer.com/img/kurikulum/${
         this.props.route.params.img
       }`,
     },
