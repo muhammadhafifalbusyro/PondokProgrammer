@@ -8,15 +8,18 @@ import {
   BackHandler,
   Alert,
   ToastAndroid,
+  Modal,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import AsyncStorage from '@react-native-community/async-storage';
 import {connect} from 'react-redux';
 import {authenticationChange} from '../redux/action';
+import Spinner from 'react-native-spinkit';
 
 class DashboardMentor extends React.Component {
   state = {
+    modalVisible: false,
     boxIcon: [
       {
         iconName: 'university',
@@ -111,6 +114,7 @@ class DashboardMentor extends React.Component {
     let token = data.token;
     let id = data.id;
 
+    this.setState({modalVisible: true});
     fetch('https://api.pondokprogrammer.com/api/student_logout', {
       method: 'POST',
       headers: {
@@ -126,6 +130,7 @@ class DashboardMentor extends React.Component {
       .then(json => {
         if (json.status == 'success') {
           console.log(json.status);
+          this.setState({modalVisible: false});
           AsyncStorage.removeItem('data');
           this.props.navigation.navigate('DashboardUtama');
           ToastAndroid.show(
@@ -137,6 +142,7 @@ class DashboardMentor extends React.Component {
       })
       .catch(error => {
         console.log(error);
+        this.setState({modalVisible: false});
         ToastAndroid.show(
           'Network error',
           ToastAndroid.SHORT,
@@ -205,6 +211,24 @@ class DashboardMentor extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {
+            ToastAndroid.show(
+              'Tunggu proses sampai selesai',
+              ToastAndroid.SHORT,
+              ToastAndroid.CENTER,
+            );
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalContainer}>
+              <Spinner visible={true} type="Wave" color="rgb(0,184,150)" />
+              <Text style={styles.textModal}>Loading</Text>
+            </View>
+          </View>
+        </Modal>
         <View style={styles.dashboardTemplate}>
           <Image
             source={require('../assets/images/banner.png')}
@@ -303,5 +327,23 @@ const styles = StyleSheet.create({
   banner: {
     height: '30%',
     width: '100%',
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContainer: {
+    height: 100,
+    width: 100,
+    borderRadius: 5,
+    elevation: 5,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  textModal: {
+    color: 'grey',
+    marginTop: 5,
   },
 });

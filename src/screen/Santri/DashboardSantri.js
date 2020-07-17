@@ -8,6 +8,7 @@ import {
   BackHandler,
   Alert,
   ToastAndroid,
+  Modal,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -17,9 +18,11 @@ import {styles} from './styles';
 import AsyncStorage from '@react-native-community/async-storage';
 import {connect} from 'react-redux';
 import {authenticationChange} from '../../redux/action';
+import Spinner from 'react-native-spinkit';
 
 class DashboardSantri extends React.Component {
   state = {
+    modalVisible: false,
     boxIcon: boxIcon,
   };
   componentDidMount() {
@@ -54,6 +57,7 @@ class DashboardSantri extends React.Component {
     let token = data.token;
     let id = data.id;
 
+    this.setState({modalVisible: true});
     fetch('https://api.pondokprogrammer.com/api/student_logout', {
       method: 'POST',
       headers: {
@@ -69,6 +73,7 @@ class DashboardSantri extends React.Component {
       .then(json => {
         if (json.status == 'success') {
           console.log(json.status);
+          this.setState({modalVisible: false});
           AsyncStorage.removeItem('data');
           this.props.navigation.navigate('DashboardUtama');
           ToastAndroid.show(
@@ -80,6 +85,7 @@ class DashboardSantri extends React.Component {
       })
       .catch(error => {
         console.log(error);
+        this.setState({modalVisible: false});
         ToastAndroid.show(
           'Network error',
           ToastAndroid.SHORT,
@@ -162,6 +168,24 @@ class DashboardSantri extends React.Component {
     const {boxIcon} = this.state;
     return (
       <View style={styles.container}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {
+            ToastAndroid.show(
+              'Tunggu proses sampai selesai',
+              ToastAndroid.SHORT,
+              ToastAndroid.CENTER,
+            );
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalContainer}>
+              <Spinner visible={true} type="Wave" color="rgb(0,184,150)" />
+              <Text style={styles.textModal}>Loading</Text>
+            </View>
+          </View>
+        </Modal>
         <View style={styles.dashboardTemplate}>
           <Image
             source={require('../../assets/images/banner.png')}

@@ -52,4 +52,22 @@ export const styles = StyleSheet.create({
   dashboardTitleBox: {
     width: '100%',
   },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContainer: {
+    height: 100,
+    width: 100,
+    borderRadius: 5,
+    elevation: 5,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  textModal: {
+    color: 'grey',
+    marginTop: 5,
+  },
 });

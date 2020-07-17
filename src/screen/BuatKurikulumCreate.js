@@ -173,7 +173,7 @@ class BuatKurikulumCreate extends React.Component {
           <View style={styles.centeredView}>
             <View style={styles.modalContainer}>
               <Spinner visible={true} type="Wave" color="rgb(0,184,150)" />
-              <Text style={{color: 'grey', marginTop: 5}}>Loading</Text>
+              <Text style={styles.textModal}>Loading</Text>
             </View>
           </View>
         </Modal>
@@ -327,6 +327,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  textModal: {
+    color: 'grey',
+    marginTop: 5,
   },
   boxImagePreview: {
     height: 150,
