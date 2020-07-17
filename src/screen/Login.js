@@ -81,16 +81,16 @@ class Login extends React.Component {
               );
               this.props.navigation.navigate('DashboardSantri');
             }
+          } else if (response.data.status) {
+            this.setState({isLoading: false});
+            console.log(response.data.status);
+            ToastAndroid.show(
+              response.data.status,
+              ToastAndroid.SHORT,
+              ToastAndroid.CENTER,
+            );
           }
-          // else if (response.data.status) {
-          //   this.setState({isLoading: false});
-          //   console.log(response.data.status);
-          //   ToastAndroid.show(
-          //     response.data.status,
-          //     ToastAndroid.SHORT,
-          //     ToastAndroid.CENTER,
-          //   );
-          // } else if (response.data.errors.email) {
+          // else if (response.data.errors.email) {
           //   this.setState({isLoading: false});
           //   console.log(response.data.errors.email[0]);
           //   ToastAndroid.show(

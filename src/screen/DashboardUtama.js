@@ -117,7 +117,7 @@ class DashboardUtama extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        {/* {this.splashScreen()} */}
+        {this.splashScreen()}
         <View style={styles.dashboardTemplate}>
           <Image
             source={require('../assets/images/banner.png')}
