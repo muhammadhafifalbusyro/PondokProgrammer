@@ -7,10 +7,10 @@ import {
   StyleSheet,
   ToastAndroid,
 } from 'react-native';
-import {Picker} from '@react-native-community/picker';
-import Icon from 'react-native-vector-icons/FontAwesome';
+
 import BackButton from '../components/BackButton';
 import Spinner from 'react-native-spinkit';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const axios = require('axios');
 
@@ -47,6 +47,15 @@ class Login extends React.Component {
             if (response.data.data.role == '1') {
               this.setState({isLoading: false});
               console.log(response.data.token);
+
+              let data = {
+                id: response.data.data.id,
+                token: response.data.token,
+                role: response.data.data.role,
+              };
+
+              AsyncStorage.setItem('data', JSON.stringify(data));
+
               ToastAndroid.show(
                 'Login berhasil',
                 ToastAndroid.SHORT,
@@ -56,6 +65,15 @@ class Login extends React.Component {
             } else if (response.data.data.role == '2') {
               this.setState({isLoading: false});
               console.log(response.data.token);
+
+              let data = {
+                id: response.data.data.id,
+                token: response.data.token,
+                role: response.data.data.role,
+              };
+
+              AsyncStorage.setItem('data', JSON.stringify(data));
+
               ToastAndroid.show(
                 'Login berhasil',
                 ToastAndroid.SHORT,
@@ -90,6 +108,7 @@ class Login extends React.Component {
           //   );
           // }
           else {
+            this.setState({isLoading: false});
             console.log(response.data);
             ToastAndroid.show(
               'Login gagal',
@@ -158,6 +177,7 @@ class Login extends React.Component {
     );
   }
 }
+
 export default Login;
 
 const styles = StyleSheet.create({

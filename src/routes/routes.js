@@ -25,23 +25,23 @@ import BuatKurikulumCreate from '../screen/BuatKurikulumCreate';
 import PreviewKurikulum from '../screen/PreviewKurikulum';
 
 // Dashboard Santri
-import DompetSaya from '../components/Santri/DS'
-import Toko from '../components/Santri/Toko'
-import IDCard from '../components/Santri/IDC'
-import SOP from '../components/Santri/SOP'
-import Kurikulum from '../components/Santri/Kurikulum'
-import MateriDasar from '../components/Santri/PMD'
-import TugasHarian from '../components/Santri/TH'
-import MiniProject from '../components/Santri/MP'
-import VideoCheck from '../components/Santri/VC'
-import Portofolio from '../components/Santri/Portofolio'
-import CatatanPelanggaran from '../components/Santri/CP'
-import Raport from '../components/Santri/Raport'
-import ImpianSaya from '../components/Santri/IM'
-import DetailMateriDasar from '../components/Santri/PMD/detail'
-import DetailTugasHarian from '../components/Santri/TH/detail'
-import DetailMiniProject from '../components/Santri/MP/detail'
-import DetailVideoCheck from '../components/Santri/VC/detail'
+import DompetSaya from '../components/Santri/DS';
+import Toko from '../components/Santri/Toko';
+import IDCard from '../components/Santri/IDC';
+import SOP from '../components/Santri/SOP';
+import Kurikulum from '../components/Santri/Kurikulum';
+import MateriDasar from '../components/Santri/PMD';
+import TugasHarian from '../components/Santri/TH';
+import MiniProject from '../components/Santri/MP';
+import VideoCheck from '../components/Santri/VC';
+import Portofolio from '../components/Santri/Portofolio';
+import CatatanPelanggaran from '../components/Santri/CP';
+import Raport from '../components/Santri/Raport';
+import ImpianSaya from '../components/Santri/IM';
+import DetailMateriDasar from '../components/Santri/PMD/detail';
+import DetailTugasHarian from '../components/Santri/TH/detail';
+import DetailMiniProject from '../components/Santri/MP/detail';
+import DetailVideoCheck from '../components/Santri/VC/detail';
 
 const Stack = createStackNavigator();
 
@@ -98,7 +98,10 @@ function NavigationScreen() {
         <Stack.Screen name="MiniProject" component={MiniProject} />
         <Stack.Screen name="VideoCheck" component={VideoCheck} />
         <Stack.Screen name="Portofolio" component={Portofolio} />
-        <Stack.Screen name="CatatanPelanggaran" component={CatatanPelanggaran} />
+        <Stack.Screen
+          name="CatatanPelanggaran"
+          component={CatatanPelanggaran}
+        />
         <Stack.Screen name="Raport" component={Raport} />
         <Stack.Screen name="ImpianSaya" component={ImpianSaya} />
         <Stack.Screen name="DetailMateriDasar" component={DetailMateriDasar} />

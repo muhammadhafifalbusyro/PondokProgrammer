@@ -14,7 +14,6 @@ import Navbar from '../components/Navbar';
 import {Picker} from '@react-native-community/picker';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ImagePicker from 'react-native-image-picker';
-import {auth_kurikulum} from '../config/utils';
 import Spinner from 'react-native-spinkit';
 
 const options = {

@@ -5,10 +5,15 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  ToastAndroid,
+  BackHandler,
+  Alert,
 } from 'react-native';
 import SplashScreen from '../components/SplashScreen';
 import Icon from 'react-native-vector-icons/FontAwesome';
+
+import AsyncStorage from '@react-native-community/async-storage';
+import {connect} from 'react-redux';
+import {authenticationChange} from '../redux/action';
 
 class DashboardMentor extends React.Component {
   state = {
@@ -75,7 +80,56 @@ class DashboardMentor extends React.Component {
       },
     ],
   };
-  changeScreen = (index) => {
+  componentDidMount() {
+    BackHandler.addEventListener(
+      'hardwareBackPress',
+      this.handleBackButtonClick,
+    );
+    AsyncStorage.getItem('data').then(value => {
+      let data = {
+        id: JSON.parse(value).id,
+        token: JSON.parse(value).token,
+        role: JSON.parse(value).role,
+      };
+      this.props.authenticationChange(data);
+    });
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener(
+      'hardwareBackPress',
+      this.handleBackButtonClick,
+    );
+  }
+
+  handleBackButtonClick() {
+    BackHandler.exitApp();
+    return true;
+  }
+  cautionExit = () => {
+    Alert.alert(
+      'Keluar Akun',
+      'Apa anda yakin ingin keluar ?',
+      [
+        {
+          text: 'Tidak',
+          onPress: () => {
+            return false;
+          },
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => {
+            AsyncStorage.removeItem('data');
+            this.props.navigation.navigate('DashboardUtama');
+          },
+        },
+      ],
+      {cancelable: false},
+    );
+  };
+  changeScreen = index => {
     switch (index) {
       case 0:
         this.props.navigation.navigate('BuatSOP');
@@ -105,7 +159,7 @@ class DashboardMentor extends React.Component {
         this.props.navigation.navigate('QRScanner');
         break;
       case 9:
-        this.props.navigation.navigate('DashboardUtama');
+        this.cautionExit();
         break;
       default:
         alert('lainnya');
@@ -152,8 +206,15 @@ class DashboardMentor extends React.Component {
     );
   }
 }
+const mapStateToProps = state => {
+  const {authentication} = state.reducers;
+  return {authentication};
+};
 
-export default DashboardMentor;
+export default connect(
+  mapStateToProps,
+  {authenticationChange},
+)(DashboardMentor);
 
 const styles = StyleSheet.create({
   container: {

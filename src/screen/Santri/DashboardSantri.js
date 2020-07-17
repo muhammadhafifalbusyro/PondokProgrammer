@@ -1,64 +1,123 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, Image} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  BackHandler,
+  Alert,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {ScrollView} from 'react-native-gesture-handler';
 import {boxIcon} from './images';
 import {styles} from './styles';
 
-class DashboardMentor extends React.Component {
+import AsyncStorage from '@react-native-community/async-storage';
+import {connect} from 'react-redux';
+import {authenticationChange} from '../../redux/action';
+
+class DashboardSantri extends React.Component {
   state = {
     boxIcon: boxIcon,
   };
+  componentDidMount() {
+    BackHandler.addEventListener(
+      'hardwareBackPress',
+      this.handleBackButtonClick,
+    );
 
-  changeScreen = (key) => {
+    AsyncStorage.getItem('data').then(value => {
+      let data = {
+        id: JSON.parse(value).id,
+        token: JSON.parse(value).token,
+        role: JSON.parse(value).role,
+      };
+      this.props.authenticationChange(data);
+    });
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener(
+      'hardwareBackPress',
+      this.handleBackButtonClick,
+    );
+  }
+
+  handleBackButtonClick() {
+    BackHandler.exitApp();
+    return true;
+  }
+  cautionExit = () => {
+    Alert.alert(
+      'Keluar Akun',
+      'Apa anda yakin ingin keluar ?',
+      [
+        {
+          text: 'Tidak',
+          onPress: () => {
+            return false;
+          },
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => {
+            AsyncStorage.removeItem('data');
+            this.props.navigation.navigate('DashboardUtama');
+          },
+        },
+      ],
+      {cancelable: false},
+    );
+  };
+  changeScreen = key => {
     switch (key) {
       case 0:
-        this.props.navigation.navigate('DompetSaya')
+        this.props.navigation.navigate('DompetSaya');
         break;
       case 1:
-        this.props.navigation.navigate('Toko')
+        this.props.navigation.navigate('Toko');
         break;
       case 2:
-        this.props.navigation.navigate('IDCard')
+        this.props.navigation.navigate('IDCard');
         break;
       case 3:
-        this.props.navigation.navigate('SOP')
+        this.props.navigation.navigate('SOP');
         break;
-        case 4:
-        this.props.navigation.navigate('Kurikulum')
+      case 4:
+        this.props.navigation.navigate('Kurikulum');
         break;
-        case 5:
-        this.props.navigation.navigate('MateriDasar')
+      case 5:
+        this.props.navigation.navigate('MateriDasar');
         break;
-        case 6:
-        this.props.navigation.navigate('TugasHarian')
+      case 6:
+        this.props.navigation.navigate('TugasHarian');
         break;
-        case 7:
-        this.props.navigation.navigate('MiniProject')
+      case 7:
+        this.props.navigation.navigate('MiniProject');
         break;
-        case 8:
-        this.props.navigation.navigate('VideoCheck')
+      case 8:
+        this.props.navigation.navigate('VideoCheck');
         break;
-        case 9:
-        this.props.navigation.navigate('Portofolio')
+      case 9:
+        this.props.navigation.navigate('Portofolio');
         break;
-        case 10:
-        this.props.navigation.navigate('CatatanPelanggaran')
+      case 10:
+        this.props.navigation.navigate('CatatanPelanggaran');
         break;
-        case 11:
-        this.props.navigation.navigate('Raport')
+      case 11:
+        this.props.navigation.navigate('Raport');
         break;
-        case 12:
-        this.props.navigation.navigate('ImpianSaya')
+      case 12:
+        this.props.navigation.navigate('ImpianSaya');
         break;
-        case 13:
-        alert('keluar')
+      case 13:
+        this.cautionExit();
         break;
       default:
         alert('lainnya');
     }
   };
-
 
   render() {
     const {boxIcon} = this.state;
@@ -104,5 +163,12 @@ class DashboardMentor extends React.Component {
     );
   }
 }
+const mapStateToProps = state => {
+  const {authentication} = state.reducers;
+  return {authentication};
+};
 
-export default DashboardMentor;
+export default connect(
+  mapStateToProps,
+  {authenticationChange},
+)(DashboardSantri);

@@ -13,7 +13,10 @@ import {
 import Navbar from '../components/Navbar';
 import BackButton from '../components/BackButton';
 import AddButton from '../components/AddButton';
-import {auth_kurikulum} from '../config/utils';
+
+import Spinner from 'react-native-spinkit';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import {connect} from 'react-redux';
 
 const axios = require('axios');
 const windowWidth = Dimensions.get('window').width;
@@ -24,14 +27,16 @@ class BuatKurikulum extends React.Component {
     data: [],
     refreshing: false,
     status: true,
+    animationLoad: false,
   };
   componentDidMount() {
     this.getData();
   }
 
   getData = () => {
-    const token = auth_kurikulum;
-    this.setState({refreshing: true});
+    const data = this.props.authentication;
+    const token = data.token;
+    this.setState({refreshing: true, animationLoad: true});
 
     axios
       .get('https://api.pondokprogrammer.com/api/kurikulum', {
@@ -41,7 +46,12 @@ class BuatKurikulum extends React.Component {
       })
       .then(response => {
         console.log(response.data);
-        this.setState({data: response.data, refreshing: false, status: true});
+        this.setState({
+          data: response.data,
+          refreshing: false,
+          status: true,
+          animationLoad: false,
+        });
       })
       .catch(error => {
         console.log(error);
@@ -50,7 +60,7 @@ class BuatKurikulum extends React.Component {
           ToastAndroid.SHORT,
           ToastAndroid.CENTER,
         );
-        this.setState({refreshing: false, status: false});
+        this.setState({refreshing: false, status: false, animationLoad: false});
       });
   };
   onRefreshScreen = () => {
@@ -96,10 +106,34 @@ class BuatKurikulum extends React.Component {
     } else {
       return (
         <View style={styles.backgroundOffline}>
+          <View
+            style={{
+              height: 40,
+              width: '100%',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Spinner
+              type="Bounce"
+              color="rgb(0,184,150)"
+              isVisible={this.state.animationLoad}
+            />
+          </View>
           <Image
             source={require('../assets/images/noconnectionlogo.png')}
             style={styles.imageOffline}
           />
+          <TouchableOpacity
+            activeOpacity={0.5}
+            delayPressIn={10}
+            onPress={() => this.getData()}>
+            <Icon
+              name="refresh"
+              color="rgb(0,184,150)"
+              size={40}
+              style={{marginTop: 30}}
+            />
+          </TouchableOpacity>
         </View>
       );
     }
@@ -128,7 +162,12 @@ class BuatKurikulum extends React.Component {
   }
 }
 
-export default BuatKurikulum;
+const mapStateToProps = state => {
+  const {authentication} = state.reducers;
+  return {authentication};
+};
+
+export default connect(mapStateToProps)(BuatKurikulum);
 
 const styles = StyleSheet.create({
   container: {

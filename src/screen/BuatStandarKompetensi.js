@@ -18,6 +18,7 @@ class BuatSOP extends React.Component {
   state = {
     modalVisible: false,
     text: '',
+    str: '',
   };
   render() {
     return (

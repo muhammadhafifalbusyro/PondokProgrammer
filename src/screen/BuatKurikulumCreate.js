@@ -14,8 +14,8 @@ import Navbar from '../components/Navbar';
 import {Picker} from '@react-native-community/picker';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ImagePicker from 'react-native-image-picker';
-import {auth_kurikulum} from '../config/utils';
 import Spinner from 'react-native-spinkit';
+import {connect} from 'react-redux';
 
 const options = {
   title: 'Select Avatar',
@@ -78,7 +78,9 @@ class BuatKurikulumCreate extends React.Component {
     ) {
       this.setState({modalVisible: true});
       console.log(divisi, framework, sprint, desc);
-      const token = auth_kurikulum;
+
+      let data = this.props.authentication;
+      let token = data.token;
 
       let image = {
         uri: this.state.uri,
@@ -269,7 +271,12 @@ class BuatKurikulumCreate extends React.Component {
   }
 }
 
-export default BuatKurikulumCreate;
+const mapStateToProps = state => {
+  const {authentication} = state.reducers;
+  return {authentication};
+};
+
+export default connect(mapStateToProps)(BuatKurikulumCreate);
 
 const styles = StyleSheet.create({
   container: {
