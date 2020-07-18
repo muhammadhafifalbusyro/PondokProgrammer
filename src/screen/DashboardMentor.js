@@ -89,10 +89,10 @@ class DashboardMentor extends React.Component {
     ],
   };
   componentDidMount() {
-    BackHandler.addEventListener(
-      'hardwareBackPress',
-      this.handleBackButtonClick,
-    );
+    // BackHandler.addEventListener(
+    //   'hardwareBackPress',
+    //   this.handleBackButtonClick,
+    // );
     AsyncStorage.getItem('data').then(value => {
       let data = {
         id: JSON.parse(value).id,
@@ -103,17 +103,17 @@ class DashboardMentor extends React.Component {
     });
   }
 
-  componentWillUnmount() {
-    BackHandler.removeEventListener(
-      'hardwareBackPress',
-      this.handleBackButtonClick,
-    );
-  }
+  // componentWillUnmount() {
+  //   BackHandler.removeEventListener(
+  //     'hardwareBackPress',
+  //     this.handleBackButtonClick,
+  //   );
+  // }
 
-  handleBackButtonClick() {
-    BackHandler.exitApp();
-    return true;
-  }
+  // handleBackButtonClick() {
+  //   BackHandler.exitApp();
+  //   return true;
+  // }
   logout = () => {
     let data = this.props.authentication;
     let token = data.token;
@@ -137,7 +137,7 @@ class DashboardMentor extends React.Component {
           console.log(json.status);
           this.setState({modalVisible: false});
           AsyncStorage.removeItem('data');
-          this.props.navigation.navigate('DashboardUtama');
+          this.props.navigation.replace('Main');
           ToastAndroid.show(
             'Anda berhasil logout akun',
             ToastAndroid.SHORT,

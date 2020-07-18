@@ -61,7 +61,7 @@ class Login extends React.Component {
                 ToastAndroid.SHORT,
                 ToastAndroid.CENTER,
               );
-              this.props.navigation.navigate('DashboardMentor');
+              this.props.navigation.replace('MainMentor');
             } else if (response.data.data.role == '2') {
               this.setState({isLoading: false});
               console.log(response.data.token);
@@ -79,7 +79,7 @@ class Login extends React.Component {
                 ToastAndroid.SHORT,
                 ToastAndroid.CENTER,
               );
-              this.props.navigation.navigate('DashboardSantri');
+              this.props.navigation.replace('MainSantri');
             }
           } else if (response.data.status) {
             this.setState({isLoading: false});

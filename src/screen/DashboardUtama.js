@@ -53,46 +53,6 @@ class DashboardUtama extends React.Component {
       },
     ],
   };
-  componentDidMount = () => {
-    // Remember the timer handle
-    this.timerHandle = setTimeout(() => {
-      this.setState({splash: false});
-      this.timerHandle = 0;
-    }, 4000);
-
-    this.timerHandle2 = setTimeout(() => {
-      AsyncStorage.getItem('data').then(value => {
-        console.log(value);
-        if (value != null) {
-          if (JSON.parse(value).role == '1') {
-            this.props.navigation.navigate('DashboardMentor');
-          } else if (JSON.parse(value).role == '2') {
-            this.props.navigation.navigate('DashboardSantri');
-          }
-        }
-      });
-    }, 3000);
-  };
-  componentWillUnmount = () => {
-    // Is our timer running?
-    if (this.timerHandle) {
-      // Yes, clear it
-      clearTimeout(this.timerHandle);
-      this.timerHandle = 0;
-    }
-    if (this.timerHandle2) {
-      clearTimeout(this.timerHandle2);
-      this.timerHandle2 = 0;
-    }
-  };
-
-  splashScreen = () => {
-    const {splash} = this.state;
-    if (splash) {
-      return <SplashScreen />;
-    }
-  };
-
   changeScreen = index => {
     switch (index) {
       case 0:
@@ -117,7 +77,6 @@ class DashboardUtama extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        {this.splashScreen()}
         <View style={styles.dashboardTemplate}>
           <Image
             source={require('../assets/images/banner.png')}
