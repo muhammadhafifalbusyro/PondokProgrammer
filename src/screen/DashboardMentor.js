@@ -75,10 +75,10 @@ class DashboardMentor extends React.Component {
         title: 'Daftar Santri',
       },
       {
-        iconName: 'qrcode',
+        iconName: 'windows',
         size: 30,
         color: 'rgb(0,184,150)',
-        title: 'QR Scanner',
+        title: 'Buat Kelas',
       },
       {
         iconName: 'sign-out',
@@ -204,7 +204,7 @@ class DashboardMentor extends React.Component {
         this.props.navigation.navigate('DaftarSantri');
         break;
       case 8:
-        this.props.navigation.navigate('QRScanner');
+        this.props.navigation.navigate('BuatKelas');
         break;
       case 9:
         this.cautionExit();

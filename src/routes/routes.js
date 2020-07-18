@@ -135,7 +135,7 @@ import BuatTugasHarian from '../screen/BuatTugasHarian';
 import BuatMiniProject from '../screen/BuatMiniProject';
 import BuatVideoCheck from '../screen/BuatVideoCheck';
 import DaftarSantri from '../screen/DaftarSantri';
-import QRScanner from '../screen/QRScanner';
+import Buatkelas from '../screen/BuatKelas';
 import BuatMateriPembelajaranCreate from '../screen/BuatMateriPembelajaranCreate';
 import BuatKurikulum from '../screen/BuatKurikulum';
 import BuatKurikulumCreate from '../screen/BuatKurikulumCreate';
@@ -193,7 +193,7 @@ function MainMentor() {
       <Stack.Screen name="BuatTugasHarian" component={BuatTugasHarian} />
       <Stack.Screen name="BuatMiniProject" component={BuatMiniProject} />
       <Stack.Screen name="BuatVideoCheck" component={BuatVideoCheck} />
-      <Stack.Screen name="QRScanner" component={QRScanner} />
+      <Stack.Screen name="BuatKelas" component={Buatkelas} />
       <Stack.Screen name="DaftarSantri" component={DaftarSantri} />
     </Stack.Navigator>
   );
