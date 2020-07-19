@@ -1,11 +1,15 @@
 import React from 'react';
 import {
   View,
+  StyleSheet,
   Text,
   TouchableOpacity,
   Image,
   BackHandler,
   Alert,
+  ToastAndroid,
+  Modal,
+  Dimensions,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -15,17 +19,19 @@ import {styles} from './styles';
 import AsyncStorage from '@react-native-community/async-storage';
 import {connect} from 'react-redux';
 import {authenticationChange} from '../../redux/action';
+import Spinner from 'react-native-spinkit';
 import {jurusanID} from '../../redux/action';
 
 class DashboardSantri extends React.Component {
   state = {
+    modalVisible: false,
     boxIcon: boxIcon,
   };
-  componentDidMount () {
-    BackHandler.addEventListener (
-      'hardwareBackPress',
-      this.handleBackButtonClick
-    );
+  componentDidMount() {
+    // BackHandler.addEventListener(
+    //   'hardwareBackPress',
+    //   this.handleBackButtonClick,
+    // );
 
     AsyncStorage.getItem ('data').then (value => {
       let data = {
@@ -42,17 +48,58 @@ class DashboardSantri extends React.Component {
     });
   }
 
-  componentWillUnmount () {
-    BackHandler.removeEventListener (
-      'hardwareBackPress',
-      this.handleBackButtonClick
-    );
-  }
+  // componentWillUnmount() {
+  //   BackHandler.removeEventListener(
+  //     'hardwareBackPress',
+  //     this.handleBackButtonClick,
+  //   );
+  // }
 
-  handleBackButtonClick () {
-    BackHandler.exitApp ();
-    return true;
-  }
+  // handleBackButtonClick() {
+  //   BackHandler.exitApp();
+  //   return true;
+  // }
+  logout = () => {
+    let data = this.props.authentication;
+    let token = data.token;
+    let id = data.id;
+
+    this.setState({modalVisible: true});
+    fetch('http://api.pondokprogrammer.com/api/student_logout', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        id: id,
+      }),
+    })
+      .then(response => response.json())
+      .then(json => {
+        if (json.status == 'success') {
+          console.log(json.status);
+          this.setState({modalVisible: false});
+          AsyncStorage.removeItem('data');
+          this.props.navigation.replace('Main');
+          ToastAndroid.show(
+            'Anda berhasil logout akun',
+            ToastAndroid.SHORT,
+            ToastAndroid.CENTER,
+          );
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        this.setState({modalVisible: false});
+        ToastAndroid.show(
+          'Network error',
+          ToastAndroid.SHORT,
+          ToastAndroid.CENTER,
+        );
+      });
+  };
   cautionExit = () => {
     Alert.alert (
       'Keluar Akun',
@@ -68,8 +115,7 @@ class DashboardSantri extends React.Component {
         {
           text: 'OK',
           onPress: () => {
-            AsyncStorage.removeItem ('data');
-            this.props.navigation.navigate ('DashboardUtama');
+            this.logout();
           },
         },
       ],
@@ -132,6 +178,24 @@ class DashboardSantri extends React.Component {
     const {boxIcon} = this.state;
     return (
       <View style={styles.container}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {
+            ToastAndroid.show(
+              'Tunggu proses sampai selesai',
+              ToastAndroid.SHORT,
+              ToastAndroid.CENTER,
+            );
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalContainer}>
+              <Spinner visible={true} type="Wave" color="rgb(0,184,150)" />
+              <Text style={styles.textModal}>Loading</Text>
+            </View>
+          </View>
+        </Modal>
         <View style={styles.dashboardTemplate}>
           <Image
             source={require ('../../assets/images/banner.png')}
@@ -146,22 +210,18 @@ class DashboardSantri extends React.Component {
                 return (
                   <View key={key} style={styles.iconField}>
                     <TouchableOpacity
-                      onPress={() => this.changeScreen (key)}
+                      style={{
+                        ...styles.boxIcon,
+                        borderColor: `${value.color}`,
+                      }}
+                      onPress={() => this.changeScreen(key)}
                       delayPressIn={10}
-                      activeOpacity={0.5}
-                    >
-                      <View
-                        style={{
-                          ...styles.boxIcon,
-                          borderColor: `${value.color}`,
-                        }}
-                      >
-                        <Icon
-                          name={value.iconName}
-                          size={value.size}
-                          color={value.color}
-                        />
-                      </View>
+                      activeOpacity={0.5}>
+                      <Icon
+                        name={value.iconName}
+                        size={value.size}
+                        color={value.color}
+                      />
                     </TouchableOpacity>
                     <Text style={styles.textIcon}>{value.title}</Text>
                   </View>

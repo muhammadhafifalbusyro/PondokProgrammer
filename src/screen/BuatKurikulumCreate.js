@@ -28,7 +28,7 @@ const options = {
 class BuatKurikulumCreate extends React.Component {
   state = {
     avatarSource: {
-      uri: 'https://static.thenounproject.com/png/1560819-200.png',
+      uri: 'http://static.thenounproject.com/png/1560819-200.png',
     },
     fileName: '',
     fileSize: '',
@@ -120,7 +120,7 @@ class BuatKurikulumCreate extends React.Component {
               this.setState({modalVisible: false});
               console.log(json);
               ToastAndroid.show(
-                'Buat kurikulum berhasil',
+                'Kurikulum berhasil ditambahkan',
                 ToastAndroid.SHORT,
                 ToastAndroid.CENTER,
               );
@@ -129,7 +129,7 @@ class BuatKurikulumCreate extends React.Component {
               this.setState({modalVisible: false});
               console.log(json);
               ToastAndroid.show(
-                'Buat kurikulum gagal',
+                'Kurikulum gagal ditambahkan',
                 ToastAndroid.SHORT,
                 ToastAndroid.CENTER,
               );
@@ -173,7 +173,7 @@ class BuatKurikulumCreate extends React.Component {
           <View style={styles.centeredView}>
             <View style={styles.modalContainer}>
               <Spinner visible={true} type="Wave" color="rgb(0,184,150)" />
-              <Text style={{color: 'grey', marginTop: 5}}>Loading</Text>
+              <Text style={styles.textModal}>Loading</Text>
             </View>
           </View>
         </Modal>
@@ -327,6 +327,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  textModal: {
+    color: 'grey',
+    marginTop: 5,
   },
   boxImagePreview: {
     height: 150,

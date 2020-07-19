@@ -93,7 +93,7 @@ class SOP extends Component {
             onPress={() => alert ()}
           >
             <View style={styles.subSop}>
-              <Text style={styles.t_sop}>{value.id}.</Text>
+              <Text style={styles.t_sop}>{key+1}.</Text>
               <Text style={styles.t_sop}>{value.std_operasional}</Text>
             </View>
           </TouchableOpacity>

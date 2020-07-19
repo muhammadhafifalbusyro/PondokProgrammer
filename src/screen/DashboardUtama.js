@@ -6,10 +6,14 @@ import {
   TouchableOpacity,
   Image,
   Linking,
+  Dimensions,
 } from 'react-native';
 import SplashScreen from '../components/SplashScreen';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-community/async-storage';
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 class DashboardUtama extends React.Component {
   state = {
@@ -49,46 +53,6 @@ class DashboardUtama extends React.Component {
       },
     ],
   };
-  componentDidMount = () => {
-    // Remember the timer handle
-    this.timerHandle = setTimeout(() => {
-      this.setState({splash: false});
-      this.timerHandle = 0;
-    }, 4000);
-
-    this.timerHandle2 = setTimeout(() => {
-      AsyncStorage.getItem('data').then(value => {
-        console.log(value);
-        if (value != null) {
-          if (JSON.parse(value).role == '1') {
-            this.props.navigation.navigate('DashboardMentor');
-          } else if (JSON.parse(value).role == '2') {
-            this.props.navigation.navigate('DashboardSantri');
-          }
-        }
-      });
-    }, 3000);
-  };
-  componentWillUnmount = () => {
-    // Is our timer running?
-    if (this.timerHandle) {
-      // Yes, clear it
-      clearTimeout(this.timerHandle);
-      this.timerHandle = 0;
-    }
-    if (this.timerHandle2) {
-      clearTimeout(this.timerHandle2);
-      this.timerHandle2 = 0;
-    }
-  };
-
-  splashScreen = () => {
-    const {splash} = this.state;
-    if (splash) {
-      return <SplashScreen />;
-    }
-  };
-
   changeScreen = index => {
     switch (index) {
       case 0:
@@ -113,7 +77,6 @@ class DashboardUtama extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        {this.splashScreen()}
         <View style={styles.dashboardTemplate}>
           <Image
             source={require('../assets/images/banner.png')}
@@ -127,16 +90,15 @@ class DashboardUtama extends React.Component {
               return (
                 <View key={key} style={styles.iconField}>
                   <TouchableOpacity
+                    style={styles.boxIcon}
                     onPress={() => this.changeScreen(key)}
                     delayPressIn={10}
                     activeOpacity={0.5}>
-                    <View style={styles.boxIcon}>
-                      <Icon
-                        name={value.iconName}
-                        size={value.size}
-                        color={value.color}
-                      />
-                    </View>
+                    <Icon
+                      name={value.iconName}
+                      size={value.size}
+                      color={value.color}
+                    />
                   </TouchableOpacity>
                   <Text style={styles.textIcon}>{value.title}</Text>
                 </View>
@@ -160,41 +122,36 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   iconTemplates: {
-    padding: 10,
     flexWrap: 'wrap',
     flexDirection: 'row',
     backgroundColor: 'white',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
     marginTop: 15,
   },
   iconField: {
-    height: 80,
-    width: 80,
+    height: 115,
+    width: windowWidth / 4,
     alignItems: 'center',
-    marginBottom: 10,
-    marginTop: 10,
   },
   boxIcon: {
-    height: 60,
-    width: 60,
+    height: 65,
+    width: 65,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
     borderWidth: 1,
     borderRadius: 20,
     borderColor: 'rgb(0, 184, 150)',
-    marginBottom: 3,
   },
   textIcon: {
     textAlign: 'center',
     fontSize: 12,
+    marginTop: 5,
   },
   dashboardTitleBox: {
     width: '100%',
+    margin: 15,
   },
   dashboardTitle: {
-    margin: 5,
     fontWeight: 'bold',
     color: 'grey',
     fontSize: 14,

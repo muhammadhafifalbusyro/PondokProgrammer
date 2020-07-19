@@ -39,7 +39,7 @@ class BuatKurikulum extends React.Component {
     this.setState({refreshing: true, animationLoad: true});
 
     axios
-      .get('https://api.pondokprogrammer.com/api/kurikulum', {
+      .get('http://api.pondokprogrammer.com/api/kurikulum', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -106,13 +106,7 @@ class BuatKurikulum extends React.Component {
     } else {
       return (
         <View style={styles.backgroundOffline}>
-          <View
-            style={{
-              height: 40,
-              width: '100%',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
+          <View style={styles.boxSpinner}>
             <Spinner
               type="Bounce"
               color="rgb(0,184,150)"
@@ -124,15 +118,11 @@ class BuatKurikulum extends React.Component {
             style={styles.imageOffline}
           />
           <TouchableOpacity
+            style={styles.iconRefresh}
             activeOpacity={0.5}
             delayPressIn={10}
             onPress={() => this.getData()}>
-            <Icon
-              name="refresh"
-              color="rgb(0,184,150)"
-              size={40}
-              style={{marginTop: 30}}
-            />
+            <Icon name="refresh" color="rgb(0,184,150)" size={40} />
           </TouchableOpacity>
         </View>
       );
@@ -143,7 +133,7 @@ class BuatKurikulum extends React.Component {
       <View style={styles.container}>
         <Navbar name="Buat Kurikulum" />
         <ScrollView
-          style={{flex: 1}}
+          style={styles.scrollView}
           refreshControl={
             <RefreshControl
               colors={['rgb(0,184,150)']}
@@ -211,5 +201,17 @@ const styles = StyleSheet.create({
   imageOffline: {
     height: 100,
     width: 100,
+  },
+  boxSpinner: {
+    height: 40,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  scrollView: {
+    flex: 1,
+  },
+  iconRefresh: {
+    marginTop: 30,
   },
 });

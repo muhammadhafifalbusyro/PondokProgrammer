@@ -36,7 +36,7 @@ class Login extends React.Component {
     this.setState({isLoading: true});
     if (email != '' && password != '') {
       axios
-        .post('https://api.pondokprogrammer.com/api/student_login', {
+        .post('http://api.pondokprogrammer.com/api/student_login', {
           email: email,
           password: password,
           mobile: true,
@@ -61,7 +61,7 @@ class Login extends React.Component {
                 ToastAndroid.SHORT,
                 ToastAndroid.CENTER,
               );
-              this.props.navigation.navigate('DashboardMentor');
+              this.props.navigation.replace('MainMentor');
             } else if (response.data.data.role == '2') {
               this.setState({isLoading: false});
               console.log(response.data.data.jurusan_id);
@@ -81,18 +81,18 @@ class Login extends React.Component {
                 ToastAndroid.SHORT,
                 ToastAndroid.CENTER,
               );
-              this.props.navigation.navigate('DashboardSantri');
+              this.props.navigation.replace('MainSantri');
             }
+          } else if (response.data.status) {
+            this.setState({isLoading: false});
+            console.log(response.data.status);
+            ToastAndroid.show(
+              response.data.status,
+              ToastAndroid.SHORT,
+              ToastAndroid.CENTER,
+            );
           }
-          // else if (response.data.status) {
-          //   this.setState({isLoading: false});
-          //   console.log(response.data.status);
-          //   ToastAndroid.show(
-          //     response.data.status,
-          //     ToastAndroid.SHORT,
-          //     ToastAndroid.CENTER,
-          //   );
-          // } else if (response.data.errors.email) {
+          // else if (response.data.errors.email) {
           //   this.setState({isLoading: false});
           //   console.log(response.data.errors.email[0]);
           //   ToastAndroid.show(

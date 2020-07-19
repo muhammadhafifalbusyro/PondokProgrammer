@@ -9,12 +9,14 @@ import {
   Image,
   ToastAndroid,
   Modal,
+  Alert,
 } from 'react-native';
 import Navbar from '../components/Navbar';
 import {Picker} from '@react-native-community/picker';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ImagePicker from 'react-native-image-picker';
 import Spinner from 'react-native-spinkit';
+import {connect} from 'react-redux';
 
 const options = {
   title: 'Select Avatar',
@@ -27,7 +29,7 @@ const options = {
 class PreviewKurikulum extends React.Component {
   state = {
     avatarSource: {
-      uri: `https://www.api.pondokprogrammer.com/img/kurikulum/${
+      uri: `http://www.api.pondokprogrammer.com/img/kurikulum/${
         this.props.route.params.img
       }`,
     },
@@ -37,7 +39,7 @@ class PreviewKurikulum extends React.Component {
     uri: '',
     framework: this.props.route.params.framework,
     jumlahSprint: `${this.props.route.params.sprint}`,
-    picker: '',
+    picker: '0',
     deskripsi: this.props.route.params.description,
     modalVisible: false,
   };
@@ -69,7 +71,7 @@ class PreviewKurikulum extends React.Component {
       }
     });
   };
-  postData = (divisi, framework, sprint, desc, photo) => {
+  updateData = (divisi, framework, sprint, desc, photo) => {
     if (
       divisi != '0' &&
       framework != '' &&
@@ -77,9 +79,9 @@ class PreviewKurikulum extends React.Component {
       desc != '' &&
       photo != ''
     ) {
-      this.setState({modalVisible: true});
-      console.log(divisi, framework, sprint, desc);
-      const token = auth_kurikulum;
+      const data = this.props.authentication;
+      const token = data.token;
+      let id = this.props.route.params.id;
 
       let image = {
         uri: this.state.uri,
@@ -94,8 +96,10 @@ class PreviewKurikulum extends React.Component {
       formData.append('sprint', sprint);
       formData.append('desc', desc);
       formData.append('image', image);
+      formData.append('_method', 'PUT');
 
       console.log(formData);
+
       if (this.state.fileSize >= 1500000) {
         this.setState({modalVisible: false});
         ToastAndroid.show(
@@ -104,7 +108,9 @@ class PreviewKurikulum extends React.Component {
           ToastAndroid.CENTER,
         );
       } else {
-        fetch('https://api.pondokprogrammer.com/api/kurikulum', {
+        this.setState({modalVisible: true});
+
+        fetch(`https://api.pondokprogrammer.com/api/kurikulum/${id}`, {
           method: 'POST',
           headers: {
             Accept: 'application/json',
@@ -115,11 +121,11 @@ class PreviewKurikulum extends React.Component {
         })
           .then(response => response.json())
           .then(json => {
-            if (json.status == 'success') {
+            if (json.status) {
               this.setState({modalVisible: false});
               console.log(json);
               ToastAndroid.show(
-                'Buat kurikulum berhasil',
+                'Update kurikulum berhasil',
                 ToastAndroid.SHORT,
                 ToastAndroid.CENTER,
               );
@@ -128,7 +134,7 @@ class PreviewKurikulum extends React.Component {
               this.setState({modalVisible: false});
               console.log(json);
               ToastAndroid.show(
-                'Buat kurikulum gagal',
+                'Update kurikulum gagal',
                 ToastAndroid.SHORT,
                 ToastAndroid.CENTER,
               );
@@ -152,7 +158,70 @@ class PreviewKurikulum extends React.Component {
       );
     }
   };
-
+  deleteData = () => {
+    const data = this.props.authentication;
+    const token = data.token;
+    let id = this.props.route.params.id;
+    this.setState({modalVisible: true});
+    fetch(`http://api.pondokprogrammer.com/api/kurikulum/${id}`, {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then(response => response.json())
+      .then(json => {
+        if (json.status) {
+          this.setState({modalVisible: false});
+          ToastAndroid.show(
+            'Kurikulum berhasil dihapus',
+            ToastAndroid.SHORT,
+            ToastAndroid.CENTER,
+          );
+          this.props.navigation.goBack();
+        } else {
+          this.setState({modalVisible: false});
+          ToastAndroid.show(
+            'Kurikulum gagal dihapus',
+            ToastAndroid.SHORT,
+            ToastAndroid.CENTER,
+          );
+        }
+      })
+      .catch(er => {
+        this.setState({modalVisible: false});
+        ToastAndroid.show(
+          'Network error',
+          ToastAndroid.SHORT,
+          ToastAndroid.CENTER,
+        );
+        console.log(er);
+      });
+  };
+  cautionDelete = () => {
+    Alert.alert(
+      'Hapus Kurikulum',
+      'Apa anda yakin ingin menghapusnya ?',
+      [
+        {
+          text: 'Tidak',
+          onPress: () => {
+            return false;
+          },
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => {
+            this.deleteData();
+          },
+        },
+      ],
+      {cancelable: false},
+    );
+  };
   render() {
     const {picker, framework, jumlahSprint, deskripsi, fileName} = this.state;
     return (
@@ -172,7 +241,7 @@ class PreviewKurikulum extends React.Component {
           <View style={styles.centeredView}>
             <View style={styles.modalContainer}>
               <Spinner visible={true} type="Wave" color="rgb(0,184,150)" />
-              <Text style={{color: 'grey', marginTop: 5}}>Loading</Text>
+              <Text style={styles.textModal}>Loading</Text>
             </View>
           </View>
         </Modal>
@@ -250,7 +319,7 @@ class PreviewKurikulum extends React.Component {
               activeOpacity={0.5}
               delayPressIn={10}
               onPress={() =>
-                this.postData(
+                this.updateData(
                   picker,
                   framework,
                   jumlahSprint,
@@ -261,6 +330,7 @@ class PreviewKurikulum extends React.Component {
               <Text style={styles.textButton}>Ubah</Text>
             </TouchableOpacity>
             <TouchableOpacity
+              onPress={() => this.cautionDelete()}
               style={{...styles.button, backgroundColor: 'red'}}
               activeOpacity={0.5}
               delayPressIn={10}>
@@ -280,7 +350,12 @@ class PreviewKurikulum extends React.Component {
   }
 }
 
-export default PreviewKurikulum;
+const mapStateToProps = state => {
+  const {authentication} = state.reducers;
+  return {authentication};
+};
+
+export default connect(mapStateToProps)(PreviewKurikulum);
 
 const styles = StyleSheet.create({
   container: {
@@ -331,6 +406,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  textModal: {
+    color: 'grey',
+    marginTop: 5,
   },
   boxImagePreview: {
     height: 150,
