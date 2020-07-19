@@ -40,6 +40,7 @@ class PreviewKurikulum extends React.Component {
     framework: this.props.route.params.framework,
     jumlahSprint: `${this.props.route.params.sprint}`,
     picker: '0',
+    division_id: this.props.route.params.division_id,
     deskripsi: this.props.route.params.description,
     modalVisible: false,
   };
@@ -71,7 +72,7 @@ class PreviewKurikulum extends React.Component {
       }
     });
   };
-  updateData = (divisi, framework, sprint, desc, photo) => {
+  updateData = (divisi, framework, sprint, desc, photo, division_id) => {
     if (
       divisi != '0' &&
       framework != '' &&
@@ -92,6 +93,200 @@ class PreviewKurikulum extends React.Component {
       const formData = new FormData();
 
       formData.append('divisi', divisi);
+      formData.append('framework', framework);
+      formData.append('sprint', sprint);
+      formData.append('desc', desc);
+      formData.append('image', image);
+      formData.append('_method', 'PUT');
+
+      console.log(formData);
+
+      if (this.state.fileSize >= 1500000) {
+        this.setState({modalVisible: false});
+        ToastAndroid.show(
+          'Foto terlalu besar, maksimal 1,5 MB',
+          ToastAndroid.SHORT,
+          ToastAndroid.CENTER,
+        );
+      } else {
+        this.setState({modalVisible: true});
+
+        fetch(`https://api.pondokprogrammer.com/api/kurikulum/${id}`, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        })
+          .then(response => response.json())
+          .then(json => {
+            if (json.status) {
+              this.setState({modalVisible: false});
+              console.log(json);
+              ToastAndroid.show(
+                'Update kurikulum berhasil',
+                ToastAndroid.SHORT,
+                ToastAndroid.CENTER,
+              );
+              this.props.navigation.goBack();
+            } else {
+              this.setState({modalVisible: false});
+              console.log(json);
+              ToastAndroid.show(
+                'Update kurikulum gagal',
+                ToastAndroid.SHORT,
+                ToastAndroid.CENTER,
+              );
+            }
+          })
+          .catch(error => {
+            this.setState({modalVisible: false});
+            console.log(error);
+            ToastAndroid.show(
+              'Network error',
+              ToastAndroid.SHORT,
+              ToastAndroid.CENTER,
+            );
+          });
+      }
+    } else if (
+      divisi == '0' &&
+      framework != '' &&
+      sprint != '' &&
+      desc != '' &&
+      photo == ''
+    ) {
+      const data = this.props.authentication;
+      const token = data.token;
+      let id = this.props.route.params.id;
+
+      this.setState({modalVisible: true});
+
+      fetch(`https://api.pondokprogrammer.com/api/kurikulum/${id}`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          divisi: division_id,
+          framework: framework,
+          sprint: sprint,
+          desc: desc,
+          _method: 'PUT',
+        }),
+      })
+        .then(response => response.json())
+        .then(json => {
+          if (json.status) {
+            this.setState({modalVisible: false});
+            console.log(json);
+            ToastAndroid.show(
+              'Update kurikulum berhasil',
+              ToastAndroid.SHORT,
+              ToastAndroid.CENTER,
+            );
+            this.props.navigation.goBack();
+          } else {
+            this.setState({modalVisible: false});
+            console.log(json);
+            ToastAndroid.show(
+              'Update kurikulum gagal',
+              ToastAndroid.SHORT,
+              ToastAndroid.CENTER,
+            );
+          }
+        })
+        .catch(error => {
+          this.setState({modalVisible: false});
+          console.log(error);
+          ToastAndroid.show(
+            'Network error',
+            ToastAndroid.SHORT,
+            ToastAndroid.CENTER,
+          );
+        });
+    } else if (
+      divisi != '0' &&
+      framework != '' &&
+      sprint != '' &&
+      desc != '' &&
+      photo == ''
+    ) {
+      const data = this.props.authentication;
+      const token = data.token;
+      let id = this.props.route.params.id;
+
+      this.setState({modalVisible: true});
+
+      fetch(`https://api.pondokprogrammer.com/api/kurikulum/${id}`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          divisi: divisi,
+          framework: framework,
+          sprint: sprint,
+          desc: desc,
+          _method: 'PUT',
+        }),
+      })
+        .then(response => response.json())
+        .then(json => {
+          if (json.status) {
+            this.setState({modalVisible: false});
+            console.log(json);
+            ToastAndroid.show(
+              'Update kurikulum berhasil',
+              ToastAndroid.SHORT,
+              ToastAndroid.CENTER,
+            );
+            this.props.navigation.goBack();
+          } else {
+            this.setState({modalVisible: false});
+            console.log(json);
+            ToastAndroid.show(
+              'Update kurikulum gagal',
+              ToastAndroid.SHORT,
+              ToastAndroid.CENTER,
+            );
+          }
+        })
+        .catch(error => {
+          this.setState({modalVisible: false});
+          console.log(error);
+          ToastAndroid.show(
+            'Network error',
+            ToastAndroid.SHORT,
+            ToastAndroid.CENTER,
+          );
+        });
+    } else if (
+      divisi == '0' &&
+      framework != '' &&
+      sprint != '' &&
+      desc != '' &&
+      photo != ''
+    ) {
+      const data = this.props.authentication;
+      const token = data.token;
+      let id = this.props.route.params.id;
+
+      let image = {
+        uri: this.state.uri,
+        type: this.state.type,
+        name: this.state.fileName,
+      };
+
+      const formData = new FormData();
+
+      formData.append('divisi', division_id);
       formData.append('framework', framework);
       formData.append('sprint', sprint);
       formData.append('desc', desc);
@@ -223,7 +418,14 @@ class PreviewKurikulum extends React.Component {
     );
   };
   render() {
-    const {picker, framework, jumlahSprint, deskripsi, fileName} = this.state;
+    const {
+      picker,
+      framework,
+      jumlahSprint,
+      deskripsi,
+      fileName,
+      division_id,
+    } = this.state;
     return (
       <View style={styles.container}>
         <Navbar name="Preview Kurikulum" />
@@ -325,6 +527,7 @@ class PreviewKurikulum extends React.Component {
                   jumlahSprint,
                   deskripsi,
                   fileName,
+                  division_id,
                 )
               }>
               <Text style={styles.textButton}>Ubah</Text>

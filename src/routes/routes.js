@@ -136,6 +136,7 @@ import BuatMiniProject from '../screen/BuatMiniProject';
 import BuatVideoCheck from '../screen/BuatVideoCheck';
 import DaftarSantri from '../screen/DaftarSantri';
 import Buatkelas from '../screen/BuatKelas';
+import BuatKelasCreate from '../screen/BuatKelasCreate';
 import BuatMateriPembelajaranCreate from '../screen/BuatMateriPembelajaranCreate';
 import BuatKurikulum from '../screen/BuatKurikulum';
 import BuatKurikulumCreate from '../screen/BuatKurikulumCreate';
@@ -194,6 +195,7 @@ function MainMentor() {
       <Stack.Screen name="BuatMiniProject" component={BuatMiniProject} />
       <Stack.Screen name="BuatVideoCheck" component={BuatVideoCheck} />
       <Stack.Screen name="BuatKelas" component={Buatkelas} />
+      <Stack.Screen name="BuatKelasCreate" component={BuatKelasCreate} />
       <Stack.Screen name="DaftarSantri" component={DaftarSantri} />
     </Stack.Navigator>
   );
