@@ -129,6 +129,7 @@ android {
 
     defaultConfig {
         applicationId "com.pondokprogrammer"
+        missingDimensionStrategy 'react-native-camera', 'general' // <--- insert this line
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -179,8 +180,6 @@ android {
 }
 
 dependencies {
-    implementation project(':react-native-vector-icons')
-    implementation project(':react-native-spinkit')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
 

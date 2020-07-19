@@ -15,40 +15,46 @@ import {styles} from './styles';
 import AsyncStorage from '@react-native-community/async-storage';
 import {connect} from 'react-redux';
 import {authenticationChange} from '../../redux/action';
+import {jurusanID} from '../../redux/action';
 
 class DashboardSantri extends React.Component {
   state = {
     boxIcon: boxIcon,
   };
-  componentDidMount() {
-    BackHandler.addEventListener(
+  componentDidMount () {
+    BackHandler.addEventListener (
       'hardwareBackPress',
-      this.handleBackButtonClick,
+      this.handleBackButtonClick
     );
 
-    AsyncStorage.getItem('data').then(value => {
+    AsyncStorage.getItem ('data').then (value => {
       let data = {
-        id: JSON.parse(value).id,
-        token: JSON.parse(value).token,
-        role: JSON.parse(value).role,
+        id: JSON.parse (value).id,
+        token: JSON.parse (value).token,
+        role: JSON.parse (value).role,
+        jurusan_id: JSON.parse (value).jurusan_id,
       };
-      this.props.authenticationChange(data);
+
+      // console.log(data.jurusan_id +' dashboard santri')
+
+      this.props.authenticationChange (data);
+      this.props.jurusanID (data);
     });
   }
 
-  componentWillUnmount() {
-    BackHandler.removeEventListener(
+  componentWillUnmount () {
+    BackHandler.removeEventListener (
       'hardwareBackPress',
-      this.handleBackButtonClick,
+      this.handleBackButtonClick
     );
   }
 
-  handleBackButtonClick() {
-    BackHandler.exitApp();
+  handleBackButtonClick () {
+    BackHandler.exitApp ();
     return true;
   }
   cautionExit = () => {
-    Alert.alert(
+    Alert.alert (
       'Keluar Akun',
       'Apa anda yakin ingin keluar ?',
       [
@@ -62,70 +68,73 @@ class DashboardSantri extends React.Component {
         {
           text: 'OK',
           onPress: () => {
-            AsyncStorage.removeItem('data');
-            this.props.navigation.navigate('DashboardUtama');
+            AsyncStorage.removeItem ('data');
+            this.props.navigation.navigate ('DashboardUtama');
           },
         },
       ],
-      {cancelable: false},
+      {cancelable: false}
     );
   };
   changeScreen = key => {
     switch (key) {
       case 0:
-        this.props.navigation.navigate('DompetSaya');
+        this.props.navigation.navigate ('DompetSaya');
         break;
       case 1:
-        this.props.navigation.navigate('Toko');
+        this.props.navigation.navigate ('Toko');
         break;
       case 2:
-        this.props.navigation.navigate('IDCard');
+        this.props.navigation.navigate ('IDCard');
         break;
       case 3:
-        this.props.navigation.navigate('SOP');
+        this.props.navigation.navigate ('SOP');
         break;
       case 4:
-        this.props.navigation.navigate('Kurikulum');
+        this.props.navigation.navigate ('Kurikulum');
         break;
       case 5:
-        this.props.navigation.navigate('MateriDasar');
+        this.props.navigation.navigate ('MasukKelas');
         break;
       case 6:
-        this.props.navigation.navigate('TugasHarian');
+        this.props.navigation.navigate ('MateriDasar');
         break;
       case 7:
-        this.props.navigation.navigate('MiniProject');
+        this.props.navigation.navigate ('TugasHarian');
         break;
       case 8:
-        this.props.navigation.navigate('VideoCheck');
+        this.props.navigation.navigate ('MiniProject');
         break;
       case 9:
-        this.props.navigation.navigate('Portofolio');
+        this.props.navigation.navigate ('VideoCheck');
         break;
       case 10:
-        this.props.navigation.navigate('CatatanPelanggaran');
+        this.props.navigation.navigate ('Portofolio');
         break;
       case 11:
-        this.props.navigation.navigate('Raport');
+        this.props.navigation.navigate ('CatatanPelanggaran');
         break;
       case 12:
-        this.props.navigation.navigate('ImpianSaya');
+        this.props.navigation.navigate ('Raport');
         break;
       case 13:
-        this.cautionExit();
+        this.props.navigation.navigate ('ImpianSaya');
+        break;
+      case 14:
+        this.cautionExit ();
         break;
       default:
-        alert('lainnya');
+        alert ('lainnya');
     }
   };
 
-  render() {
+  render () {
     const {boxIcon} = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.dashboardTemplate}>
           <Image
-            source={require('../../assets/images/banner.png')}
+            source={require ('../../assets/images/banner.png')}
             style={styles.banner}
           />
           <ScrollView>
@@ -133,18 +142,20 @@ class DashboardSantri extends React.Component {
               <View style={styles.dashboardTitleBox}>
                 <Text style={styles.dashboardTitle}>DASHBOARD SANTRI</Text>
               </View>
-              {boxIcon.map((value, key) => {
+              {boxIcon.map ((value, key) => {
                 return (
                   <View key={key} style={styles.iconField}>
                     <TouchableOpacity
-                      onPress={() => this.changeScreen(key)}
+                      onPress={() => this.changeScreen (key)}
                       delayPressIn={10}
-                      activeOpacity={0.5}>
+                      activeOpacity={0.5}
+                    >
                       <View
                         style={{
                           ...styles.boxIcon,
                           borderColor: `${value.color}`,
-                        }}>
+                        }}
+                      >
                         <Icon
                           name={value.iconName}
                           size={value.size}
@@ -164,11 +175,10 @@ class DashboardSantri extends React.Component {
   }
 }
 const mapStateToProps = state => {
-  const {authentication} = state.reducers;
-  return {authentication};
+  const {authentication, jurusan_id} = state.reducers;
+  return {authentication, jurusan_id};
 };
 
-export default connect(
-  mapStateToProps,
-  {authenticationChange},
-)(DashboardSantri);
+export default connect (mapStateToProps, {authenticationChange, jurusanID}) (
+  DashboardSantri
+);

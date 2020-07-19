@@ -11,7 +11,7 @@ export const styles = StyleSheet.create ({
     backgroundColor: 'rgb(0, 184, 150)',
     justifyContent: 'center',
   },
-  pmd: {
+  THeader: {
     fontSize: 20,
     color: '#fff',
     fontWeight: 'bold',
@@ -48,8 +48,8 @@ export const styles = StyleSheet.create ({
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
-    right: 30,
-    bottom: 30,
+    right: 20,
+    bottom: 20,
   },
   mainDetail: {
     flex: 1,

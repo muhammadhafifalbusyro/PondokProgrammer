@@ -1,6 +1,6 @@
-import { 
-    StyleSheet
-} from 'react-native'
+import {StyleSheet,Dimensions} from 'react-native';
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 export const styles = StyleSheet.create({
     container : {
@@ -22,9 +22,12 @@ export const styles = StyleSheet.create({
         margin : 10
     },
     subSop : {
-        justifyContent : 'center',
+        flexDirection : 'row',
         paddingBottom : 5,
         borderBottomWidth : 2
+    },
+    t_sop : {
+        marginLeft : 5
     },
     TouchableOpacityStyle: {
         position: 'absolute',
@@ -35,4 +38,23 @@ export const styles = StyleSheet.create({
         right: 30,
         bottom: 30,
       },
+      backgroundOffline: {
+        height: windowHeight - 50,
+        width: windowWidth,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'white',
+      },
+      imageOffline: {
+        height: 100,
+        width: 100,
+      },
+      nodata : {
+          flex : 1,
+          alignItems : 'center',
+      },
+      Tnodata : {
+          fontSize : 20,
+          fontWeight : 'bold'
+      }
 })

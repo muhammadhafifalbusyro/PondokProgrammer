@@ -64,12 +64,14 @@ class Login extends React.Component {
               this.props.navigation.navigate('DashboardMentor');
             } else if (response.data.data.role == '2') {
               this.setState({isLoading: false});
-              console.log(response.data.token);
+              console.log(response.data.data.jurusan_id);
 
               let data = {
                 id: response.data.data.id,
                 token: response.data.token,
                 role: response.data.data.role,
+                // Jurusan_id tambahan wandi karena digunakan untuk dashboard santri
+                jurusan_id: response.data.data.jurusan_id
               };
 
               AsyncStorage.setItem('data', JSON.stringify(data));
