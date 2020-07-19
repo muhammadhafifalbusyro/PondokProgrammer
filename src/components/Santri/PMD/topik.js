@@ -157,7 +157,14 @@ class TopikPemahamanMateriDasar extends Component {
         //   console.log(is_approved + ' TEST')
         // }, 4000);
         // console.log(this.state.topik[key].is_learned[key].is_approved)
+        
+        const test =  setTimeout (() => {
+          this.state.topik[key].is_learned[key].is_approved
+          }, 1000);
 
+        const is_approved =  setTimeout (() => {
+          console.log( this.state.topik[key].is_learned.length===0 ? 0 : this.state.topik[key].is_learned[key].is_approved)
+          }, 5000);
         return (
           <View style={styles.mainDetail} key={key}>
             <TouchableOpacity
@@ -185,6 +192,7 @@ class TopikPemahamanMateriDasar extends Component {
               </View>
               <View style={styles.viewLabel}>
                 <Text style={styles.label}>{value.std_kompetensi} </Text>
+                <Text style={styles.label}>{is_approved} </Text>
               </View>
             </TouchableOpacity>
           </View>
