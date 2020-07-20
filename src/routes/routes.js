@@ -138,9 +138,12 @@ import DaftarSantri from '../screen/DaftarSantri';
 import Buatkelas from '../screen/BuatKelas';
 import BuatKelasCreate from '../screen/BuatKelasCreate';
 import BuatMateriPembelajaranCreate from '../screen/BuatMateriPembelajaranCreate';
+import BuatTopik from '../screen/BuatTopik';
+import BuatTopikCreate from '../screen/BuatTopikCreate';
 import BuatKurikulum from '../screen/BuatKurikulum';
 import BuatKurikulumCreate from '../screen/BuatKurikulumCreate';
 import PreviewKurikulum from '../screen/PreviewKurikulum';
+import PreviewMateri from '../screen/PreviewMateri';
 
 // Dashboard Santri
 import DompetSaya from '../components/Santri/DS';
@@ -183,6 +186,9 @@ function MainMentor() {
         name="BuatKurikulumCreate"
         component={BuatKurikulumCreate}
       />
+      <Stack.Screen name="BuatTopik" component={BuatTopik} />
+      <Stack.Screen name="BuatTopikCreate" component={BuatTopikCreate} />
+      <Stack.Screen name="PreviewMateri" component={PreviewMateri} />
       <Stack.Screen
         name="BuatMateriPembelajaranCreate"
         component={BuatMateriPembelajaranCreate}

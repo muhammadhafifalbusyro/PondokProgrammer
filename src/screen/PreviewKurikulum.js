@@ -111,7 +111,7 @@ class PreviewKurikulum extends React.Component {
       } else {
         this.setState({modalVisible: true});
 
-        fetch(`https://api.pondokprogrammer.com/api/kurikulum/${id}`, {
+        fetch(`http://api.pondokprogrammer.com/api/kurikulum/${id}`, {
           method: 'POST',
           headers: {
             Accept: 'application/json',
@@ -164,7 +164,7 @@ class PreviewKurikulum extends React.Component {
 
       this.setState({modalVisible: true});
 
-      fetch(`https://api.pondokprogrammer.com/api/kurikulum/${id}`, {
+      fetch(`http://api.pondokprogrammer.com/api/kurikulum/${id}`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -222,7 +222,7 @@ class PreviewKurikulum extends React.Component {
 
       this.setState({modalVisible: true});
 
-      fetch(`https://api.pondokprogrammer.com/api/kurikulum/${id}`, {
+      fetch(`http://api.pondokprogrammer.com/api/kurikulum/${id}`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -305,7 +305,7 @@ class PreviewKurikulum extends React.Component {
       } else {
         this.setState({modalVisible: true});
 
-        fetch(`https://api.pondokprogrammer.com/api/kurikulum/${id}`, {
+        fetch(`http://api.pondokprogrammer.com/api/kurikulum/${id}`, {
           method: 'POST',
           headers: {
             Accept: 'application/json',
@@ -376,13 +376,6 @@ class PreviewKurikulum extends React.Component {
             ToastAndroid.CENTER,
           );
           this.props.navigation.goBack();
-        } else {
-          this.setState({modalVisible: false});
-          ToastAndroid.show(
-            'Kurikulum gagal dihapus',
-            ToastAndroid.SHORT,
-            ToastAndroid.CENTER,
-          );
         }
       })
       .catch(er => {

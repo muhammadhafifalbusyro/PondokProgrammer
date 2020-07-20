@@ -120,7 +120,7 @@ class BuatKurikulumCreate extends React.Component {
               this.setState({modalVisible: false});
               console.log(json);
               ToastAndroid.show(
-                'Kurikulum berhasil ditambahkan',
+                'Buat kurikulum berhasil',
                 ToastAndroid.SHORT,
                 ToastAndroid.CENTER,
               );
@@ -129,7 +129,7 @@ class BuatKurikulumCreate extends React.Component {
               this.setState({modalVisible: false});
               console.log(json);
               ToastAndroid.show(
-                'Kurikulum gagal ditambahkan',
+                'Buat kurikulum gagal',
                 ToastAndroid.SHORT,
                 ToastAndroid.CENTER,
               );

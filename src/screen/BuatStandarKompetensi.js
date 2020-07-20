@@ -14,7 +14,7 @@ import AddButton from '../components/AddButton';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Picker} from '@react-native-community/picker';
 
-class BuatSOP extends React.Component {
+class BuatStandarKompetensi extends React.Component {
   state = {
     modalVisible: false,
     text: '',
@@ -86,7 +86,7 @@ class BuatSOP extends React.Component {
   }
 }
 
-export default BuatSOP;
+export default BuatStandarKompetensi;
 
 const styles = StyleSheet.create({
   container: {

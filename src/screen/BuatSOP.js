@@ -11,6 +11,7 @@ import {
   RefreshControl,
   Dimensions,
   Image,
+  Alert,
 } from 'react-native';
 import Navbar from '../components/Navbar';
 import BackButton from '../components/BackButton';
@@ -97,6 +98,28 @@ class BuatSOP extends React.Component {
   onRefreshScreen = () => {
     this.getData();
   };
+  cautionDelete = value => {
+    Alert.alert(
+      'Hapus SOP',
+      'Apa anda yakin ingin menghapusnya ?',
+      [
+        {
+          text: 'Tidak',
+          onPress: () => {
+            return false;
+          },
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => {
+            this.deleteData(value);
+          },
+        },
+      ],
+      {cancelable: false},
+    );
+  };
   renderListScreen = () => {
     if (this.state.status) {
       return this.state.data.map((value, key) => {
@@ -111,7 +134,7 @@ class BuatSOP extends React.Component {
               </View>
             </View>
             <TouchableOpacity
-              onPress={() => this.deleteData(value.id)}
+              onPress={() => this.cautionDelete(value.id)}
               activeOpacity={0.5}
               delayPressIn={10}
               style={styles.trash}>
