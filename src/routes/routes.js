@@ -151,6 +151,7 @@ import Toko from '../components/Santri/Toko';
 import IDCard from '../components/Santri/IDC';
 import SOP from '../components/Santri/SOP';
 import Kurikulum from '../components/Santri/Kurikulum';
+import MasukKelas from '../components/Santri/MK';
 import MateriDasar from '../components/Santri/PMD';
 import TugasHarian from '../components/Santri/TH';
 import MiniProject from '../components/Santri/MP';
@@ -159,6 +160,7 @@ import Portofolio from '../components/Santri/Portofolio';
 import CatatanPelanggaran from '../components/Santri/CP';
 import Raport from '../components/Santri/Raport';
 import ImpianSaya from '../components/Santri/IM';
+import TopikMateriDasar from '../components/Santri/PMD/topik';
 import DetailMateriDasar from '../components/Santri/PMD/detail';
 import DetailTugasHarian from '../components/Santri/TH/detail';
 import DetailMiniProject from '../components/Santri/MP/detail';
@@ -232,6 +234,8 @@ function MainSantri() {
       <Stack.Screen name="DetailTugasHarian" component={DetailTugasHarian} />
       <Stack.Screen name="DetailMiniProject" component={DetailMiniProject} />
       <Stack.Screen name="DetailVideoCheck" component={DetailVideoCheck} />
+      <Stack.Screen name="MasukKelas" component={MasukKelas} />
+      <Stack.Screen name="TopikMateriDasar" component={TopikMateriDasar} />
     </Stack.Navigator>
   );
 }

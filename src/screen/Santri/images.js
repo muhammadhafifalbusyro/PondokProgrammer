@@ -31,6 +31,12 @@ export const boxIcon = [
     title: 'Kurikulum',
   },
   {
+    iconName: 'university',
+    size: 30,
+    color: 'rgb(0,184,150)',
+    title: 'Masuk Kelas',
+  },
+  {
     iconName: 'building-o',
     size: 30,
     color: 'rgb(0,184,150)',

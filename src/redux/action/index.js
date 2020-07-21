@@ -1,4 +1,11 @@
-import {AUTHENTICATION_CHANGE} from './type';
+import {EMAIL_CHANGE, AUTHENTICATION_CHANGE,JURUSAN_ID} from './type';
+
+const emailChange = text => {
+  return {
+    type: EMAIL_CHANGE,
+    payload: text,
+  };
+};
 
 const authenticationChange = text => {
   return {
@@ -7,4 +14,11 @@ const authenticationChange = text => {
   };
 };
 
-export {authenticationChange};
+const jurusanID = text => {
+  return {
+    type: JURUSAN_ID,
+    payload: text,
+  };
+};
+
+export {emailChange, authenticationChange,jurusanID};

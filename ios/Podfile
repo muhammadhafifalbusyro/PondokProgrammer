@@ -34,9 +34,8 @@ target 'PondokProgrammer' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-  pod 'react-native-spinkit', :path => '../node_modules/react-native-spinkit'
 
-  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
 
   target 'PondokProgrammerTests' do
     inherit! :search_paths
