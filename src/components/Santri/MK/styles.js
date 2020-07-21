@@ -51,35 +51,6 @@ export const styles = StyleSheet.create ({
     right: 20,
     bottom: 20,
   },
-  mainDetail: {
-    flex: 1,
-  },
-  flexCheckbox: {
-    flexDirection: 'row',
-  },
-  label: {
-    margin: 8,
-  },
-  viewLabel : {
-    flex: 1,
-  },
-  mainSubmit: {
-    alignItems: 'center',
-    marginTop: 20,
-  },
-  submit: {
-    backgroundColor: 'rgb(0, 184, 150)',
-    height: 40,
-    width: '60%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 20,
-  },
-  Tsubmit: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 25,
-  },
   backgroundOffline: {
     height: windowHeight - 50,
     width: windowWidth,
@@ -99,4 +70,13 @@ export const styles = StyleSheet.create ({
     fontSize: 20,
     fontWeight: 'bold',
   },
+  preview: {
+    flex: 1,
+    top : 0
+    // justifyContent: 'flex-end',
+    // alignItems: 'center',
+  },
+  modal : {
+    flex : 1
+  }
 });
