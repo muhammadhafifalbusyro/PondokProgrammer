@@ -132,7 +132,7 @@ class BuatKurikulum extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Navbar name="Buat Kurikulum" />
+        <Navbar name="Kurikulum" />
         <ScrollView
           style={styles.scrollView}
           refreshControl={

@@ -15,7 +15,8 @@ import BackButton from '../components/BackButton';
 
 class ProgramPondok extends React.Component {
   state = {
-    data: ListProgramPondok,
+    // data: ListProgramPondok,
+    data: [],
   };
   render() {
     return (

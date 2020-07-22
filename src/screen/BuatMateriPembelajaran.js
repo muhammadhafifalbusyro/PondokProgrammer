@@ -132,7 +132,7 @@ class BuatMateriPembelajaran extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Navbar name="Buat Materi Pembelajaran" />
+        <Navbar name="Pilih Kurikulum" />
         <ScrollView
           style={styles.scrollView}
           refreshControl={

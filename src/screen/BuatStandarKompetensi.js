@@ -3,179 +3,213 @@ import {
   View,
   Text,
   ScrollView,
-  Modal,
   StyleSheet,
   TouchableOpacity,
-  TextInput,
+  ToastAndroid,
+  RefreshControl,
+  Image,
+  Dimensions,
 } from 'react-native';
 import Navbar from '../components/Navbar';
 import BackButton from '../components/BackButton';
 import AddButton from '../components/AddButton';
+
+import Spinner from 'react-native-spinkit';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Picker} from '@react-native-community/picker';
+import {connect} from 'react-redux';
+
+const axios = require('axios');
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 class BuatStandarKompetensi extends React.Component {
   state = {
-    modalVisible: false,
-    text: '',
-    str: '',
+    data: [],
+    refreshing: false,
+    status: true,
+    animationLoad: false,
+  };
+  componentDidMount() {
+    this.getData();
+  }
+
+  getData = () => {
+    const data = this.props.authentication;
+    const token = data.token;
+    this.setState({refreshing: true, animationLoad: true});
+
+    axios
+      .get('http://api.pondokprogrammer.com/api/kurikulum', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(response => {
+        console.log(response.data);
+        this.setState({
+          data: response.data,
+          refreshing: false,
+          status: true,
+          animationLoad: false,
+        });
+      })
+      .catch(error => {
+        console.log(error);
+        ToastAndroid.show(
+          'Data gagal didapatkan',
+          ToastAndroid.SHORT,
+          ToastAndroid.CENTER,
+        );
+        this.setState({refreshing: false, status: false, animationLoad: false});
+      });
+  };
+  onRefreshScreen = () => {
+    this.getData();
+  };
+
+  previewKurikulum = value => {
+    this.props.navigation.navigate('BuatStandarKompetensiCreate', {
+      id: value.id,
+      img: value.img,
+      division: value.division,
+      framework: value.framework,
+      description: value.description,
+      sprint: value.sprint.length,
+      division_id: value.division_id,
+    });
+  };
+
+  renderListScreen = () => {
+    if (this.state.status) {
+      return this.state.data.map((value, key) => {
+        return (
+          <TouchableOpacity
+            activeOpacity={0.7}
+            delayPressIn={10}
+            key={key}
+            onPress={() => this.previewKurikulum(value)}>
+            <View style={styles.ListBox}>
+              <Image
+                source={{
+                  uri: `http://api.pondokprogrammer.com/img/kurikulum/${
+                    value.img
+                  }`,
+                }}
+                style={styles.imageKurikulum}
+              />
+              <View style={styles.boxFrameworkTitle}>
+                <Text style={styles.frameworkTitle}>{value.framework}</Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+        );
+      });
+    } else {
+      return (
+        <View style={styles.backgroundOffline}>
+          <View style={styles.boxSpinner}>
+            <Spinner
+              type="Bounce"
+              color="rgb(0,184,150)"
+              isVisible={this.state.animationLoad}
+            />
+          </View>
+          <Image
+            source={require('../assets/images/noconnectionlogo.png')}
+            style={styles.imageOffline}
+          />
+          <TouchableOpacity
+            style={styles.iconRefresh}
+            activeOpacity={0.5}
+            delayPressIn={10}
+            onPress={() => this.getData()}>
+            <Icon name="refresh" color="rgb(0,184,150)" size={40} />
+          </TouchableOpacity>
+        </View>
+      );
+    }
   };
   render() {
     return (
       <View style={styles.container}>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={this.state.modalVisible}
-          onRequestClose={() => {
-            this.setState({modalVisible: false});
-          }}>
-          <View style={styles.centeredView}>
-            <View style={styles.modalContainer}>
-              <View
-                style={{
-                  height: 40,
-                  width: '80%',
-                  borderWidth: 1,
-                  borderRadius: 2,
-                  borderColor: 'rgb(0,184,150)',
-                  padding: 5,
-                  justifyContent: 'center',
-                }}>
-                <Picker
-                  selectedValue={this.state.picker}
-                  style={styles.picker}
-                  mode="dropdown"
-                  prompt="Options"
-                  onValueChange={(itemValue, itemIndex) => {
-                    if (itemValue != '0') {
-                      this.setState({picker: itemValue});
-                    }
-                  }}>
-                  <Picker.Item label="Pilih Divisi" value="0" />
-                  <Picker.Item label="Backend" value="1" />
-                  <Picker.Item label="Frontend" value="2" />
-                  <Picker.Item label="Mobile" value="3" />
-                </Picker>
-              </View>
-              <View style={styles.centeredModalButton}>
-                <TouchableOpacity
-                  style={styles.button}
-                  activeOpacity={0.5}
-                  delayPressIn={10}>
-                  <Text style={styles.textButton}>Lanjut</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => this.setState({modalVisible: false})}
-                  style={{...styles.button, backgroundColor: 'red'}}
-                  activeOpacity={0.5}
-                  delayPressIn={10}>
-                  <Text style={styles.textButton}>Batal</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        </Modal>
-        <Navbar name="Buat Standar Kompetensi" />
-        <ScrollView style={styles.scrollview} />
-
-        <AddButton params={() => this.setState({modalVisible: true})} />
+        <Navbar name="Pilih Kurikulum" />
+        <ScrollView
+          style={styles.scrollView}
+          refreshControl={
+            <RefreshControl
+              colors={['rgb(0,184,150)']}
+              refreshing={this.state.refreshing}
+              onRefresh={() => this.onRefreshScreen()}
+            />
+          }>
+          {this.renderListScreen()}
+        </ScrollView>
         <BackButton params={() => this.props.navigation.goBack()} />
       </View>
     );
   }
 }
 
-export default BuatStandarKompetensi;
+const mapStateToProps = state => {
+  const {authentication} = state.reducers;
+  return {authentication};
+};
+
+export default connect(mapStateToProps)(BuatStandarKompetensi);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalContainer: {
-    height: '20%',
-    width: '90%',
-    borderRadius: 5,
-    elevation: 5,
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  button: {
-    height: 30,
-    width: '40%',
-    fontSize: 16,
-    borderRadius: 3,
-    padding: 10,
-    backgroundColor: 'rgb(0,184,150)',
-    elevation: 3,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  textButton: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: 'white',
-  },
-  textInput: {
-    height: 60,
-    width: '80%',
-    borderColor: 'rgb(0, 184, 150)',
-    borderWidth: 1,
-    padding: 5,
-    borderRadius: 5,
-  },
-  scrollview: {
-    flex: 1,
-  },
-  centeredModalButton: {
-    width: '80%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 20,
-  },
-  containerList: {
-    height: 70,
+  ListBox: {
+    height: 200,
     width: '100%',
-    flexDirection: 'row',
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+    shadowOffset: {width: 10, height: 10},
+    shadowColor: 'black',
+    shadowOpacity: 1,
+    elevation: 3,
+    backgroundColor: 'white',
+  },
+  imageKurikulum: {
+    height: 150,
+    width: '95%',
+  },
+  boxFrameworkTitle: {
+    height: 50,
+    width: '95%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  frameworkTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'grey',
+  },
+  backgroundOffline: {
+    height: windowHeight - 50,
+    width: windowWidth,
+    justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
-    marginBottom: 3,
   },
-  fieldText: {
-    height: 70,
-    width: '85%',
-    flexDirection: 'row',
+  imageOffline: {
+    height: 100,
+    width: 100,
   },
-  contentNumber: {
-    height: 70,
-    width: '10%',
+  boxSpinner: {
+    height: 40,
+    width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 3,
-    backgroundColor: 'rgb(0,184,150)',
   },
-  textContentNumber: {
-    color: 'white',
+  scrollView: {
+    flex: 1,
   },
-  textContentValue: {
-    height: 70,
-    width: '90%',
-    justifyContent: 'center',
-    padding: 5,
-  },
-  trash: {
-    height: 70,
-    width: '15%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'red',
-    padding: 10,
+  iconRefresh: {
+    marginTop: 30,
   },
 });

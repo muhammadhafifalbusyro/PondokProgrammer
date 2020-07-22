@@ -421,7 +421,7 @@ class PreviewKurikulum extends React.Component {
     } = this.state;
     return (
       <View style={styles.container}>
-        <Navbar name="Preview Kurikulum" />
+        <Navbar name="Lihat Kurikulum" />
         <Modal
           animationType="slide"
           transparent={true}

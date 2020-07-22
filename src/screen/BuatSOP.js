@@ -84,6 +84,11 @@ class BuatSOP extends React.Component {
         this.getData();
         this.setState({modalVisible2: false});
         console.log(json);
+        ToastAndroid.show(
+          'Data berhasil dihapus',
+          ToastAndroid.SHORT,
+          ToastAndroid.CENTER,
+        );
       })
       .catch(er => {
         this.setState({modalVisible2: false});
@@ -324,7 +329,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   button: {
-    height: 30,
+    height: 40,
     width: '40%',
     fontSize: 16,
     borderRadius: 3,

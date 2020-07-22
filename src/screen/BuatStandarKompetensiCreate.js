@@ -22,7 +22,7 @@ const axios = require('axios');
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-class BuatMateriPembelajaranCreate extends React.Component {
+class BuatStandarKompetensiCreate extends React.Component {
   state = {
     data: [],
     refreshing: false,
@@ -70,7 +70,7 @@ class BuatMateriPembelajaranCreate extends React.Component {
   };
 
   previewKurikulum = (sprint, curriculum_id) => {
-    this.props.navigation.navigate('BuatTopik', {
+    this.props.navigation.navigate('BuatStandarKompetensiCreate2', {
       sprint: sprint,
       curriculum_id: curriculum_id,
     });
@@ -87,9 +87,7 @@ class BuatMateriPembelajaranCreate extends React.Component {
             key={key}
             onPress={() => this.previewKurikulum(key + 1, curriculum_id)}>
             <View style={styles.ListBox}>
-              <Text style={{fontSize: 16, color: 'grey', fontWeight: 'bold'}}>
-                {value.sprint}
-              </Text>
+              <Text style={styles.boxTitle}>{value.sprint}</Text>
             </View>
           </TouchableOpacity>
         );
@@ -145,7 +143,7 @@ const mapStateToProps = state => {
   return {authentication};
 };
 
-export default connect(mapStateToProps)(BuatMateriPembelajaranCreate);
+export default connect(mapStateToProps)(BuatStandarKompetensiCreate);
 
 const styles = StyleSheet.create({
   container: {
@@ -201,5 +199,10 @@ const styles = StyleSheet.create({
   },
   iconRefresh: {
     marginTop: 30,
+  },
+  boxTitle: {
+    fontSize: 16,
+    color: 'grey',
+    fontWeight: 'bold',
   },
 });

@@ -140,7 +140,7 @@ class PreviewMateri extends React.Component {
     const {topik_id, judul, linkVideo, topik} = this.state;
     return (
       <View style={styles.container}>
-        <Navbar name="Preview Materi" />
+        <Navbar name="Lihat Materi Pembelajaran" />
         <Modal
           animationType="slide"
           transparent={true}
