@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, StatusBar, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import CheckBox from '@react-native-community/checkbox';
 import {styles} from './styles';
 
 class DetailTugasHarian extends Component {
@@ -27,18 +26,10 @@ class DetailTugasHarian extends Component {
         </View>
         <View style={styles.mainDetail}>
           <View style={styles.flexCheckbox}>
-            <CheckBox
-              value={this.state.isSelected}
-              onValueChange={() => this.setSelection ()}
-            />
             <Text style={styles.label}>Do you like React Native?</Text>
 
           </View>
           <View style={styles.flexCheckbox}>
-            <CheckBox
-              value={this.state.isSelected}
-              onValueChange={() => this.setSelection ()}
-            />
             <Text style={styles.label}>Variabel da Operator</Text>
 
           </View>
