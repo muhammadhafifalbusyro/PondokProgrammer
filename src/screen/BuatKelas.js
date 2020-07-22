@@ -121,7 +121,7 @@ class BuatKelas extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Navbar name="Buat Kelas" />
+        <Navbar name="Kelas" />
         <ScrollView
           style={styles.scrollView}
           refreshControl={
