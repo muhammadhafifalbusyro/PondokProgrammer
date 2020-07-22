@@ -105,7 +105,7 @@ class BuatKurikulumCreate extends React.Component {
           ToastAndroid.CENTER,
         );
       } else {
-        fetch('https://api.pondokprogrammer.com/api/kurikulum', {
+        fetch('http://api.pondokprogrammer.com/api/kurikulum', {
           method: 'POST',
           headers: {
             Accept: 'application/json',
@@ -120,7 +120,7 @@ class BuatKurikulumCreate extends React.Component {
               this.setState({modalVisible: false});
               console.log(json);
               ToastAndroid.show(
-                'Kurikulum berhasil ditambahkan',
+                'Buat kurikulum berhasil',
                 ToastAndroid.SHORT,
                 ToastAndroid.CENTER,
               );
@@ -129,7 +129,7 @@ class BuatKurikulumCreate extends React.Component {
               this.setState({modalVisible: false});
               console.log(json);
               ToastAndroid.show(
-                'Kurikulum gagal ditambahkan',
+                'Buat kurikulum gagal',
                 ToastAndroid.SHORT,
                 ToastAndroid.CENTER,
               );

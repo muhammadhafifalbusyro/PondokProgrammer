@@ -22,13 +22,15 @@ const axios = require('axios');
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-class BuatMateriPembelajaranCreate extends React.Component {
+class BuatTopik extends React.Component {
   state = {
-    data: [],
+    dataSprint: null,
+    dataTopik: [],
     refreshing: false,
     status: true,
     animationLoad: false,
-    curriculum_id: this.props.route.params.id,
+    curriculum_id: this.props.route.params.curriculum_id,
+    sprint: this.props.route.params.sprint,
   };
   componentDidMount() {
     this.getData();
@@ -37,19 +39,28 @@ class BuatMateriPembelajaranCreate extends React.Component {
   getData = () => {
     const data = this.props.authentication;
     const token = data.token;
-    this.setState({refreshing: true, animationLoad: true});
     let curriculum_id = this.state.curriculum_id;
-    console.log('ini adalah =' + curriculum_id);
+    let sprint = this.state.sprint;
+
+    console.log(`ini adalah kurikulum sprint = ${sprint}`);
+
+    this.setState({refreshing: true, animationLoad: true});
+
     axios
-      .get(`http://api.pondokprogrammer.com/api/curriculum/${curriculum_id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      .get(
+        `http://api.pondokprogrammer.com/api/curriculum/${curriculum_id}/sprint ${sprint}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      })
+      )
       .then(response => {
         console.log(response.data);
+        console.log(response.data.topik);
         this.setState({
-          data: response.data.sprint,
+          dataSprint: response.data,
+          dataTopik: response.data.topik,
           refreshing: false,
           status: true,
           animationLoad: false,
@@ -69,26 +80,25 @@ class BuatMateriPembelajaranCreate extends React.Component {
     this.getData();
   };
 
-  previewKurikulum = (sprint, curriculum_id) => {
-    this.props.navigation.navigate('BuatTopik', {
-      sprint: sprint,
-      curriculum_id: curriculum_id,
+  previewMateri = value => {
+    console.log('valueee= ' + value);
+    this.props.navigation.navigate('PreviewMateri', {
+      materi: value,
     });
   };
 
   renderListScreen = () => {
-    let curriculum_id = this.state.curriculum_id;
     if (this.state.status) {
-      return this.state.data.map((value, key) => {
+      return this.state.dataTopik.map((value, key) => {
         return (
           <TouchableOpacity
             activeOpacity={0.7}
             delayPressIn={10}
             key={key}
-            onPress={() => this.previewKurikulum(key + 1, curriculum_id)}>
+            onPress={() => this.previewMateri(value)}>
             <View style={styles.ListBox}>
               <Text style={{fontSize: 16, color: 'grey', fontWeight: 'bold'}}>
-                {value.sprint}
+                {value.judul}
               </Text>
             </View>
           </TouchableOpacity>
@@ -122,7 +132,7 @@ class BuatMateriPembelajaranCreate extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Navbar name="Pilih Sprint" />
+        <Navbar name="Materi Pembelajaran" />
         <ScrollView
           style={styles.scrollView}
           refreshControl={
@@ -134,6 +144,21 @@ class BuatMateriPembelajaranCreate extends React.Component {
           }>
           {this.renderListScreen()}
         </ScrollView>
+        <AddButton
+          params={() => {
+            if (this.state.dataSprint == null) {
+              ToastAndroid.show(
+                'Tidak bisa mengambil ID Sprint',
+                ToastAndroid.SHORT,
+                ToastAndroid.CENTER,
+              );
+            } else {
+              this.props.navigation.navigate('BuatTopikCreate', {
+                data: this.state.dataSprint,
+              });
+            }
+          }}
+        />
         <BackButton params={() => this.props.navigation.goBack()} />
       </View>
     );
@@ -145,7 +170,7 @@ const mapStateToProps = state => {
   return {authentication};
 };
 
-export default connect(mapStateToProps)(BuatMateriPembelajaranCreate);
+export default connect(mapStateToProps)(BuatTopik);
 
 const styles = StyleSheet.create({
   container: {

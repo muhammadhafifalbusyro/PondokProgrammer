@@ -135,11 +135,19 @@ import BuatTugasHarian from '../screen/BuatTugasHarian';
 import BuatMiniProject from '../screen/BuatMiniProject';
 import BuatVideoCheck from '../screen/BuatVideoCheck';
 import DaftarSantri from '../screen/DaftarSantri';
-import Buatkelas from '../screen/BuatKelas';
+import BuatKelas from '../screen/BuatKelas';
+import BuatKelasCreate from '../screen/BuatKelasCreate';
 import BuatMateriPembelajaranCreate from '../screen/BuatMateriPembelajaranCreate';
+import BuatTopik from '../screen/BuatTopik';
+import BuatTopikCreate from '../screen/BuatTopikCreate';
 import BuatKurikulum from '../screen/BuatKurikulum';
 import BuatKurikulumCreate from '../screen/BuatKurikulumCreate';
 import PreviewKurikulum from '../screen/PreviewKurikulum';
+import PreviewMateri from '../screen/PreviewMateri';
+import PreviewKelas from '../screen/PreviewKelas';
+import BuatStandarKompetensiCreate from '../screen/BuatStandarKompetensiCreate';
+import BuatStandarKompetensiCreate2 from '../screen/BuatStandarKompetensiCreate2';
+import BuatStandarKompetensiCreate3 from '../screen/BuatStandarKompetensiCreate3';
 
 // Dashboard Santri
 import DompetSaya from '../components/Santri/DS';
@@ -184,6 +192,9 @@ function MainMentor() {
         name="BuatKurikulumCreate"
         component={BuatKurikulumCreate}
       />
+      <Stack.Screen name="BuatTopik" component={BuatTopik} />
+      <Stack.Screen name="BuatTopikCreate" component={BuatTopikCreate} />
+      <Stack.Screen name="PreviewMateri" component={PreviewMateri} />
       <Stack.Screen
         name="BuatMateriPembelajaranCreate"
         component={BuatMateriPembelajaranCreate}
@@ -192,10 +203,24 @@ function MainMentor() {
         name="BuatStandarKompetensi"
         component={BuatStandarKompetensi}
       />
+      <Stack.Screen
+        name="BuatStandarKompetensiCreate"
+        component={BuatStandarKompetensiCreate}
+      />
+      <Stack.Screen
+        name="BuatStandarKompetensiCreate2"
+        component={BuatStandarKompetensiCreate2}
+      />
+      <Stack.Screen
+        name="BuatStandarKompetensiCreate3"
+        component={BuatStandarKompetensiCreate3}
+      />
       <Stack.Screen name="BuatTugasHarian" component={BuatTugasHarian} />
       <Stack.Screen name="BuatMiniProject" component={BuatMiniProject} />
       <Stack.Screen name="BuatVideoCheck" component={BuatVideoCheck} />
-      <Stack.Screen name="BuatKelas" component={Buatkelas} />
+      <Stack.Screen name="BuatKelas" component={BuatKelas} />
+      <Stack.Screen name="BuatKelasCreate" component={BuatKelasCreate} />
+      <Stack.Screen name="PreviewKelas" component={PreviewKelas} />
       <Stack.Screen name="DaftarSantri" component={DaftarSantri} />
     </Stack.Navigator>
   );

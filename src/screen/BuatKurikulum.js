@@ -75,6 +75,7 @@ class BuatKurikulum extends React.Component {
       framework: value.framework,
       description: value.description,
       sprint: value.sprint.length,
+      division_id: value.division_id,
     });
   };
 
@@ -131,7 +132,7 @@ class BuatKurikulum extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Navbar name="Buat Kurikulum" />
+        <Navbar name="Kurikulum" />
         <ScrollView
           style={styles.scrollView}
           refreshControl={
@@ -187,7 +188,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   frameworkTitle: {
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: 'bold',
     color: 'grey',
   },
