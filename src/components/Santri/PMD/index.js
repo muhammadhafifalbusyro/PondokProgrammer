@@ -47,10 +47,8 @@ class PemahamanMateriDasar extends Component {
       })
       .then (response => {
         const data = response.data;
-        // console.log (data);
         this.setState ({
           sprint: data.sprint,
-          // data : data.sprint[0],
           refreshing: false,
           status: true,
           animationLoad: false,

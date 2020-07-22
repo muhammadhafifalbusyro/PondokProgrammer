@@ -165,10 +165,10 @@ import CatatanPelanggaran from '../components/Santri/CP';
 import Raport from '../components/Santri/Raport';
 import ImpianSaya from '../components/Santri/IM';
 import TopikMateriDasar from '../components/Santri/PMD/topik';
-import DetailMateriDasar from '../components/Santri/PMD/detail';
 import DetailTugasHarian from '../components/Santri/TH/detail';
 import DetailMiniProject from '../components/Santri/MP/detail';
 import DetailVideoCheck from '../components/Santri/VC/detail';
+import DetailMasukKelas from '../components/Santri/MK/detail';
 import SplashScreen from '../components/SplashScreen';
 
 const Stack = createStackNavigator();
@@ -247,12 +247,12 @@ function MainSantri() {
       <Stack.Screen name="CatatanPelanggaran" component={CatatanPelanggaran} />
       <Stack.Screen name="Raport" component={Raport} />
       <Stack.Screen name="ImpianSaya" component={ImpianSaya} />
-      <Stack.Screen name="DetailMateriDasar" component={DetailMateriDasar} />
       <Stack.Screen name="DetailTugasHarian" component={DetailTugasHarian} />
       <Stack.Screen name="DetailMiniProject" component={DetailMiniProject} />
       <Stack.Screen name="DetailVideoCheck" component={DetailVideoCheck} />
       <Stack.Screen name="MasukKelas" component={MasukKelas} />
       <Stack.Screen name="TopikMateriDasar" component={TopikMateriDasar} />
+      <Stack.Screen name="DetailMasukKelas" component={DetailMasukKelas} />
     </Stack.Navigator>
   );
 }

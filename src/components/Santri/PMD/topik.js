@@ -9,11 +9,9 @@ import {
   RefreshControl,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import CheckBox from '@react-native-community/checkbox';
 import {styles} from './styles';
 import {connect} from 'react-redux';
 import Spinner from 'react-native-spinkit';
-import _ from 'lodash';
 import Loader from './loader';
 
 const axios = require ('axios');
@@ -56,7 +54,6 @@ class TopikPemahamanMateriDasar extends Component {
       )
       .then (response => {
         const data = response.data.topik[0];
-        // console.log (data.id);
         this.setState ({
           id_topik: data.id,
           refreshing: false,
@@ -98,7 +95,6 @@ class TopikPemahamanMateriDasar extends Component {
       )
       .then (response => {
         const data = response.data;
-        // console.log(data[0].is_learned[0].is_approved)
         this.setState ({
           topik: data,
           refreshing: false,
@@ -136,44 +132,17 @@ class TopikPemahamanMateriDasar extends Component {
       );
     } else if (this.state.status) {
       return this.state.topik.map ((value, key) => {
-        const is_learned = this.state.topik[key].is_learned.length === 0
-          ? 0
-          : 1;
         const stdKompetensi_id = value.id;
-        // setTimeout
-        // const is_learned1 = ''
-        // const is_approved1 = _.isElement(value.is_learned[key].is_approved) ? true : false
-        // switch (value.is_learned.length) {
-        //   case 0:
-        //     return {is_learned1 : 0}
-        //     break;
-        //   default:
-        //     return { is_approved1 : _.isElement(value.is_learned[key].is_approved)}
-        //     break;
-        // }
-        // const is_approved = value.is_learned.length===0 ? 0 : value.is_learned[key].is_approved
-        // console.log(is_approved)
-        // setTimeout(() => {
-        //   console.log(is_approved + ' TEST')
-        // }, 4000);
-        // console.log(this.state.topik[key].is_learned[key].is_approved)
-        
-        const test =  setTimeout (() => {
-          this.state.topik[key].is_learned[key].is_approved
-          }, 1000);
-
-        const is_approved =  setTimeout (() => {
-          console.log( this.state.topik[key].is_learned.length===0 ? 0 : this.state.topik[key].is_learned[key].is_approved)
-          }, 5000);
+        const is_learned =  true
         return (
           <View style={styles.mainDetail} key={key}>
             <TouchableOpacity
               style={styles.flexCheckbox}
               onPress={() =>
-                this.sendIs_learned ((data = {is_learned, stdKompetensi_id}))}
+                this.sendIs_learned ({is_learned,stdKompetensi_id})}
             >
               <View style={{justifyContent: 'center', marginLeft: 5}}>
-                {this.state.topik[key].is_learned.length === 0
+                {this.state.topik[key].is_learned === null
                   ? <Icon name="check" color="red" size={20} />
                   : <Icon
                       name="check-square-o"
@@ -182,7 +151,7 @@ class TopikPemahamanMateriDasar extends Component {
                     />}
               </View>
               <View style={{justifyContent: 'center', marginLeft: 5}}>
-                {this.state.topik[key].is_learned.length === 0
+                {this.state.topik[key].is_approved || this.state.topik[key].is_approved===null 
                   ? <Icon name="check" color="red" size={20} />
                   : <Icon
                       name="check-square-o"
@@ -192,7 +161,6 @@ class TopikPemahamanMateriDasar extends Component {
               </View>
               <View style={styles.viewLabel}>
                 <Text style={styles.label}>{value.std_kompetensi} </Text>
-                <Text style={styles.label}>{is_approved} </Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -237,21 +205,19 @@ class TopikPemahamanMateriDasar extends Component {
     }
   };
 
-  sendIs_learned = data => {
+  sendIs_learned = ({is_learned,stdKompetensi_id}) => {
     this.setState ({isLoading: true});
-    const stdKompetensi_id = data.stdKompetensi_id;
-    const is_learned = data.is_learned;
+    const STDKompetensi_id = stdKompetensi_id;
+    const ISlearned = is_learned;
 
     const auth = this.props.authentication;
     const token = auth.token;
-    // console.log (token + 'dari learned');
-
     axios
       .post (
         `http://api.pondokprogrammer.com/api/standar_kompetensi/add`,
         {
-          stdKompetensi_id: stdKompetensi_id,
-          is_learned: is_learned,
+          stdKompetensi_id: STDKompetensi_id,
+          is_learned: ISlearned,
         },
         {
           headers: {
@@ -274,8 +240,6 @@ class TopikPemahamanMateriDasar extends Component {
 
   render () {
     const {Sprint} = this.props.route.params;
-    const {topik} = this.state;
-  
     return (
       <View style={styles.container}>
         <StatusBar backgroundColor="rgb(0, 184, 150)" />

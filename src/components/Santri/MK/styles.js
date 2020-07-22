@@ -72,11 +72,72 @@ export const styles = StyleSheet.create ({
   },
   preview: {
     flex: 1,
-    top : 0
+    top: 0,
     // justifyContent: 'flex-end',
     // alignItems: 'center',
   },
-  modal : {
-    flex : 1
-  }
+  modal: {
+    flex: 1,
+  },
+  ListBox: {
+    height: 200,
+    width: '100%',
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+    shadowOffset: {width: 10, height: 10},
+    shadowColor: 'black',
+    shadowOpacity: 1,
+    elevation: 3,
+    backgroundColor: 'white',
+  },
+  imageKurikulum: {
+    height: 150,
+    width: '95%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgb(0,184,150)',
+  },
+  titleImage: {
+    fontSize: 18,
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  boxFrameworkTitle: {
+    height: 50,
+    width: '95%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  frameworkTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'grey',
+  },
+  backgroundOffline: {
+    height: windowHeight - 50,
+    width: windowWidth,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+  },
+  imageOffline: {
+    height: 100,
+    width: 100,
+  },
+  boxSpinner: {
+    height: 40,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  scrollView: {
+    flex: 1,
+  },
+  iconRefresh: {
+    marginTop: 30,
+  },
+  
 });
