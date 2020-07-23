@@ -15,7 +15,8 @@ import Spinner from 'react-native-spinkit';
 import Modal from 'react-native-modal';
 import {RNCamera} from 'react-native-camera';
 import Loader from './loader';
-import AsyncStorage from '@react-native-community/async-storage';
+const axios = require('axios');
+
 
 class MasukKelas extends Component {
   constructor (props) {
@@ -39,6 +40,8 @@ class MasukKelas extends Component {
   componentDidMount () {
     const Token = this.props.authentication;
     const token = Token.token;
+    const student_id = Token.id;
+    console.log (student_id);
     this.setState ({
       token: token,
     });
@@ -55,6 +58,7 @@ class MasukKelas extends Component {
       const {token} = this.state;
       const str = Data.split ('=');
       const class_id = str[1];
+      console.log(str)
       this.setState ({
         class_id: class_id,
       });
@@ -69,7 +73,7 @@ class MasukKelas extends Component {
 
       fetch (`${Data}`, requestOptions)
         .then (response => response.text ())
-        // .then (result => console.log (result))
+        .then (response => console.log(response))
         .catch (error => console.log ('error', error));
     }
     this.getClass ();
@@ -77,12 +81,12 @@ class MasukKelas extends Component {
   };
 
   onRefreshScreen = () => {
-    this.getClass();
+    this.getClass ();
   };
 
   getClass = () => {
     const {token} = this.state;
-    this.setState ({refreshing: true, animationLoad: true,});
+    this.setState ({refreshing: true, animationLoad: true});
     var myHeaders = new Headers ();
     myHeaders.append ('Authorization', `Bearer ${token}`);
     var requestOptions = {
@@ -90,16 +94,21 @@ class MasukKelas extends Component {
       headers: myHeaders,
       redirect: 'follow',
     };
-    fetch (`https://api.pondokprogrammer.com/api/class`, requestOptions)
-      .then (response => response.json ())
+
+    axios
+      .get (`http://api.pondokprogrammer.com/api/class/student/`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then (response => {
-        console.log (response);
+        // console.log (response.data);
         this.setState ({
-          data: response,
+          data: response.data,
+          peserta: response.data.student,
           refreshing: false,
           status: true,
           animationLoad: false,
-          // isLoading:false
         });
       })
       .catch (error => {
@@ -109,17 +118,40 @@ class MasukKelas extends Component {
           ToastAndroid.SHORT,
           ToastAndroid.CENTER
         );
+        this.setState ({
+          refreshing: false,
+          status: false,
+          animationLoad: false,
+        });
       });
+
+    // fetch (`https://api.pondokprogrammer.com/api/class`, requestOptions)
+    //   .then (response => response.json ())
+    //   .then (response => {
+    //     this.setState ({
+    //       data: response,
+    //       refreshing: false,
+    //       status: true,
+    //       animationLoad: false,
+    //     });
+    //   })
+    //   .catch (error => {
+    //     console.log (error);
+    //     ToastAndroid.show (
+    //       'Data gagal didapatkan',
+    //       ToastAndroid.SHORT,
+    //       ToastAndroid.CENTER
+    //     );
+    //   });
   };
 
   previewKelas = value => {
     this.props.navigation.navigate ('DetailMasukKelas', {
-      id: value.id,
+      id: value.class_id,
     });
   };
 
   renderListScreen = () => {
-  
     const data = this.state.data;
     const lengthData = data.length;
     if (lengthData === 0) {
@@ -139,15 +171,14 @@ class MasukKelas extends Component {
           >
             <View style={styles.ListBox}>
               <View style={styles.imageKurikulum}>
-                <Text style={styles.titleImage}>{value.materi}</Text>
+                <Text style={styles.titleImage}>{value.class.materi}</Text>
               </View>
               <View style={styles.boxFrameworkTitle}>
-                <Text style={styles.frameworkTitle}>{value.framework}</Text>
+                <Text style={styles.frameworkTitle}>{value.class.framework.framework}</Text>
               </View>
             </View>
           </TouchableOpacity>
         );
-        
       });
     } else {
       return (
@@ -175,7 +206,6 @@ class MasukKelas extends Component {
         </View>
       );
     }
-   
   };
 
   render () {

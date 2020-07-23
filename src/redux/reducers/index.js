@@ -1,4 +1,8 @@
-import {EMAIL_CHANGE, AUTHENTICATION_CHANGE, JURUSAN_ID} from '../action/type';
+import {
+  EMAIL_CHANGE,
+  AUTHENTICATION_CHANGE,
+  JURUSAN_ID,
+} from '../action/type';
 import {combineReducers} from 'redux';
 
 const initialState = {

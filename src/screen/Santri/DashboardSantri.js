@@ -27,7 +27,7 @@ class DashboardSantri extends React.Component {
     modalVisible: false,
     boxIcon: boxIcon,
   };
-  componentDidMount() {
+  componentDidMount () {
     // BackHandler.addEventListener(
     //   'hardwareBackPress',
     //   this.handleBackButtonClick,
@@ -64,39 +64,39 @@ class DashboardSantri extends React.Component {
     let token = data.token;
     let id = data.id;
 
-    this.setState({modalVisible: true});
-    fetch('http://api.pondokprogrammer.com/api/student_logout', {
+    this.setState ({modalVisible: true});
+    fetch ('http://api.pondokprogrammer.com/api/student_logout', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({
+      body: JSON.stringify ({
         id: id,
       }),
     })
-      .then(response => response.json())
-      .then(json => {
+      .then (response => response.json ())
+      .then (json => {
         if (json.status == 'success') {
-          console.log(json.status);
-          this.setState({modalVisible: false});
-          AsyncStorage.removeItem('data');
-          this.props.navigation.replace('Main');
-          ToastAndroid.show(
+          console.log (json.status);
+          this.setState ({modalVisible: false});
+          AsyncStorage.removeItem ('data');
+          this.props.navigation.replace ('Main');
+          ToastAndroid.show (
             'Anda berhasil logout akun',
             ToastAndroid.SHORT,
-            ToastAndroid.CENTER,
+            ToastAndroid.CENTER
           );
         }
       })
-      .catch(error => {
-        console.log(error);
-        this.setState({modalVisible: false});
-        ToastAndroid.show(
+      .catch (error => {
+        console.log (error);
+        this.setState ({modalVisible: false});
+        ToastAndroid.show (
           'Network error',
           ToastAndroid.SHORT,
-          ToastAndroid.CENTER,
+          ToastAndroid.CENTER
         );
       });
   };
@@ -115,7 +115,7 @@ class DashboardSantri extends React.Component {
         {
           text: 'OK',
           onPress: () => {
-            this.logout();
+            this.logout ();
           },
         },
       ],
@@ -183,12 +183,13 @@ class DashboardSantri extends React.Component {
           transparent={true}
           visible={this.state.modalVisible}
           onRequestClose={() => {
-            ToastAndroid.show(
+            ToastAndroid.show (
               'Tunggu proses sampai selesai',
               ToastAndroid.SHORT,
-              ToastAndroid.CENTER,
+              ToastAndroid.CENTER
             );
-          }}>
+          }}
+        >
           <View style={styles.centeredView}>
             <View style={styles.modalContainer}>
               <Spinner visible={true} type="Wave" color="rgb(0,184,150)" />
@@ -214,9 +215,10 @@ class DashboardSantri extends React.Component {
                         ...styles.boxIcon,
                         borderColor: `${value.color}`,
                       }}
-                      onPress={() => this.changeScreen(key)}
+                      onPress={() => this.changeScreen (key)}
                       delayPressIn={10}
-                      activeOpacity={0.5}>
+                      activeOpacity={0.5}
+                    >
                       <Icon
                         name={value.iconName}
                         size={value.size}
@@ -239,6 +241,7 @@ const mapStateToProps = state => {
   return {authentication, jurusan_id};
 };
 
-export default connect (mapStateToProps, {authenticationChange, jurusanID}) (
-  DashboardSantri
-);
+export default connect (mapStateToProps, {
+  authenticationChange,
+  jurusanID,
+}) (DashboardSantri);
