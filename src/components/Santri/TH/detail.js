@@ -11,18 +11,13 @@ class DetailTugasHarian extends Component {
     };
   }
 
-  setSelection = () => {
-    this.setState ({
-      isSelected: !this.state.isSelected
-    });
-  };
-
   render () {
+    const { Sprint } = this.props.route.params
     return (
       <View style={styles.container}>
         <StatusBar backgroundColor="rgb(0, 184, 150)" />
         <View style={styles.header}>
-          <Text style={styles.pmd}> Sprint 1 </Text>
+          <Text style={styles.pmd}> {Sprint} </Text>
         </View>
         <View style={styles.mainDetail}>
           <View style={styles.flexCheckbox}>

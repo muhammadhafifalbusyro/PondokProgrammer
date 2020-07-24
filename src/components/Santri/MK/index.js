@@ -15,8 +15,7 @@ import Spinner from 'react-native-spinkit';
 import Modal from 'react-native-modal';
 import {RNCamera} from 'react-native-camera';
 import Loader from './loader';
-const axios = require('axios');
-
+const axios = require ('axios');
 
 class MasukKelas extends Component {
   constructor (props) {
@@ -58,7 +57,7 @@ class MasukKelas extends Component {
       const {token} = this.state;
       const str = Data.split ('=');
       const class_id = str[1];
-      console.log(str)
+      console.log (str);
       this.setState ({
         class_id: class_id,
       });
@@ -73,7 +72,7 @@ class MasukKelas extends Component {
 
       fetch (`${Data}`, requestOptions)
         .then (response => response.text ())
-        .then (response => console.log(response))
+        .then (response => console.log (response))
         .catch (error => console.log ('error', error));
     }
     this.getClass ();
@@ -124,25 +123,6 @@ class MasukKelas extends Component {
           animationLoad: false,
         });
       });
-
-    // fetch (`https://api.pondokprogrammer.com/api/class`, requestOptions)
-    //   .then (response => response.json ())
-    //   .then (response => {
-    //     this.setState ({
-    //       data: response,
-    //       refreshing: false,
-    //       status: true,
-    //       animationLoad: false,
-    //     });
-    //   })
-    //   .catch (error => {
-    //     console.log (error);
-    //     ToastAndroid.show (
-    //       'Data gagal didapatkan',
-    //       ToastAndroid.SHORT,
-    //       ToastAndroid.CENTER
-    //     );
-    //   });
   };
 
   previewKelas = value => {
@@ -174,7 +154,9 @@ class MasukKelas extends Component {
                 <Text style={styles.titleImage}>{value.class.materi}</Text>
               </View>
               <View style={styles.boxFrameworkTitle}>
-                <Text style={styles.frameworkTitle}>{value.class.framework.framework}</Text>
+                <Text style={styles.frameworkTitle}>
+                  {value.class.framework.framework}
+                </Text>
               </View>
             </View>
           </TouchableOpacity>

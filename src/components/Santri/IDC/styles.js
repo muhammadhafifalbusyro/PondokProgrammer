@@ -8,7 +8,6 @@ export const styles = StyleSheet.create ({
   },
   header: {
     height: 50,
-    // backgroundColor: 'rgb(0, 184, 150)',
     justifyContent: 'center',
   },
   THeader: {
@@ -16,6 +15,22 @@ export const styles = StyleSheet.create ({
     color: '#fff',
     fontWeight: 'bold',
     marginLeft: 10,
+    color: '#000',
   },
-  
+  profile: {
+    backgroundColor: 'rgb(0, 184, 150)',
+    flex : 2,
+  },
+  status: {
+    flex : 2
+  },
+  img : {
+      height : 100,
+      width : 100
+  },
+  subProfile : {
+      flex : 0.2,
+      alignItems : 'center',
+      justifyContent : 'center'
+  }
 });

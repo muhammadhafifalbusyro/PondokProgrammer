@@ -36,7 +36,7 @@ class PemahamanMateriDasar extends Component {
     const data = this.props.authentication;
     const token = data.token;
     const jurusan_id = this.props.jurusan_id.jurusan_id;
-
+    // console.log(jurusan_id)
     this.setState ({refreshing: true, animationLoad: true});
 
     axios
