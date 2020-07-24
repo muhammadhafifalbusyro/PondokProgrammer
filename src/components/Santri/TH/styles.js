@@ -74,5 +74,13 @@ export const styles = StyleSheet.create ({
       color : '#fff',
       fontWeight : 'bold',
       fontSize : 25
-  }
+  },
+  nodata: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  Tnodata: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
 });

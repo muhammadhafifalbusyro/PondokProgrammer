@@ -158,6 +158,7 @@ import Kurikulum from '../components/Santri/Kurikulum';
 import MasukKelas from '../components/Santri/MK';
 import MateriDasar from '../components/Santri/PMD';
 import TugasHarian from '../components/Santri/TH';
+import TopikTugasHarian from '../components/Santri/TH/topik';
 import MiniProject from '../components/Santri/MP';
 import VideoCheck from '../components/Santri/VC';
 import Portofolio from '../components/Santri/Portofolio';
@@ -167,7 +168,7 @@ import ImpianSaya from '../components/Santri/IM';
 import TopikMateriDasar from '../components/Santri/PMD/topik';
 import DetailTugasHarian from '../components/Santri/TH/detail';
 import DetailMiniProject from '../components/Santri/MP/detail';
-import DetailVideoCheck from '../components/Santri/VC/detail';
+import DetailAcceptedMentor from '../components/Santri/VC/detail_acc_mentor';
 import DetailMasukKelas from '../components/Santri/MK/detail';
 import SplashScreen from '../components/SplashScreen';
 
@@ -249,9 +250,10 @@ function MainSantri() {
       <Stack.Screen name="ImpianSaya" component={ImpianSaya} />
       <Stack.Screen name="DetailTugasHarian" component={DetailTugasHarian} />
       <Stack.Screen name="DetailMiniProject" component={DetailMiniProject} />
-      <Stack.Screen name="DetailVideoCheck" component={DetailVideoCheck} />
+      <Stack.Screen name="DetailAcceptedMentor" component={DetailAcceptedMentor} />
       <Stack.Screen name="MasukKelas" component={MasukKelas} />
       <Stack.Screen name="TopikMateriDasar" component={TopikMateriDasar} />
+      <Stack.Screen name="TopikTugasHarian" component={TopikTugasHarian} />
       <Stack.Screen name="DetailMasukKelas" component={DetailMasukKelas} />
     </Stack.Navigator>
   );

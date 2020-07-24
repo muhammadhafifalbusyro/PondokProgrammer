@@ -17,17 +17,17 @@ export const styles = StyleSheet.create ({
   },
   mainPMD: {
     flex: 1,
+    flexDirection: 'row',
     margin: 15,
+    justifyContent: 'center',
   },
   subPMD: {
     justifyContent: 'center',
     paddingBottom: 5,
-    borderBottomWidth: 3,
-    borderBottomColor: '#348FD4',
-    marginTop : 15
+    marginTop: 15,
   },
   Tlist: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
   },
   flexbox: {
@@ -35,10 +35,8 @@ export const styles = StyleSheet.create ({
   },
   widthBox: {
     width: '90%',
-  },
-  iconBox: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    borderBottomWidth: 3,
+    borderBottomColor: '  "rgb(0, 184, 150)"',
   },
   TouchableOpacityStyle: {
     position: 'absolute',
@@ -49,30 +47,94 @@ export const styles = StyleSheet.create ({
     right: 30,
     bottom: 30,
   },
-  mainDetail : {
-      flex : 1
+  mainDetail: {
+    flex: 1,
   },
-  flexCheckbox : {
-    flexDirection: "row",
+  flexCheckbox: {
+    flexDirection: 'row',
   },
   label: {
     margin: 8,
   },
-  mainSubmit : {
+  mainSubmit: {
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  submit: {
+    backgroundColor: 'rgb(0, 184, 150)',
+    height: 40,
+    width: '60%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 20,
+  },
+  Tsubmit: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 25,
+  },
+  nodata: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  Tnodata: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  mainDetail: {
+    flex: 1,
+  },
+  flexCheckbox: {
+    flexDirection: 'row',
+  },
+  label: {
+    margin: 8,
+  },
+  viewLabel: {
+    flex: 1,
+    flexDirection : 'row',
+    margin : 10
+  },
+  menu: {
+    height: 100,
+    width: 100,
+    backgroundColor: '#0D5858',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 30,
+    margin: 10,
+  },
+  list: {
+    color: '#fff',
+    fontSize: 15,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  url: {
+    flexDirection: 'row',
+  },
+  play: {
+    height: 50,
+    width: 100,
+    backgroundColor: 'rgb(0, 184, 150)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 10,
+    borderRadius: 5,
+  },
+  tPlay: {
+    fontSize: 18,
+    color: '#fff',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  judul: {
+    fontSize : 20,
+    color: 'blue',
+    fontWeight : 'bold'
+  },
+  status : {
     alignItems : 'center',
-    marginTop : 20
-  },
-  submit : {
-      backgroundColor : "rgb(0, 184, 150)" ,
-      height : 40,
-      width : "60%",
-      alignItems : 'center',
-      justifyContent : 'center',
-      borderRadius : 20
-  },
-  Tsubmit : {
-      color : '#fff',
-      fontWeight : 'bold',
-      fontSize : 25
+    justifyContent : 'center'
   }
 });
