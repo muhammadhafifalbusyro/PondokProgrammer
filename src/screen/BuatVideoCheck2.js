@@ -25,19 +25,21 @@ const axios = require('axios');
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-class BuatStandarKompetensiCreate3 extends React.Component {
+class BuatVideoCheck2 extends React.Component {
   state = {
     data: [],
     refreshing: false,
     status: true,
     animationLoad: false,
-    topik_id: this.props.route.params.materi.id,
     modalVisible: false,
     modalVisible2: false,
     modalVisible3: false,
-    valueStandarKompetensi: '',
-    valueStandarKompetensiUpdate: '',
-    standarKompetensiID: '',
+    valueVideo: '',
+    valueVideoUpdate: '',
+    videoID: '',
+    playlistID: '',
+    url_video: '',
+    url_videoUpdate: '',
   };
   componentDidMount() {
     this.getData();
@@ -50,7 +52,7 @@ class BuatStandarKompetensiCreate3 extends React.Component {
     this.setState({refreshing: true, animationLoad: true});
 
     axios
-      .get(`http://api.pondokprogrammer.com/api/standar_kompetensi`, {
+      .get(`http://api.pondokprogrammer.com/api/video_pembelajaran`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -78,27 +80,27 @@ class BuatStandarKompetensiCreate3 extends React.Component {
     this.getData();
   };
 
-  buatStandarKompetensi = () => {
+  buatVideo = () => {
     let data = this.props.authentication;
     let token = data.token;
-    console.log(this.state.topik_id);
-    console.log(this.state.valueStandarKompetensi);
 
-    if (this.state.valueStandarKompetensi != '') {
+    if (this.state.valueVideo != '' && this.state.url_video != '') {
       this.setState({
         modalVisible2: true,
         modalVisible: false,
-        valueStandarKompetensi: '',
+        valueVideo: '',
+        url_video: '',
       });
-      fetch('http://api.pondokprogrammer.com/api/standar_kompetensi', {
+      fetch('http://api.pondokprogrammer.com/api/video_pembelajaran', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer${token}`,
         },
         body: JSON.stringify({
-          topik_id: this.state.topik_id,
-          std_kompetensi: this.state.valueStandarKompetensi,
+          judul: this.state.valueVideo,
+          playlist_id: this.props.route.params.id,
+          url_video: this.state.url_video,
         }),
       })
         .then(res => res.json())
@@ -109,6 +111,15 @@ class BuatStandarKompetensiCreate3 extends React.Component {
             this.getData();
             ToastAndroid.show(
               'Data berhasil ditambahkan',
+              ToastAndroid.SHORT,
+              ToastAndroid.CENTER,
+            );
+          } else if (json.url_video) {
+            console.log(json.url_video);
+            this.setState({modalVisible2: false});
+            this.getData();
+            ToastAndroid.show(
+              'Url video harus valid',
               ToastAndroid.SHORT,
               ToastAndroid.CENTER,
             );
@@ -138,28 +149,27 @@ class BuatStandarKompetensiCreate3 extends React.Component {
       );
     }
   };
-  fieldUpdate = (value, value2) => {
+  fieldUpdate = (value, value2, value3, value4) => {
     this.setState({
       modalVisible3: true,
-      valueStandarKompetensiUpdate: value,
-      standarKompetensiID: value2,
+      valueVideoUpdate: value,
+      videoID: value2,
+      url_videoUpdate: value3,
+      playlistID: value4,
     });
   };
-  ubahStandarKompetensi = () => {
+  ubahVideo = () => {
     let data = this.props.authentication;
     let token = data.token;
-    console.log(this.state.topik_id);
-    console.log(this.state.valueStandarKompetensiUpdate);
 
-    if (this.state.valueStandarKompetensiUpdate != '') {
+    if (this.state.valueVideoUpdate != '' && this.state.url_videoUpdate != '') {
       this.setState({
         modalVisible2: true,
         modalVisible3: false,
-        valueStandarKompetensiUpdate: '',
       });
       fetch(
-        `http://api.pondokprogrammer.com/api/standar_kompetensi/${
-          this.state.standarKompetensiID
+        `http://api.pondokprogrammer.com/api/video_pembelajaran/${
+          this.state.videoID
         }`,
         {
           method: 'PUT',
@@ -168,8 +178,9 @@ class BuatStandarKompetensiCreate3 extends React.Component {
             Authorization: `Bearer${token}`,
           },
           body: JSON.stringify({
-            topik_id: this.state.topik_id,
-            std_kompetensi: this.state.valueStandarKompetensiUpdate,
+            judul: this.state.valueVideoUpdate,
+            url_video: this.state.url_videoUpdate,
+            playlist_id: this.state.playlistID,
           }),
         },
       )
@@ -213,8 +224,9 @@ class BuatStandarKompetensiCreate3 extends React.Component {
   deleteData = paramID => {
     let data = this.props.authentication;
     let token = data.token;
+    console.log(paramID + '<= ini id nya');
     this.setState({modalVisible2: true, modalVisible3: false});
-    fetch(`http://api.pondokprogrammer.com/api/standar_kompetensi/${paramID}`, {
+    fetch(`http://api.pondokprogrammer.com/api/video_pembelajaran/${paramID}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -244,7 +256,7 @@ class BuatStandarKompetensiCreate3 extends React.Component {
   };
   cautionDelete = value => {
     Alert.alert(
-      'Hapus Standar Kompetensi',
+      'Hapus Playlist Video',
       'Apa anda yakin ingin menghapusnya ?',
       [
         {
@@ -267,15 +279,22 @@ class BuatStandarKompetensiCreate3 extends React.Component {
   renderListScreen = () => {
     if (this.state.status) {
       return this.state.data.map((value, key) => {
-        if (value.topik_id == this.state.topik_id) {
+        if (value.playlist_id == this.props.route.params.id) {
           return (
             <TouchableOpacity
               activeOpacity={0.7}
               delayPressIn={10}
               key={key}
-              onPress={() => this.fieldUpdate(value.std_kompetensi, value.id)}>
+              onPress={() =>
+                this.fieldUpdate(
+                  value.judul,
+                  value.id,
+                  value.url_video,
+                  value.playlist_id,
+                )
+              }>
               <View style={styles.ListBox} key={key}>
-                <Text style={styles.boxTitle}>{value.std_kompetensi}</Text>
+                <Text style={styles.boxTitle}>{value.judul}</Text>
               </View>
             </TouchableOpacity>
           );
@@ -307,7 +326,7 @@ class BuatStandarKompetensiCreate3 extends React.Component {
     }
   };
   render() {
-    const {standarKompetensiID} = this.state;
+    const {videoID} = this.state;
     return (
       <View style={styles.container}>
         <Modal
@@ -318,19 +337,24 @@ class BuatStandarKompetensiCreate3 extends React.Component {
             this.setState({modalVisible: false});
           }}>
           <View style={styles.centeredView}>
-            <View style={styles.modalContainer}>
+            <View style={{...styles.modalContainer, height: '50%'}}>
               <TextInput
                 multiline={true}
-                placeholder="Tuliskan Standar Kompetensi"
-                value={this.state.valueStandarKompetensi}
-                onChangeText={text =>
-                  this.setState({valueStandarKompetensi: text})
-                }
+                placeholder="Tuliskan Judul Video"
+                value={this.state.valueVideo}
+                onChangeText={text => this.setState({valueVideo: text})}
+                style={{...styles.textInput, marginBottom: 10}}
+              />
+              <TextInput
+                multiline={true}
+                placeholder="Tuliskan Url"
+                value={this.state.url_video}
+                onChangeText={text => this.setState({url_video: text})}
                 style={styles.textInput}
               />
               <View style={styles.centeredModalButton}>
                 <TouchableOpacity
-                  onPress={() => this.buatStandarKompetensi()}
+                  onPress={() => this.buatVideo()}
                   style={styles.button}
                   activeOpacity={0.5}
                   delayPressIn={10}>
@@ -373,26 +397,31 @@ class BuatStandarKompetensiCreate3 extends React.Component {
             this.setState({modalVisible3: false});
           }}>
           <View style={styles.centeredView}>
-            <View style={styles.modalContainer}>
+            <View style={{...styles.modalContainer, height: '50%'}}>
               <TextInput
                 multiline={true}
-                placeholder="Tuliskan Standar Kompetensi"
-                value={this.state.valueStandarKompetensiUpdate}
-                onChangeText={text =>
-                  this.setState({valueStandarKompetensiUpdate: text})
-                }
+                placeholder="Tuliskan Playlist"
+                value={this.state.valueVideoUpdate}
+                onChangeText={text => this.setState({valueVideoUpdate: text})}
+                style={{...styles.textInput, marginBottom: 10}}
+              />
+              <TextInput
+                multiline={true}
+                placeholder="Tuliskan Url"
+                value={this.state.url_videoUpdate}
+                onChangeText={text => this.setState({url_videoUpdate: text})}
                 style={styles.textInput}
               />
               <View style={styles.centeredModalButton}>
                 <TouchableOpacity
-                  onPress={() => this.ubahStandarKompetensi()}
+                  onPress={() => this.ubahVideo()}
                   style={{...styles.button2, backgroundColor: 'orange'}}
                   activeOpacity={0.5}
                   delayPressIn={10}>
                   <Text style={styles.textButton2}>Ubah</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() => this.cautionDelete(standarKompetensiID)}
+                  onPress={() => this.cautionDelete(videoID)}
                   style={{...styles.button2, backgroundColor: 'red'}}
                   activeOpacity={0.5}
                   delayPressIn={10}>
@@ -409,7 +438,7 @@ class BuatStandarKompetensiCreate3 extends React.Component {
             </View>
           </View>
         </Modal>
-        <Navbar name="Standar Kompetensi" />
+        <Navbar name="Isi Playlist" />
         <ScrollView
           style={styles.scrollView}
           refreshControl={
@@ -433,7 +462,7 @@ const mapStateToProps = state => {
   return {authentication};
 };
 
-export default connect(mapStateToProps)(BuatStandarKompetensiCreate3);
+export default connect(mapStateToProps)(BuatVideoCheck2);
 
 const styles = StyleSheet.create({
   container: {

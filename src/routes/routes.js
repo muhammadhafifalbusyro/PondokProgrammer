@@ -134,6 +134,7 @@ import BuatStandarKompetensi from '../screen/BuatStandarKompetensi';
 import BuatTugasHarian from '../screen/BuatTugasHarian';
 import BuatMiniProject from '../screen/BuatMiniProject';
 import BuatVideoCheck from '../screen/BuatVideoCheck';
+import BuatVideoCheck2 from '../screen/BuatVideoCheck2';
 import DaftarSantri from '../screen/DaftarSantri';
 import BuatKelas from '../screen/BuatKelas';
 import BuatKelasCreate from '../screen/BuatKelasCreate';
@@ -219,6 +220,7 @@ function MainMentor() {
       <Stack.Screen name="BuatTugasHarian" component={BuatTugasHarian} />
       <Stack.Screen name="BuatMiniProject" component={BuatMiniProject} />
       <Stack.Screen name="BuatVideoCheck" component={BuatVideoCheck} />
+      <Stack.Screen name="BuatVideoCheck2" component={BuatVideoCheck2} />
       <Stack.Screen name="BuatKelas" component={BuatKelas} />
       <Stack.Screen name="BuatKelasCreate" component={BuatKelasCreate} />
       <Stack.Screen name="PreviewKelas" component={PreviewKelas} />
@@ -250,7 +252,10 @@ function MainSantri() {
       <Stack.Screen name="ImpianSaya" component={ImpianSaya} />
       <Stack.Screen name="DetailTugasHarian" component={DetailTugasHarian} />
       <Stack.Screen name="DetailMiniProject" component={DetailMiniProject} />
-      <Stack.Screen name="DetailAcceptedMentor" component={DetailAcceptedMentor} />
+      <Stack.Screen
+        name="DetailAcceptedMentor"
+        component={DetailAcceptedMentor}
+      />
       <Stack.Screen name="MasukKelas" component={MasukKelas} />
       <Stack.Screen name="TopikMateriDasar" component={TopikMateriDasar} />
       <Stack.Screen name="TopikTugasHarian" component={TopikTugasHarian} />
