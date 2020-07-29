@@ -7,7 +7,6 @@ import {
   ScrollView,
   RefreshControl,
   ToastAndroid,
-  Image,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {styles} from './styles';
@@ -40,8 +39,7 @@ class TugasHarian extends Component {
     this.setState ({refreshing: true, animationLoad: true});
 
     axios
-      // .get (`http://api.pondokprogrammer.com/api/curriculum/${jurusan_id}`, {
-        .get (`http://api.pondokprogrammer.com/api/curriculum/1`, {
+      .get (`http://api.pondokprogrammer.com/api/curriculum/${jurusan_id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
