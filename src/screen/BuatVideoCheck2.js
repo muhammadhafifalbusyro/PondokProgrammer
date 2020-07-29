@@ -52,7 +52,7 @@ class BuatVideoCheck2 extends React.Component {
     this.setState({refreshing: true, animationLoad: true});
 
     axios
-      .get(`http://api.pondokprogrammer.com/api/video_pembelajaran`, {
+      .get(`https://api.pondokprogrammer.com/api/video_pembelajaran`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -91,7 +91,7 @@ class BuatVideoCheck2 extends React.Component {
         valueVideo: '',
         url_video: '',
       });
-      fetch('http://api.pondokprogrammer.com/api/video_pembelajaran', {
+      fetch('https://api.pondokprogrammer.com/api/video_pembelajaran', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -168,7 +168,7 @@ class BuatVideoCheck2 extends React.Component {
         modalVisible3: false,
       });
       fetch(
-        `http://api.pondokprogrammer.com/api/video_pembelajaran/${
+        `https://api.pondokprogrammer.com/api/video_pembelajaran/${
           this.state.videoID
         }`,
         {
@@ -226,13 +226,16 @@ class BuatVideoCheck2 extends React.Component {
     let token = data.token;
     console.log(paramID + '<= ini id nya');
     this.setState({modalVisible2: true, modalVisible3: false});
-    fetch(`http://api.pondokprogrammer.com/api/video_pembelajaran/${paramID}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer${token}`,
+    fetch(
+      `https://api.pondokprogrammer.com/api/video_pembelajaran/${paramID}`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer${token}`,
+        },
       },
-    })
+    )
       .then(res => res.json())
       .then(json => {
         this.getData();

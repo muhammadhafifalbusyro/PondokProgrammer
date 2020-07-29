@@ -14,11 +14,11 @@ import {connect} from 'react-redux';
 import Spinner from 'react-native-spinkit';
 import Loader from './loader';
 
-const axios = require ('axios');
+const axios = require('axios');
 
 class TopikPemahamanMateriDasar extends Component {
-  constructor (props) {
-    super (props);
+  constructor(props) {
+    super(props);
     this.state = {
       topik: '',
       id_topik: '',
@@ -29,10 +29,10 @@ class TopikPemahamanMateriDasar extends Component {
     };
   }
 
-  componentDidMount () {
-    this.getTopik_id ();
-    setTimeout (() => {
-      this.getData ();
+  componentDidMount() {
+    this.getTopik_id();
+    setTimeout(() => {
+      this.getData();
     }, 2000);
   }
 
@@ -42,33 +42,33 @@ class TopikPemahamanMateriDasar extends Component {
     const jurusan_id = this.props.jurusan_id.jurusan_id;
     const {Sprint} = this.props.route.params;
 
-    this.setState ({refreshing: true, animationLoad: true});
+    this.setState({refreshing: true, animationLoad: true});
     axios
-      .get (
-        `http://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}`,
+      .get(
+        `https://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       )
-      .then (response => {
+      .then(response => {
         const data = response.data.topik[0];
-        this.setState ({
+        this.setState({
           id_topik: data.id,
           refreshing: false,
           status: true,
           animationLoad: false,
         });
       })
-      .catch (error => {
-        console.log (error);
-        ToastAndroid.show (
+      .catch(error => {
+        console.log(error);
+        ToastAndroid.show(
           'Data gagal didapatkan',
           ToastAndroid.SHORT,
-          ToastAndroid.CENTER
+          ToastAndroid.CENTER,
         );
-        this.setState ({
+        this.setState({
           refreshing: false,
           status: false,
           animationLoad: false,
@@ -83,33 +83,33 @@ class TopikPemahamanMateriDasar extends Component {
     const {Sprint} = this.props.route.params;
     const {id_topik} = this.state;
 
-    this.setState ({refreshing: true, animationLoad: true});
+    this.setState({refreshing: true, animationLoad: true});
     axios
-      .get (
-        `http://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}/${id_topik}`,
+      .get(
+        `https://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}/${id_topik}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       )
-      .then (response => {
+      .then(response => {
         const data = response.data;
-        this.setState ({
+        this.setState({
           topik: data,
           refreshing: false,
           status: true,
           animationLoad: false,
         });
       })
-      .catch (error => {
-        console.log (error);
-        ToastAndroid.show (
+      .catch(error => {
+        console.log(error);
+        ToastAndroid.show(
           'Data gagal didapatkan',
           ToastAndroid.SHORT,
-          ToastAndroid.CENTER
+          ToastAndroid.CENTER,
         );
-        this.setState ({
+        this.setState({
           refreshing: false,
           status: false,
           animationLoad: false,
@@ -118,7 +118,7 @@ class TopikPemahamanMateriDasar extends Component {
   };
 
   onRefreshScreen = () => {
-    this.getData ();
+    this.getData();
   };
 
   renderListScreen = () => {
@@ -131,33 +131,38 @@ class TopikPemahamanMateriDasar extends Component {
         </View>
       );
     } else if (this.state.status) {
-      return this.state.topik.map ((value, key) => {
+      return this.state.topik.map((value, key) => {
         const stdKompetensi_id = value.id;
-        const is_learned =  true
+        const is_learned = true;
         return (
           <View style={styles.mainDetail} key={key}>
             <TouchableOpacity
               style={styles.flexCheckbox}
               onPress={() =>
-                this.sendIs_learned ({is_learned,stdKompetensi_id})}
-            >
+                this.sendIs_learned({is_learned, stdKompetensi_id})
+              }>
               <View style={{justifyContent: 'center', marginLeft: 5}}>
-                {this.state.topik[key].is_learned === null
-                  ? <Icon name="check" color="red" size={20} />
-                  : <Icon
-                      name="check-square-o"
-                      color="rgb(0,184,150)"
-                      size={20}
-                    />}
+                {this.state.topik[key].is_learned === null ? (
+                  <Icon name="check" color="red" size={20} />
+                ) : (
+                  <Icon
+                    name="check-square-o"
+                    color="rgb(0,184,150)"
+                    size={20}
+                  />
+                )}
               </View>
               <View style={{justifyContent: 'center', marginLeft: 5}}>
-                {this.state.topik[key].is_approved || this.state.topik[key].is_approved===null 
-                  ? <Icon name="check" color="red" size={20} />
-                  : <Icon
-                      name="check-square-o"
-                      color="rgb(0,184,150)"
-                      size={20}
-                    />}
+                {this.state.topik[key].is_approved ||
+                this.state.topik[key].is_approved === null ? (
+                  <Icon name="check" color="red" size={20} />
+                ) : (
+                  <Icon
+                    name="check-square-o"
+                    color="rgb(0,184,150)"
+                    size={20}
+                  />
+                )}
               </View>
               <View style={styles.viewLabel}>
                 <Text style={styles.label}>{value.std_kompetensi} </Text>
@@ -175,8 +180,7 @@ class TopikPemahamanMateriDasar extends Component {
               width: '100%',
               justifyContent: 'center',
               alignItems: 'center',
-            }}
-          >
+            }}>
             <Spinner
               type="Bounce"
               color="rgb(0,184,150)"
@@ -191,8 +195,7 @@ class TopikPemahamanMateriDasar extends Component {
           <TouchableOpacity
             activeOpacity={0.5}
             delayPressIn={10}
-            onPress={() => this.getData ()}
-          >
+            onPress={() => this.getData()}>
             <Icon
               name="refresh"
               color="rgb(0,184,150)"
@@ -205,16 +208,16 @@ class TopikPemahamanMateriDasar extends Component {
     }
   };
 
-  sendIs_learned = ({is_learned,stdKompetensi_id}) => {
-    this.setState ({isLoading: true});
+  sendIs_learned = ({is_learned, stdKompetensi_id}) => {
+    this.setState({isLoading: true});
     const STDKompetensi_id = stdKompetensi_id;
     const ISlearned = is_learned;
 
     const auth = this.props.authentication;
     const token = auth.token;
     axios
-      .post (
-        `http://api.pondokprogrammer.com/api/standar_kompetensi/add`,
+      .post(
+        `https://api.pondokprogrammer.com/api/standar_kompetensi/add`,
         {
           stdKompetensi_id: STDKompetensi_id,
           is_learned: ISlearned,
@@ -223,22 +226,22 @@ class TopikPemahamanMateriDasar extends Component {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       )
-      .then (response => console.log (response.data))
-      .catch (error => {
-        console.log (error);
+      .then(response => console.log(response.data))
+      .catch(error => {
+        console.log(error);
       });
 
-    setTimeout (() => {
-      this.setState ({isLoading: false});
+    setTimeout(() => {
+      this.setState({isLoading: false});
     }, 3000);
-    setTimeout (() => {
-      this.getData ();
+    setTimeout(() => {
+      this.getData();
     }, 3200);
   };
 
-  render () {
+  render() {
     const {Sprint} = this.props.route.params;
     return (
       <View style={styles.container}>
@@ -253,22 +256,19 @@ class TopikPemahamanMateriDasar extends Component {
             <RefreshControl
               colors={['rgb(0,184,150)']}
               refreshing={this.state.refreshing}
-              onRefresh={() => this.onRefreshScreen ()}
+              onRefresh={() => this.onRefreshScreen()}
             />
-          }
-        >
-          {this.renderListScreen ()}
+          }>
+          {this.renderListScreen()}
           {/* <View style={styles.mainSubmit}>
             <TouchableOpacity style={styles.submit}>
               <Text style={styles.Tsubmit}>Submit</Text>
             </TouchableOpacity>
           </View> */}
-
         </ScrollView>
         <TouchableOpacity
           style={styles.TouchableOpacityStyle}
-          onPress={() => this.props.navigation.goBack ()}
-        >
+          onPress={() => this.props.navigation.goBack()}>
           <Icon name="arrow-left" size={40} color="rgb(0, 184, 150)" />
         </TouchableOpacity>
       </View>
@@ -281,4 +281,4 @@ const mapStateToProps = state => {
   return {authentication, jurusan_id};
 };
 
-export default connect (mapStateToProps) (TopikPemahamanMateriDasar);
+export default connect(mapStateToProps)(TopikPemahamanMateriDasar);

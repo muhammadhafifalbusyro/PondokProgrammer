@@ -36,7 +36,7 @@ class Login extends React.Component {
     this.setState({isLoading: true});
     if (email != '' && password != '') {
       axios
-        .post('http://api.pondokprogrammer.com/api/student_login', {
+        .post('https://api.pondokprogrammer.com/api/student_login', {
           email: email,
           password: password,
           mobile: true,
@@ -71,7 +71,7 @@ class Login extends React.Component {
                 token: response.data.token,
                 role: response.data.data.role,
                 // Jurusan_id tambahan wandi karena digunakan untuk dashboard santri
-                jurusan_id: response.data.data.jurusan_id
+                jurusan_id: response.data.data.jurusan_id,
               };
 
               AsyncStorage.setItem('data', JSON.stringify(data));

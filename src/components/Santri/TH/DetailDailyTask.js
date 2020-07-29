@@ -17,14 +17,14 @@ import Loader from '../PMD/loader';
 import DropDownItem from 'react-native-drop-down-item';
 import Modal from 'react-native-modal';
 
-const IC_ARR_DOWN = require ('../../../assets/images/ic_arr_down.png');
-const IC_ARR_UP = require ('../../../assets/images/ic_arr_up.png');
+const IC_ARR_DOWN = require('../../../assets/images/ic_arr_down.png');
+const IC_ARR_UP = require('../../../assets/images/ic_arr_up.png');
 
-const axios = require ('axios');
+const axios = require('axios');
 
 class DetailDailyTask extends Component {
-  constructor (props) {
-    super (props);
+  constructor(props) {
+    super(props);
     this.state = {
       task: [],
       id_topik: '',
@@ -41,20 +41,20 @@ class DetailDailyTask extends Component {
     this.arrayholder = [];
   }
 
-  componentDidMount () {
-    this.getData ();
-    this.getStatus ();
+  componentDidMount() {
+    this.getData();
+    this.getStatus();
   }
 
   toggleModal = () => {
-    this.setState ({isModalVisible: !this.state.isModalVisible});
+    this.setState({isModalVisible: !this.state.isModalVisible});
   };
 
   toggleModalStatus = dailyTask_id => {
-    this.setState ({isModalStatus: !this.state.isModalStatus});
-    this.filter (dailyTask_id);
-    setTimeout (() => {
-      this.filter ();
+    this.setState({isModalStatus: !this.state.isModalStatus});
+    this.filter(dailyTask_id);
+    setTimeout(() => {
+      this.filter();
     }, 60000);
   };
 
@@ -64,34 +64,34 @@ class DetailDailyTask extends Component {
     const jurusan_id = this.props.jurusan_id.jurusan_id;
     const {Sprint, id_topik} = this.props.route.params;
 
-    this.setState ({refreshing: true, animationLoad: true});
+    this.setState({refreshing: true, animationLoad: true});
     axios
-      .get (
-        `http://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}/${id_topik}/daily_task`,
+      .get(
+        `https://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}/${id_topik}/daily_task`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       )
-      .then (response => {
+      .then(response => {
         const data = response.data;
-        console.log (data);
-        this.setState ({
+        console.log(data);
+        this.setState({
           task: data,
           refreshing: false,
           status: true,
           animationLoad: false,
         });
       })
-      .catch (error => {
-        console.log (error);
-        ToastAndroid.show (
+      .catch(error => {
+        console.log(error);
+        ToastAndroid.show(
           'Data gagal didapatkan',
           ToastAndroid.SHORT,
-          ToastAndroid.CENTER
+          ToastAndroid.CENTER,
         );
-        this.setState ({
+        this.setState({
           refreshing: false,
           status: false,
           animationLoad: false,
@@ -100,7 +100,7 @@ class DetailDailyTask extends Component {
   };
 
   onRefreshScreen = () => {
-    this.getData ();
+    this.getData();
   };
 
   renderListScreen = () => {
@@ -113,12 +113,11 @@ class DetailDailyTask extends Component {
         </View>
       );
     } else if (this.state.status) {
-      return this.state.task.map ((value, key) => {
+      return this.state.task.map((value, key) => {
         const dailyTask_id = value.id;
         const is_learned = 1;
         return (
           <View style={styles.mainDetail} key={key}>
-
             <DropDownItem
               key={key}
               contentVisible={false}
@@ -127,30 +126,27 @@ class DetailDailyTask extends Component {
               header={
                 <View style={{width: '80%'}}>
                   <Text style={styles.judul}>
-                    {value.task.length <= 50
-                      ? <Text>{value.task}</Text>
-                      : <Text> {value.task.slice (0, 50)}...</Text>}
+                    {value.task.length <= 50 ? (
+                      <Text>{value.task}</Text>
+                    ) : (
+                      <Text> {value.task.slice(0, 50)}...</Text>
+                    )}
                   </Text>
                 </View>
-              }
-            >
+              }>
               <Text style={{fontSize: 14}}>{value.task}</Text>
               <View style={styles.url}>
                 <TouchableOpacity
-                  onPress={() => this.toggleModal ()}
-                  style={styles.play}
-                >
+                  onPress={() => this.toggleModal()}
+                  style={styles.play}>
                   <Text style={[styles.tPlay, {fontSize: 16}]}>
                     Kirim Jawaban
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() => this.toggleModalStatus (dailyTask_id)}
-                  style={styles.play}
-                >
-                  <Text style={styles.tPlay}>
-                    Status
-                  </Text>
+                  onPress={() => this.toggleModalStatus(dailyTask_id)}
+                  style={styles.play}>
+                  <Text style={styles.tPlay}>Status</Text>
                 </TouchableOpacity>
               </View>
             </DropDownItem>
@@ -159,24 +155,22 @@ class DetailDailyTask extends Component {
               style={{
                 backgroundColor: '#fff',
                 borderRadius: 20,
-              }}
-            >
+              }}>
               <View style={{margin: 50}}>
                 <Text
-                  style={{textAlign: 'left', fontSize: 20, fontWeight: 'bold'}}
-                >
+                  style={{textAlign: 'left', fontSize: 20, fontWeight: 'bold'}}>
                   Link Github
                 </Text>
                 <View
                   style={{
                     alignItems: 'center',
                     borderBottomWidth: 2,
-                  }}
-                >
+                  }}>
                   <TextInput
                     placeholder="Masuk Link Repository Github"
                     onChangeText={link_github =>
-                      this.setState ({link_github: link_github})}
+                      this.setState({link_github: link_github})
+                    }
                   />
                 </View>
                 <View style={{alignItems: 'flex-end', margin: 10}}>
@@ -187,20 +181,18 @@ class DetailDailyTask extends Component {
                       backgroundColor: 'rgb(0, 184, 150)',
                       justifyContent: 'center',
                       borderRadius: 10,
-                    }}
-                  >
+                    }}>
                     <TouchableOpacity
                       onPress={() =>
-                        this.kirimjawaban ({dailyTask_id, is_learned})}
-                    >
+                        this.kirimjawaban({dailyTask_id, is_learned})
+                      }>
                       <Text
                         style={{
                           color: '#fff',
                           fontSize: 15,
                           fontWeight: 'bold',
                           textAlign: 'center',
-                        }}
-                      >
+                        }}>
                         Kirim
                       </Text>
                     </TouchableOpacity>
@@ -209,8 +201,7 @@ class DetailDailyTask extends Component {
               </View>
               <TouchableOpacity
                 style={styles.TouchableOpacityStyle}
-                onPress={() => this.toggleModal ()}
-              >
+                onPress={() => this.toggleModal()}>
                 <Icon
                   name="chevron-circle-left"
                   size={40}
@@ -224,8 +215,7 @@ class DetailDailyTask extends Component {
                   flex: 1,
                   alignItems: 'center',
                   justifyContent: 'center',
-                }}
-              >
+                }}>
                 <View
                   style={{
                     height: 300,
@@ -233,13 +223,11 @@ class DetailDailyTask extends Component {
                     backgroundColor: '#fff',
                     borderRadius: 20,
                     justifyContent: 'center',
-                  }}
-                >
-                  {this.renderListStatus ()}
+                  }}>
+                  {this.renderListStatus()}
                   <TouchableOpacity
                     style={styles.TouchableOpacityStyle}
-                    onPress={() => this.toggleModalStatus ()}
-                  >
+                    onPress={() => this.toggleModalStatus()}>
                     <Icon
                       name="chevron-circle-left"
                       size={40}
@@ -261,8 +249,7 @@ class DetailDailyTask extends Component {
               width: '100%',
               justifyContent: 'center',
               alignItems: 'center',
-            }}
-          >
+            }}>
             <Spinner
               type="Bounce"
               color="rgb(0,184,150)"
@@ -277,8 +264,7 @@ class DetailDailyTask extends Component {
           <TouchableOpacity
             activeOpacity={0.5}
             delayPressIn={10}
-            onPress={() => this.getData ()}
-          >
+            onPress={() => this.getData()}>
             <Icon
               name="refresh"
               color="rgb(0,184,150)"
@@ -292,15 +278,15 @@ class DetailDailyTask extends Component {
   };
 
   sendIs_learned = ({is_learned, stdKompetensi_id}) => {
-    this.setState ({isLoading: true});
+    this.setState({isLoading: true});
     const STDKompetensi_id = stdKompetensi_id;
     const ISlearned = is_learned;
 
     const auth = this.props.authentication;
     const token = auth.token;
     axios
-      .post (
-        `http://api.pondokprogrammer.com/api/standar_kompetensi/add`,
+      .post(
+        `https://api.pondokprogrammer.com/api/standar_kompetensi/add`,
         {
           stdKompetensi_id: STDKompetensi_id,
           is_learned: ISlearned,
@@ -309,29 +295,29 @@ class DetailDailyTask extends Component {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       )
-      .then (response => console.log (response.data))
-      .catch (error => {
-        console.log (error);
+      .then(response => console.log(response.data))
+      .catch(error => {
+        console.log(error);
       });
 
-    setTimeout (() => {
-      this.setState ({isLoading: false});
+    setTimeout(() => {
+      this.setState({isLoading: false});
     }, 3000);
-    setTimeout (() => {
-      this.getData ();
+    setTimeout(() => {
+      this.getData();
     }, 3200);
   };
 
   kirimjawaban = ({dailyTask_id, is_learned}) => {
-    this.setState ({isLoading: true});
+    this.setState({isLoading: true});
     const {link_github} = this.state;
     const data = this.props.authentication;
     const token = data.token;
     axios
-      .post (
-        `http://api.pondokprogrammer.com/api/daily_task/add`,
+      .post(
+        `https://api.pondokprogrammer.com/api/daily_task/add`,
         {
           dailyTask_id: dailyTask_id,
           link_github: link_github,
@@ -341,19 +327,19 @@ class DetailDailyTask extends Component {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       )
-      .then (response => console.log (response.data))
-      .catch (error => {
-        console.log (error);
+      .then(response => console.log(response.data))
+      .catch(error => {
+        console.log(error);
       });
 
-    setTimeout (() => {
-      this.setState ({isLoading: false});
-      this.toggleModal ();
+    setTimeout(() => {
+      this.setState({isLoading: false});
+      this.toggleModal();
     }, 3000);
-    setTimeout (() => {
-      this.getData ();
+    setTimeout(() => {
+      this.getData();
     }, 3200);
   };
 
@@ -361,118 +347,110 @@ class DetailDailyTask extends Component {
     const data = this.props.authentication;
     const token = data.token;
     axios
-      .get (`http://api.pondokprogrammer.com/api/daily_task/student`, {
+      .get(`https://api.pondokprogrammer.com/api/daily_task/student`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
-      .then (response => {
+      .then(response => {
         const data = response.data;
         // console.log (data);
-        this.setState ({
+        this.setState({
           Rstatus: data,
         });
         this.arrayholder = data;
       })
-      .catch (error => {
-        console.log (error);
-        ToastAndroid.show (
+      .catch(error => {
+        console.log(error);
+        ToastAndroid.show(
           'Data gagal didapatkan',
           ToastAndroid.SHORT,
-          ToastAndroid.CENTER
+          ToastAndroid.CENTER,
         );
       });
   };
 
   filter = dailyTask_id => {
-    const newData = this.arrayholder.filter (item => {
+    const newData = this.arrayholder.filter(item => {
       const itemData = item.dailyTask_id;
       const textData = dailyTask_id;
 
-      return itemData.indexOf (textData) > -1;
+      return itemData.indexOf(textData) > -1;
     });
-    this.setState ({filter: newData});
+    this.setState({filter: newData});
   };
 
   renderListStatus = () => {
     const {filter} = this.state;
     const lengthData = filter.length;
-    console.log (lengthData);
+    console.log(lengthData);
     if (lengthData === 0) {
       return (
         <View
           style={[
             styles.nodata,
             {justifyContent: 'center', backgroundColor: 'rgb(0,184,150)'},
-          ]}
-        >
+          ]}>
           <Text
             style={
-              (styles.Tnodata, {
+              (styles.Tnodata,
+              {
                 color: '#fff',
                 fontSize: 20,
                 fontWeight: 'bold',
               })
-            }
-          >
+            }>
             Anda Belum Kirim Jawaban
           </Text>
         </View>
       );
     } else {
-      return this.state.filter.map ((value, key) => {
+      return this.state.filter.map((value, key) => {
         return (
           <View
             style={{felx: 1, alignItems: 'center', justifyContent: 'center'}}
-            key={key}
-          >
+            key={key}>
             <Text style={{fontSize: 20, fontWeight: 'bold'}}>
               Status Jawaban Anda :
             </Text>
-            {value.is_approved == 0
-                ? <View
-              style={{
-                height: 40,
-                width: 70,
-                backgroundColor: 'red',
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderRadius: 10,
-              }}
-            >
-               <Text
-                    style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}
-                  >
-                    Pending
-                  </Text>
-                  </View>
-                  :
-                  <View
-              style={{
-                height: 40,
-                width: 70,
-                backgroundColor: 'rgb(0,184,150)',
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderRadius: 10,
-              }}
-            >
-               <Text
-                    style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}
-                  >
-                    Diterima
-                  </Text>
-                  </View>
-            }
+            {value.is_approved == 0 ? (
+              <View
+                style={{
+                  height: 40,
+                  width: 70,
+                  backgroundColor: 'red',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 10,
+                }}>
+                <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
+                  Pending
+                </Text>
+              </View>
+            ) : (
+              <View
+                style={{
+                  height: 40,
+                  width: 70,
+                  backgroundColor: 'rgb(0,184,150)',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 10,
+                }}>
+                <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
+                  Diterima
+                </Text>
+              </View>
+            )}
           </View>
         );
       });
     }
   };
 
-  render () {
+  render() {
     const {Sprint} = this.props.route.params;
-    console.log (this.state.filter);
+    console.log(this.state.filter);
     return (
       <View style={styles.container}>
         <StatusBar backgroundColor="rgb(0, 184, 150)" />
@@ -486,17 +464,14 @@ class DetailDailyTask extends Component {
             <RefreshControl
               colors={['rgb(0,184,150)']}
               refreshing={this.state.refreshing}
-              onRefresh={() => this.onRefreshScreen ()}
+              onRefresh={() => this.onRefreshScreen()}
             />
-          }
-        >
-          {this.renderListScreen ()}
-
+          }>
+          {this.renderListScreen()}
         </ScrollView>
         <TouchableOpacity
           style={styles.TouchableOpacityStyle}
-          onPress={() => this.props.navigation.goBack ()}
-        >
+          onPress={() => this.props.navigation.goBack()}>
           <Icon name="arrow-left" size={40} color="rgb(0, 184, 150)" />
         </TouchableOpacity>
       </View>
@@ -509,4 +484,4 @@ const mapStateToProps = state => {
   return {authentication, jurusan_id};
 };
 
-export default connect (mapStateToProps) (DetailDailyTask);
+export default connect(mapStateToProps)(DetailDailyTask);

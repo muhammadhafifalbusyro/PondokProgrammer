@@ -13,11 +13,11 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {styles} from './styles';
 import {connect} from 'react-redux';
 import Spinner from 'react-native-spinkit';
-const axios = require ('axios');
+const axios = require('axios');
 
 class SOP extends Component {
-  constructor (props) {
-    super (props);
+  constructor(props) {
+    super(props);
     this.state = {
       data: [],
       refreshing: false,
@@ -26,42 +26,42 @@ class SOP extends Component {
     };
   }
 
-  componentDidMount () {
-    this.getData ();
+  componentDidMount() {
+    this.getData();
   }
 
   getData = () => {
     const data = this.props.authentication;
     const token = data.token;
     const role = data.role;
-    this.setState ({refreshing: true, animationLoad: true});
+    this.setState({refreshing: true, animationLoad: true});
 
     axios
-      .get (
-        `http://api.pondokprogrammer.com/api/standar_operasional?status=${role}`,
+      .get(
+        `https://api.pondokprogrammer.com/api/standar_operasional?status=${role}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       )
-      .then (response => {
+      .then(response => {
         // console.log (response.data);
-        this.setState ({
+        this.setState({
           data: response.data,
           refreshing: false,
           status: true,
           animationLoad: false,
         });
       })
-      .catch (error => {
-        console.log (error);
-        ToastAndroid.show (
+      .catch(error => {
+        console.log(error);
+        ToastAndroid.show(
           'Data gagal didapatkan',
           ToastAndroid.SHORT,
-          ToastAndroid.CENTER
+          ToastAndroid.CENTER,
         );
-        this.setState ({
+        this.setState({
           refreshing: false,
           status: false,
           animationLoad: false,
@@ -70,30 +70,28 @@ class SOP extends Component {
   };
 
   onRefreshScreen = () => {
-    this.getData ();
+    this.getData();
   };
 
   renderListScreen = () => {
-
-   const data = this.state.data;
+    const data = this.state.data;
     const lengthData = data.length;
     if (lengthData === 0) {
       return (
         <View style={styles.nodata}>
           <Text style={styles.Tnodata}>Tidak Ada Data</Text>
         </View>
-      )
+      );
     } else if (this.state.status) {
-      return this.state.data.map ((value, key) => {
+      return this.state.data.map((value, key) => {
         return (
           <TouchableOpacity
             activeOpacity={0.7}
             delayPressIn={10}
             key={key}
-            onPress={() => alert ()}
-          >
+            onPress={() => alert()}>
             <View style={styles.subSop}>
-              <Text style={styles.t_sop}>{key+1}.</Text>
+              <Text style={styles.t_sop}>{key + 1}.</Text>
               <Text style={styles.t_sop}>{value.std_operasional}</Text>
             </View>
           </TouchableOpacity>
@@ -108,8 +106,7 @@ class SOP extends Component {
               width: '100%',
               justifyContent: 'center',
               alignItems: 'center',
-            }}
-          >
+            }}>
             <Spinner
               type="Bounce"
               color="rgb(0,184,150)"
@@ -124,8 +121,7 @@ class SOP extends Component {
           <TouchableOpacity
             activeOpacity={0.5}
             delayPressIn={10}
-            onPress={() => this.getData ()}
-          >
+            onPress={() => this.getData()}>
             <Icon
               name="refresh"
               color="rgb(0,184,150)"
@@ -138,7 +134,7 @@ class SOP extends Component {
     }
   };
 
-  render () {
+  render() {
     return (
       <View style={styles.container}>
         <StatusBar backgroundColor="rgb(0, 184, 150)" />
@@ -155,17 +151,15 @@ class SOP extends Component {
               <RefreshControl
                 colors={['rgb(0,184,150)']}
                 refreshing={this.state.refreshing}
-                onRefresh={() => this.onRefreshScreen ()}
+                onRefresh={() => this.onRefreshScreen()}
               />
-            }
-          >
-            {this.renderListScreen ()}
+            }>
+            {this.renderListScreen()}
           </ScrollView>
         </View>
         <TouchableOpacity
           style={styles.TouchableOpacityStyle}
-          onPress={() => this.props.navigation.goBack ()}
-        >
+          onPress={() => this.props.navigation.goBack()}>
           <Icon name="arrow-left" size={40} color="rgb(0, 184, 150)" />
         </TouchableOpacity>
       </View>
@@ -178,4 +172,4 @@ const mapStateToProps = state => {
   return {authentication};
 };
 
-export default connect (mapStateToProps) (SOP);
+export default connect(mapStateToProps)(SOP);

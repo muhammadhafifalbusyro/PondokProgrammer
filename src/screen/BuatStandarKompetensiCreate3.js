@@ -50,7 +50,7 @@ class BuatStandarKompetensiCreate3 extends React.Component {
     this.setState({refreshing: true, animationLoad: true});
 
     axios
-      .get(`http://api.pondokprogrammer.com/api/standar_kompetensi`, {
+      .get(`https://api.pondokprogrammer.com/api/standar_kompetensi`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -90,7 +90,7 @@ class BuatStandarKompetensiCreate3 extends React.Component {
         modalVisible: false,
         valueStandarKompetensi: '',
       });
-      fetch('http://api.pondokprogrammer.com/api/standar_kompetensi', {
+      fetch('https://api.pondokprogrammer.com/api/standar_kompetensi', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -158,7 +158,7 @@ class BuatStandarKompetensiCreate3 extends React.Component {
         valueStandarKompetensiUpdate: '',
       });
       fetch(
-        `http://api.pondokprogrammer.com/api/standar_kompetensi/${
+        `https://api.pondokprogrammer.com/api/standar_kompetensi/${
           this.state.standarKompetensiID
         }`,
         {
@@ -214,13 +214,16 @@ class BuatStandarKompetensiCreate3 extends React.Component {
     let data = this.props.authentication;
     let token = data.token;
     this.setState({modalVisible2: true, modalVisible3: false});
-    fetch(`http://api.pondokprogrammer.com/api/standar_kompetensi/${paramID}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer${token}`,
+    fetch(
+      `https://api.pondokprogrammer.com/api/standar_kompetensi/${paramID}`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer${token}`,
+        },
       },
-    })
+    )
       .then(res => res.json())
       .then(json => {
         this.getData();

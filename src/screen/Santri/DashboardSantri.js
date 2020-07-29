@@ -27,24 +27,24 @@ class DashboardSantri extends React.Component {
     modalVisible: false,
     boxIcon: boxIcon,
   };
-  componentDidMount () {
+  componentDidMount() {
     // BackHandler.addEventListener(
     //   'hardwareBackPress',
     //   this.handleBackButtonClick,
     // );
 
-    AsyncStorage.getItem ('data').then (value => {
+    AsyncStorage.getItem('data').then(value => {
       let data = {
-        id: JSON.parse (value).id,
-        token: JSON.parse (value).token,
-        role: JSON.parse (value).role,
-        jurusan_id: JSON.parse (value).jurusan_id,
+        id: JSON.parse(value).id,
+        token: JSON.parse(value).token,
+        role: JSON.parse(value).role,
+        jurusan_id: JSON.parse(value).jurusan_id,
       };
 
       // console.log(data.jurusan_id +' dashboard santri')
 
-      this.props.authenticationChange (data);
-      this.props.jurusanID (data);
+      this.props.authenticationChange(data);
+      this.props.jurusanID(data);
     });
   }
 
@@ -64,44 +64,44 @@ class DashboardSantri extends React.Component {
     let token = data.token;
     let id = data.id;
 
-    this.setState ({modalVisible: true});
-    fetch ('http://api.pondokprogrammer.com/api/student_logout', {
+    this.setState({modalVisible: true});
+    fetch('https://api.pondokprogrammer.com/api/student_logout', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify ({
+      body: JSON.stringify({
         id: id,
       }),
     })
-      .then (response => response.json ())
-      .then (json => {
+      .then(response => response.json())
+      .then(json => {
         if (json.status == 'success') {
-          console.log (json.status);
-          this.setState ({modalVisible: false});
-          AsyncStorage.removeItem ('data');
-          this.props.navigation.replace ('Main');
-          ToastAndroid.show (
+          console.log(json.status);
+          this.setState({modalVisible: false});
+          AsyncStorage.removeItem('data');
+          this.props.navigation.replace('Main');
+          ToastAndroid.show(
             'Anda berhasil logout akun',
             ToastAndroid.SHORT,
-            ToastAndroid.CENTER
+            ToastAndroid.CENTER,
           );
         }
       })
-      .catch (error => {
-        console.log (error);
-        this.setState ({modalVisible: false});
-        ToastAndroid.show (
+      .catch(error => {
+        console.log(error);
+        this.setState({modalVisible: false});
+        ToastAndroid.show(
           'Network error',
           ToastAndroid.SHORT,
-          ToastAndroid.CENTER
+          ToastAndroid.CENTER,
         );
       });
   };
   cautionExit = () => {
-    Alert.alert (
+    Alert.alert(
       'Keluar Akun',
       'Apa anda yakin ingin keluar ?',
       [
@@ -115,66 +115,66 @@ class DashboardSantri extends React.Component {
         {
           text: 'OK',
           onPress: () => {
-            this.logout ();
+            this.logout();
           },
         },
       ],
-      {cancelable: false}
+      {cancelable: false},
     );
   };
   changeScreen = key => {
     switch (key) {
       case 0:
-        this.props.navigation.navigate ('DompetSaya');
+        this.props.navigation.navigate('DompetSaya');
         break;
       case 1:
-        this.props.navigation.navigate ('Toko');
+        this.props.navigation.navigate('Toko');
         break;
       case 2:
-        this.props.navigation.navigate ('IDCard');
+        this.props.navigation.navigate('IDCard');
         break;
       case 3:
-        this.props.navigation.navigate ('SOP');
+        this.props.navigation.navigate('SOP');
         break;
       case 4:
-        this.props.navigation.navigate ('Kurikulum');
+        this.props.navigation.navigate('Kurikulum');
         break;
       case 5:
-        this.props.navigation.navigate ('MasukKelas');
+        this.props.navigation.navigate('MasukKelas');
         break;
       case 6:
-        this.props.navigation.navigate ('MateriDasar');
+        this.props.navigation.navigate('MateriDasar');
         break;
       case 7:
-        this.props.navigation.navigate ('TugasHarian');
+        this.props.navigation.navigate('TugasHarian');
         break;
       case 8:
-        this.props.navigation.navigate ('MiniProject');
+        this.props.navigation.navigate('MiniProject');
         break;
       case 9:
-        this.props.navigation.navigate ('VideoCheck');
+        this.props.navigation.navigate('VideoCheck');
         break;
       case 10:
-        this.props.navigation.navigate ('Portofolio');
+        this.props.navigation.navigate('Portofolio');
         break;
       case 11:
-        this.props.navigation.navigate ('CatatanPelanggaran');
+        this.props.navigation.navigate('CatatanPelanggaran');
         break;
       case 12:
-        this.props.navigation.navigate ('Raport');
+        this.props.navigation.navigate('Raport');
         break;
       case 13:
-        this.props.navigation.navigate ('ImpianSaya');
+        this.props.navigation.navigate('ImpianSaya');
         break;
       case 14:
-        this.cautionExit ();
+        this.cautionExit();
         break;
       default:
-        alert ('lainnya');
+        alert('lainnya');
     }
   };
 
-  render () {
+  render() {
     const {boxIcon} = this.state;
     return (
       <View style={styles.container}>
@@ -183,13 +183,12 @@ class DashboardSantri extends React.Component {
           transparent={true}
           visible={this.state.modalVisible}
           onRequestClose={() => {
-            ToastAndroid.show (
+            ToastAndroid.show(
               'Tunggu proses sampai selesai',
               ToastAndroid.SHORT,
-              ToastAndroid.CENTER
+              ToastAndroid.CENTER,
             );
-          }}
-        >
+          }}>
           <View style={styles.centeredView}>
             <View style={styles.modalContainer}>
               <Spinner visible={true} type="Wave" color="rgb(0,184,150)" />
@@ -199,7 +198,7 @@ class DashboardSantri extends React.Component {
         </Modal>
         <View style={styles.dashboardTemplate}>
           <Image
-            source={require ('../../assets/images/banner.png')}
+            source={require('../../assets/images/banner.png')}
             style={styles.banner}
           />
           <ScrollView>
@@ -207,7 +206,7 @@ class DashboardSantri extends React.Component {
               <View style={styles.dashboardTitleBox}>
                 <Text style={styles.dashboardTitle}>DASHBOARD SANTRI</Text>
               </View>
-              {boxIcon.map ((value, key) => {
+              {boxIcon.map((value, key) => {
                 return (
                   <View key={key} style={styles.iconField}>
                     <TouchableOpacity
@@ -215,10 +214,9 @@ class DashboardSantri extends React.Component {
                         ...styles.boxIcon,
                         borderColor: `${value.color}`,
                       }}
-                      onPress={() => this.changeScreen (key)}
+                      onPress={() => this.changeScreen(key)}
                       delayPressIn={10}
-                      activeOpacity={0.5}
-                    >
+                      activeOpacity={0.5}>
                       <Icon
                         name={value.iconName}
                         size={value.size}
@@ -241,7 +239,10 @@ const mapStateToProps = state => {
   return {authentication, jurusan_id};
 };
 
-export default connect (mapStateToProps, {
-  authenticationChange,
-  jurusanID,
-}) (DashboardSantri);
+export default connect(
+  mapStateToProps,
+  {
+    authenticationChange,
+    jurusanID,
+  },
+)(DashboardSantri);

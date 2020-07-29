@@ -13,22 +13,22 @@ import {styles} from './styles';
 import {connect} from 'react-redux';
 import Spinner from 'react-native-spinkit';
 
-const axios = require ('axios');
+const axios = require('axios');
 
 class TugasHarian extends Component {
-  constructor (props) {
-    super (props);
+  constructor(props) {
+    super(props);
     this.state = {
       sprint: [],
-      data : {},
+      data: {},
       refreshing: false,
       status: true,
       animationLoad: false,
     };
   }
 
-  componentDidMount () {
-    this.getData ();
+  componentDidMount() {
+    this.getData();
   }
 
   getData = () => {
@@ -36,31 +36,31 @@ class TugasHarian extends Component {
     const token = data.token;
     const jurusan_id = this.props.jurusan_id.jurusan_id;
     // console.log(jurusan_id)
-    this.setState ({refreshing: true, animationLoad: true});
+    this.setState({refreshing: true, animationLoad: true});
 
     axios
-      .get (`http://api.pondokprogrammer.com/api/curriculum/${jurusan_id}`, {
+      .get(`https://api.pondokprogrammer.com/api/curriculum/${jurusan_id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
-      .then (response => {
+      .then(response => {
         const data = response.data;
-        this.setState ({
+        this.setState({
           sprint: data.sprint,
           refreshing: false,
           status: true,
           animationLoad: false,
         });
       })
-      .catch (error => {
-        console.log (error);
-        ToastAndroid.show (
+      .catch(error => {
+        console.log(error);
+        ToastAndroid.show(
           'Data gagal didapatkan',
           ToastAndroid.SHORT,
-          ToastAndroid.CENTER
+          ToastAndroid.CENTER,
         );
-        this.setState ({
+        this.setState({
           refreshing: false,
           status: false,
           animationLoad: false,
@@ -69,7 +69,7 @@ class TugasHarian extends Component {
   };
 
   onRefreshScreen = () => {
-    this.getData ();
+    this.getData();
   };
 
   renderListScreen = () => {
@@ -82,15 +82,18 @@ class TugasHarian extends Component {
         </View>
       );
     } else if (this.state.status) {
-      return this.state.sprint.map ((value, key) => {
+      return this.state.sprint.map((value, key) => {
         return (
           <TouchableOpacity
             activeOpacity={0.7}
             delayPressIn={10}
             key={key}
-            onPress={() => this.props.navigation.navigate ('TopikTugasHarian',{Sprint: value.sprint})}
-            style={styles.subPMD}
-          >
+            onPress={() =>
+              this.props.navigation.navigate('TopikTugasHarian', {
+                Sprint: value.sprint,
+              })
+            }
+            style={styles.subPMD}>
             <View style={styles.flexbox}>
               <View style={styles.widthBox}>
                 <Text style={styles.Tlist}>{value.sprint} </Text>
@@ -111,8 +114,7 @@ class TugasHarian extends Component {
               width: '100%',
               justifyContent: 'center',
               alignItems: 'center',
-            }}
-          >
+            }}>
             <Spinner
               type="Bounce"
               color="rgb(0,184,150)"
@@ -127,8 +129,7 @@ class TugasHarian extends Component {
           <TouchableOpacity
             activeOpacity={0.5}
             delayPressIn={10}
-            onPress={() => this.getData ()}
-          >
+            onPress={() => this.getData()}>
             <Icon
               name="refresh"
               color="rgb(0,184,150)"
@@ -141,7 +142,7 @@ class TugasHarian extends Component {
     }
   };
 
-  render () {
+  render() {
     return (
       <View style={styles.container}>
         <StatusBar backgroundColor="rgb(0, 184, 150)" />
@@ -155,18 +156,16 @@ class TugasHarian extends Component {
               <RefreshControl
                 colors={['rgb(0,184,150)']}
                 refreshing={this.state.refreshing}
-                onRefresh={() => this.onRefreshScreen ()}
+                onRefresh={() => this.onRefreshScreen()}
               />
-            }
-          >
-            {this.renderListScreen ()}
+            }>
+            {this.renderListScreen()}
           </ScrollView>
         </View>
 
         <TouchableOpacity
           style={styles.TouchableOpacityStyle}
-          onPress={() => this.props.navigation.goBack ()}
-        >
+          onPress={() => this.props.navigation.goBack()}>
           <Icon name="arrow-left" size={40} color="rgb(0, 184, 150)" />
         </TouchableOpacity>
       </View>
@@ -179,4 +178,4 @@ const mapStateToProps = state => {
   return {authentication, jurusan_id};
 };
 
-export default connect (mapStateToProps) (TugasHarian);
+export default connect(mapStateToProps)(TugasHarian);

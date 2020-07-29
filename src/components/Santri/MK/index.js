@@ -15,11 +15,11 @@ import Spinner from 'react-native-spinkit';
 import Modal from 'react-native-modal';
 import {RNCamera} from 'react-native-camera';
 import Loader from './loader';
-const axios = require ('axios');
+const axios = require('axios');
 
 class MasukKelas extends Component {
-  constructor (props) {
-    super (props);
+  constructor(props) {
+    super(props);
     this.state = {
       isModalVisible: false,
       isLoading: false,
@@ -33,20 +33,20 @@ class MasukKelas extends Component {
   }
 
   toggleModal = () => {
-    this.setState ({isModalVisible: !this.state.isModalVisible});
+    this.setState({isModalVisible: !this.state.isModalVisible});
   };
 
-  componentDidMount () {
+  componentDidMount() {
     const Token = this.props.authentication;
     const token = Token.token;
     const student_id = Token.id;
-    console.log (student_id);
-    this.setState ({
+    console.log(student_id);
+    this.setState({
       token: token,
     });
 
-    setTimeout (() => {
-      this.getClass ();
+    setTimeout(() => {
+      this.getClass();
     }, 10);
   }
 
@@ -55,14 +55,14 @@ class MasukKelas extends Component {
       this.isBarcodeRead = true;
       const Data = someArgs[0].data;
       const {token} = this.state;
-      const str = Data.split ('=');
+      const str = Data.split('=');
       const class_id = str[1];
-      console.log (str);
-      this.setState ({
+      console.log(str);
+      this.setState({
         class_id: class_id,
       });
-      var myHeaders = new Headers ();
-      myHeaders.append ('Authorization', `Bearer ${token}`);
+      var myHeaders = new Headers();
+      myHeaders.append('Authorization', `Bearer ${token}`);
 
       var requestOptions = {
         method: 'POST',
@@ -70,24 +70,24 @@ class MasukKelas extends Component {
         redirect: 'follow',
       };
 
-      fetch (`${Data}`, requestOptions)
-        .then (response => response.text ())
-        .then (response => console.log (response))
-        .catch (error => console.log ('error', error));
+      fetch(`${Data}`, requestOptions)
+        .then(response => response.text())
+        .then(response => console.log(response))
+        .catch(error => console.log('error', error));
     }
-    this.getClass ();
-    this.toggleModal ();
+    this.getClass();
+    this.toggleModal();
   };
 
   onRefreshScreen = () => {
-    this.getClass ();
+    this.getClass();
   };
 
   getClass = () => {
     const {token} = this.state;
-    this.setState ({refreshing: true, animationLoad: true});
-    var myHeaders = new Headers ();
-    myHeaders.append ('Authorization', `Bearer ${token}`);
+    this.setState({refreshing: true, animationLoad: true});
+    var myHeaders = new Headers();
+    myHeaders.append('Authorization', `Bearer ${token}`);
     var requestOptions = {
       method: 'GET',
       headers: myHeaders,
@@ -95,14 +95,14 @@ class MasukKelas extends Component {
     };
 
     axios
-      .get (`http://api.pondokprogrammer.com/api/class/student/`, {
+      .get(`https://api.pondokprogrammer.com/api/class/student/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
-      .then (response => {
+      .then(response => {
         // console.log (response.data);
-        this.setState ({
+        this.setState({
           data: response.data,
           peserta: response.data.student,
           refreshing: false,
@@ -110,14 +110,14 @@ class MasukKelas extends Component {
           animationLoad: false,
         });
       })
-      .catch (error => {
-        console.log (error);
-        ToastAndroid.show (
+      .catch(error => {
+        console.log(error);
+        ToastAndroid.show(
           'Data gagal didapatkan',
           ToastAndroid.SHORT,
-          ToastAndroid.CENTER
+          ToastAndroid.CENTER,
         );
-        this.setState ({
+        this.setState({
           refreshing: false,
           status: false,
           animationLoad: false,
@@ -126,7 +126,7 @@ class MasukKelas extends Component {
   };
 
   previewKelas = value => {
-    this.props.navigation.navigate ('DetailMasukKelas', {
+    this.props.navigation.navigate('DetailMasukKelas', {
       id: value.class_id,
     });
   };
@@ -141,14 +141,13 @@ class MasukKelas extends Component {
         </View>
       );
     } else if (this.state.status) {
-      return this.state.data.map ((value, key) => {
+      return this.state.data.map((value, key) => {
         return (
           <TouchableOpacity
             activeOpacity={0.7}
             delayPressIn={10}
             key={key}
-            onPress={() => this.previewKelas (value)}
-          >
+            onPress={() => this.previewKelas(value)}>
             <View style={styles.ListBox}>
               <View style={styles.imageKurikulum}>
                 <Text style={styles.titleImage}>{value.class.materi}</Text>
@@ -181,8 +180,7 @@ class MasukKelas extends Component {
             style={styles.iconRefresh}
             activeOpacity={0.5}
             delayPressIn={10}
-            onPress={() => this.getData ()}
-          >
+            onPress={() => this.getData()}>
             <Icon name="refresh" color="rgb(0,184,150)" size={40} />
           </TouchableOpacity>
         </View>
@@ -190,7 +188,7 @@ class MasukKelas extends Component {
     }
   };
 
-  render () {
+  render() {
     const {isModalVisible} = this.state;
     return (
       <View style={styles.container}>
@@ -205,11 +203,10 @@ class MasukKelas extends Component {
               <RefreshControl
                 colors={['rgb(0,184,150)']}
                 refreshing={this.state.refreshing}
-                onRefresh={() => this.onRefreshScreen ()}
+                onRefresh={() => this.onRefreshScreen()}
               />
-            }
-          >
-            {this.renderListScreen ()}
+            }>
+            {this.renderListScreen()}
           </ScrollView>
           <Modal isVisible={this.state.isModalVisible} style={styles.modal}>
             <View style={{flex: 1, height: '100%'}}>
@@ -237,8 +234,7 @@ class MasukKelas extends Component {
               />
               <TouchableOpacity
                 style={styles.TouchableOpacityStyle}
-                onPress={() => this.toggleModal ()}
-              >
+                onPress={() => this.toggleModal()}>
                 <Icon
                   name="chevron-circle-left"
                   size={40}
@@ -249,8 +245,7 @@ class MasukKelas extends Component {
           </Modal>
           <TouchableOpacity
             style={styles.TouchableOpacityStyle}
-            onPress={() => this.toggleModal ()}
-          >
+            onPress={() => this.toggleModal()}>
             <Icon name="qrcode" size={40} color="rgb(0, 184, 150)" />
             <Text>Scan</Text>
           </TouchableOpacity>
@@ -265,4 +260,4 @@ const mapStateToProps = state => {
   return {authentication, jurusan_id};
 };
 
-export default connect (mapStateToProps) (MasukKelas);
+export default connect(mapStateToProps)(MasukKelas);

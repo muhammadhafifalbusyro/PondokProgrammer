@@ -48,7 +48,7 @@ class BuatTopik extends React.Component {
 
     axios
       .get(
-        `http://api.pondokprogrammer.com/api/curriculum/${curriculum_id}/sprint ${sprint}`,
+        `https://api.pondokprogrammer.com/api/curriculum/${curriculum_id}/sprint ${sprint}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
