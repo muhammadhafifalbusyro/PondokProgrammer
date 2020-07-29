@@ -47,6 +47,7 @@ class PemahamanMateriDasar extends Component {
       })
       .then (response => {
         const data = response.data;
+        console.log(data)
         this.setState ({
           sprint: data.sprint,
           refreshing: false,

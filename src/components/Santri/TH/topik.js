@@ -16,7 +16,7 @@ import Loader from '../PMD/loader';
 
 const axios = require ('axios');
 
-class TopikPemahamanMateriDasar extends Component {
+class TopikTugasHarian extends Component {
   constructor (props) {
     super (props);
     this.state = {
@@ -86,7 +86,7 @@ class TopikPemahamanMateriDasar extends Component {
     this.setState ({refreshing: true, animationLoad: true});
     axios
       .get (
-        `http://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}/${id_topik}`,
+        `http://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}/`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -94,7 +94,8 @@ class TopikPemahamanMateriDasar extends Component {
         }
       )
       .then (response => {
-        const data = response.data;
+        const data = response.data.topik;
+        console.log (data);
         this.setState ({
           topik: data,
           refreshing: false,
@@ -124,6 +125,7 @@ class TopikPemahamanMateriDasar extends Component {
   renderListScreen = () => {
     const {topik} = this.state;
     const lengthData = topik.length;
+    const {Sprint} = this.props.route.params;
     if (lengthData === 0) {
       return (
         <View style={styles.nodata}>
@@ -132,35 +134,22 @@ class TopikPemahamanMateriDasar extends Component {
       );
     } else if (this.state.status) {
       return this.state.topik.map ((value, key) => {
-        const stdKompetensi_id = value.id;
-        const is_learned =  true
+        const topik_id = value.topik_id;
         return (
           <View style={styles.mainDetail} key={key}>
             <TouchableOpacity
               style={styles.flexCheckbox}
-              onPress={() =>
-                this.sendIs_learned ({is_learned,stdKompetensi_id})}
+              onPress={() => this.props.navigation.navigate('DetailDailyTask',{Sprint : Sprint, id_topik: value.topik_id})}
             >
-              <View style={{justifyContent: 'center', marginLeft: 5}}>
-                {/* {this.state.topik[key].is_learned === null
-                  ? <Icon name="check" color="red" size={20} />
-                  : <Icon
-                      name="check-square-o"
-                      color="rgb(0,184,150)"
-                      size={20}
-                    />} */}
-              </View>
-              <View style={{justifyContent: 'center', marginLeft: 5}}>
-                {/* {this.state.topik[key].is_approved || this.state.topik[key].is_approved===null 
-                  ? <Icon name="check" color="red" size={20} />
-                  : <Icon
-                      name="check-square-o"
-                      color="rgb(0,184,150)"
-                      size={20}
-                    />} */}
-              </View>
               <View style={styles.viewLabel}>
-                <Text style={styles.label}>{value.std_kompetensi} </Text>
+                <View style={{width: '85%'}}>
+                  <Text style={styles.label}>
+                    {value.judul}
+                  </Text>
+                </View>
+                <View style={{justifyContent: 'center', marginRight: 10}}>
+                  <Icon name="arrow-right" size={20} color="#fff" />
+                </View>
               </View>
             </TouchableOpacity>
           </View>
@@ -205,46 +194,13 @@ class TopikPemahamanMateriDasar extends Component {
     }
   };
 
-  sendIs_learned = ({is_learned,stdKompetensi_id}) => {
-    this.setState ({isLoading: true});
-    const STDKompetensi_id = stdKompetensi_id;
-    const ISlearned = is_learned;
-
-    const auth = this.props.authentication;
-    const token = auth.token;
-    axios
-      .post (
-        `http://api.pondokprogrammer.com/api/standar_kompetensi/add`,
-        {
-          stdKompetensi_id: STDKompetensi_id,
-          is_learned: ISlearned,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then (response => console.log (response.data))
-      .catch (error => {
-        console.log (error);
-      });
-
-    setTimeout (() => {
-      this.setState ({isLoading: false});
-    }, 3000);
-    setTimeout (() => {
-      this.getData ();
-    }, 3200);
-  };
-
   render () {
     const {Sprint} = this.props.route.params;
     return (
       <View style={styles.container}>
         <StatusBar backgroundColor="rgb(0, 184, 150)" />
         <View style={styles.header}>
-          <Text style={styles.pmd}> {Sprint} </Text>
+          <Text style={styles.pmd}> Topik {Sprint} </Text>
         </View>
         <Loader loading={this.state.isLoading} />
         <ScrollView
@@ -258,11 +214,6 @@ class TopikPemahamanMateriDasar extends Component {
           }
         >
           {this.renderListScreen ()}
-          {/* <View style={styles.mainSubmit}>
-            <TouchableOpacity style={styles.submit}>
-              <Text style={styles.Tsubmit}>Submit</Text>
-            </TouchableOpacity>
-          </View> */}
 
         </ScrollView>
         <TouchableOpacity
@@ -281,4 +232,4 @@ const mapStateToProps = state => {
   return {authentication, jurusan_id};
 };
 
-export default connect (mapStateToProps) (TopikPemahamanMateriDasar);
+export default connect (mapStateToProps) (TopikTugasHarian);
