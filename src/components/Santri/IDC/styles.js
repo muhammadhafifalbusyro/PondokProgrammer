@@ -19,18 +19,24 @@ export const styles = StyleSheet.create ({
   },
   profile: {
     backgroundColor: 'rgb(0, 184, 150)',
-    flex : 2,
+    flex : 0.5,
   },
   status: {
     flex : 2
   },
   img : {
       height : 100,
-      width : 100
+      width : 100,
+      borderRadius : 50
   },
   subProfile : {
       flex : 0.2,
       alignItems : 'center',
-      justifyContent : 'center'
+      justifyContent : 'center',
+      paddingTop : '30%'
+  },
+  tStatus : {
+    paddingTop : '30%',
+    marginLeft : 20
   }
 });

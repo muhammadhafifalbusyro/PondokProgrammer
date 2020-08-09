@@ -41,7 +41,7 @@ class BuatStandarKompetensiCreate extends React.Component {
     let curriculum_id = this.state.curriculum_id;
     console.log('ini adalah =' + curriculum_id);
     axios
-      .get(`https://api.pondokprogrammer.com/api/curriculum/${curriculum_id}`, {
+      .get(`http://api.pondokprogrammer.com/api/curriculum/${curriculum_id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

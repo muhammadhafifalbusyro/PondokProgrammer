@@ -39,7 +39,7 @@ class BuatKurikulum extends React.Component {
     this.setState({refreshing: true, animationLoad: true});
 
     axios
-      .get('https://api.pondokprogrammer.com/api/kurikulum', {
+      .get('http://api.pondokprogrammer.com/api/kurikulum', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -91,7 +91,7 @@ class BuatKurikulum extends React.Component {
             <View style={styles.ListBox}>
               <Image
                 source={{
-                  uri: `https://api.pondokprogrammer.com/img/kurikulum/${
+                  uri: `http://api.pondokprogrammer.com/img/kurikulum/${
                     value.img
                   }`,
                 }}

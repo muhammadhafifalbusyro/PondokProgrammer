@@ -4,75 +4,82 @@ import {
   Text,
   StatusBar,
   TouchableOpacity,
+  ToastAndroid,
   ScrollView,
   RefreshControl,
-  ToastAndroid,
-  Image,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {styles} from './styles';
 import {connect} from 'react-redux';
 import Spinner from 'react-native-spinkit';
+import Loader from './loader';
 
-const axios = require('axios');
+const axios = require ('axios');
 
-class PemahamanMateriDasar extends Component {
-  constructor(props) {
-    super(props);
+class TopikKurikulum extends Component {
+  constructor (props) {
+    super (props);
     this.state = {
-      sprint: [],
-      data: {},
+      topik: '',
+      id_topik: '',
       refreshing: false,
       status: true,
       animationLoad: false,
+      isLoading: false,
+      data: {},
+      Sprint: '',
     };
   }
 
-  componentDidMount() {
-    this.getData();
+  componentDidMount () {
+    this.getData ();
   }
 
   getData = () => {
     const data = this.props.authentication;
     const token = data.token;
     const jurusan_id = this.props.jurusan_id.jurusan_id;
-    // console.log(jurusan_id)
-    this.setState({refreshing: true, animationLoad: true});
+    const {Sprint} = this.props.route.params;
+    const {id_topik} = this.state;
 
+    this.setState ({refreshing: true, animationLoad: true});
     axios
-      .get(`http://api.pondokprogrammer.com/api/curriculum/${jurusan_id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(response => {
-        const data = response.data;
-        console.log(data);
-        if(data.status || null){
-          this.setState({
-            sprint: [],
+      .get (
+        `http://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then (response => {
+        const data = response.data.topik;
+        const long = response.data.topik;
+        console.log (data);
+        if (data.status || null) {
+          this.setState ({
+            topik: [],
             refreshing: false,
             status: true,
             animationLoad: false,
           });
-        }else{
-          this.setState({
-            sprint: data.sprint,
+        } else {
+          this.setState ({
+            topik: data,
             refreshing: false,
             status: true,
             animationLoad: false,
           });
         }
-     
       })
-      .catch(error => {
-        console.log(error);
-        ToastAndroid.show(
+      .catch (error => {
+        console.log (error);
+        ToastAndroid.show (
           'Data gagal didapatkan',
           ToastAndroid.SHORT,
-          ToastAndroid.CENTER,
+          ToastAndroid.CENTER
         );
-        this.setState({
+        this.setState ({
           refreshing: false,
           status: false,
           animationLoad: false,
@@ -81,12 +88,12 @@ class PemahamanMateriDasar extends Component {
   };
 
   onRefreshScreen = () => {
-    this.getData();
+    this.getData ();
   };
 
   renderListScreen = () => {
-    const sprint = this.state.sprint;
-    const lengthData = sprint.length;
+    const {topik} = this.state;
+    const lengthData = topik.length;
     if (lengthData === 0) {
       return (
         <View style={styles.nodata}>
@@ -94,27 +101,24 @@ class PemahamanMateriDasar extends Component {
         </View>
       );
     } else if (this.state.status) {
-      return this.state.sprint.map((value, key) => {
+      return this.state.topik.map ((value, key) => {
         return (
-          <TouchableOpacity
-            activeOpacity={0.7}
-            delayPressIn={10}
-            key={key}
-            onPress={() =>
-              this.props.navigation.navigate('TopikMateriDasar', {
-                Sprint: value.sprint,
-              })
-            }
-            style={styles.subPMD}>
-            <View style={styles.flexbox}>
-              <View style={styles.widthBox}>
-                <Text style={styles.Tlist}>{value.sprint} </Text>
+          <View style={styles.mainDetail} key={key}>
+            <TouchableOpacity
+              style={styles.flexCheckbox}
+              onPress={() =>
+                this.props.navigation.navigate ('DetailTopikKurikulum', {
+                  id_topik: value.topik_id,
+                  judul: value.judul,
+                  Sprint: this.state.Sprint,
+                  markdown : value.markdown
+                })}
+            >
+              <View style={styles.listTopik}>
+                <Text style={styles.Tlist}>{value.judul}</Text>
               </View>
-              <View style={styles.iconBox}>
-                <Icon name="arrow-right" size={20} color="rgb(0, 184, 150)" />
-              </View>
-            </View>
-          </TouchableOpacity>
+            </TouchableOpacity>
+          </View>
         );
       });
     } else {
@@ -126,7 +130,8 @@ class PemahamanMateriDasar extends Component {
               width: '100%',
               justifyContent: 'center',
               alignItems: 'center',
-            }}>
+            }}
+          >
             <Spinner
               type="Bounce"
               color="rgb(0,184,150)"
@@ -141,7 +146,8 @@ class PemahamanMateriDasar extends Component {
           <TouchableOpacity
             activeOpacity={0.5}
             delayPressIn={10}
-            onPress={() => this.getData()}>
+            onPress={() => this.getData ()}
+          >
             <Icon
               name="refresh"
               color="rgb(0,184,150)"
@@ -153,31 +159,34 @@ class PemahamanMateriDasar extends Component {
       );
     }
   };
-
-  render() {
+  render () {
+    const {Sprint} = this.props.route.params;
+    setTimeout (() => {
+      this.setState ({Sprint: Sprint});
+    }, 2000);
     return (
       <View style={styles.container}>
         <StatusBar backgroundColor="rgb(0, 184, 150)" />
         <View style={styles.header}>
-          <Text style={styles.pmd}> Pemahaman Materi Dasar </Text>
+          <Text style={styles.pmd}> {Sprint} - Daftar Topik </Text>
         </View>
-        <View style={styles.mainPMD}>
-          <ScrollView
-            style={{flex: 1}}
-            refreshControl={
-              <RefreshControl
-                colors={['rgb(0,184,150)']}
-                refreshing={this.state.refreshing}
-                onRefresh={() => this.onRefreshScreen()}
-              />
-            }>
-            {this.renderListScreen()}
-          </ScrollView>
-        </View>
-
+        <Loader loading={this.state.isLoading} />
+        <ScrollView
+          style={{flex: 1}}
+          refreshControl={
+            <RefreshControl
+              colors={['rgb(0,184,150)']}
+              refreshing={this.state.refreshing}
+              onRefresh={() => this.onRefreshScreen ()}
+            />
+          }
+        >
+          {this.renderListScreen ()}
+        </ScrollView>
         <TouchableOpacity
           style={styles.TouchableOpacityStyle}
-          onPress={() => this.props.navigation.goBack()}>
+          onPress={() => this.props.navigation.goBack ()}
+        >
           <Icon name="arrow-left" size={40} color="rgb(0, 184, 150)" />
         </TouchableOpacity>
       </View>
@@ -190,4 +199,4 @@ const mapStateToProps = state => {
   return {authentication, jurusan_id};
 };
 
-export default connect(mapStateToProps)(PemahamanMateriDasar);
+export default connect (mapStateToProps) (TopikKurikulum);

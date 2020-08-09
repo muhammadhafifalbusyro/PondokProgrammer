@@ -38,7 +38,7 @@ class SOP extends Component {
 
     axios
       .get(
-        `https://api.pondokprogrammer.com/api/standar_operasional?status=${role}`,
+        `http://api.pondokprogrammer.com/api/standar_operasional?status=${role}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

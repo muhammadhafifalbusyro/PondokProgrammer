@@ -172,6 +172,8 @@ import DetailAcceptedMentor from '../components/Santri/VC/detail_acc_mentor';
 import DetailMasukKelas from '../components/Santri/MK/detail';
 import SplashScreen from '../components/SplashScreen';
 import DetailDailyTask from '../components/Santri/TH/DetailDailyTask'
+import TopikKurikulum from '../components/Santri/Kurikulum/topik'
+import DetailTopikKurikulum from '../components/Santri/Kurikulum/detail'
 
 const Stack = createStackNavigator();
 
@@ -260,6 +262,8 @@ function MainSantri() {
       <Stack.Screen name="TopikTugasHarian" component={TopikTugasHarian} />
       <Stack.Screen name="DetailMasukKelas" component={DetailMasukKelas} />
       <Stack.Screen name="DetailDailyTask" component={DetailDailyTask} />
+      <Stack.Screen name="TopikKurikulum" component={TopikKurikulum} />
+      <Stack.Screen name="DetailTopikKurikulum" component={DetailTopikKurikulum} />
     </Stack.Navigator>
   );
 }

@@ -54,7 +54,7 @@ class DetailVideoCheck extends Component {
     this.setState({refreshing: true, animationLoad: true});
     axios
       .get(
-        `https://api.pondokprogrammer.com/api/video_playlist/${id_playlist}`,
+        `http://api.pondokprogrammer.com/api/video_playlist/${id_playlist}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -238,7 +238,7 @@ class DetailVideoCheck extends Component {
     const token = auth.token;
     axios
       .post(
-        `https://api.pondokprogrammer.com/api/video_pembelajaran/add`,
+        `http://api.pondokprogrammer.com/api/video_pembelajaran/add`,
         {
           video_id: `${Video_id}`,
           is_learned: ISlearned,

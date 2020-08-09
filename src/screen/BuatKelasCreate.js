@@ -33,7 +33,7 @@ class BuatKelasCreate extends React.Component {
     let data = this.props.authentication;
     let token = data.token;
 
-    fetch('https://api.pondokprogrammer.com/api/kurikulum', {
+    fetch('http://api.pondokprogrammer.com/api/kurikulum', {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
@@ -53,7 +53,7 @@ class BuatKelasCreate extends React.Component {
       let data = this.props.authentication;
       let token = data.token;
       this.setState({modalVisible: true});
-      fetch('https://api.pondokprogrammer.com/api/class', {
+      fetch('http://api.pondokprogrammer.com/api/class', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

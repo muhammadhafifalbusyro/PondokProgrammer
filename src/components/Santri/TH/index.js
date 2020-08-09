@@ -39,7 +39,7 @@ class TugasHarian extends Component {
     this.setState({refreshing: true, animationLoad: true});
 
     axios
-      .get(`https://api.pondokprogrammer.com/api/curriculum/${jurusan_id}`, {
+      .get(`http://api.pondokprogrammer.com/api/curriculum/${jurusan_id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

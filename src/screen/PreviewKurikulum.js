@@ -29,7 +29,7 @@ const options = {
 class PreviewKurikulum extends React.Component {
   state = {
     avatarSource: {
-      uri: `https://www.api.pondokprogrammer.com/img/kurikulum/${
+      uri: `http://www.api.pondokprogrammer.com/img/kurikulum/${
         this.props.route.params.img
       }`,
     },
@@ -111,7 +111,7 @@ class PreviewKurikulum extends React.Component {
       } else {
         this.setState({modalVisible: true});
 
-        fetch(`https://api.pondokprogrammer.com/api/kurikulum/${id}`, {
+        fetch(`http://api.pondokprogrammer.com/api/kurikulum/${id}`, {
           method: 'POST',
           headers: {
             Accept: 'application/json',
@@ -164,7 +164,7 @@ class PreviewKurikulum extends React.Component {
 
       this.setState({modalVisible: true});
 
-      fetch(`https://api.pondokprogrammer.com/api/kurikulum/${id}`, {
+      fetch(`http://api.pondokprogrammer.com/api/kurikulum/${id}`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -222,7 +222,7 @@ class PreviewKurikulum extends React.Component {
 
       this.setState({modalVisible: true});
 
-      fetch(`https://api.pondokprogrammer.com/api/kurikulum/${id}`, {
+      fetch(`http://api.pondokprogrammer.com/api/kurikulum/${id}`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -305,7 +305,7 @@ class PreviewKurikulum extends React.Component {
       } else {
         this.setState({modalVisible: true});
 
-        fetch(`https://api.pondokprogrammer.com/api/kurikulum/${id}`, {
+        fetch(`http://api.pondokprogrammer.com/api/kurikulum/${id}`, {
           method: 'POST',
           headers: {
             Accept: 'application/json',
@@ -358,7 +358,7 @@ class PreviewKurikulum extends React.Component {
     const token = data.token;
     let id = this.props.route.params.id;
     this.setState({modalVisible: true});
-    fetch(`https://api.pondokprogrammer.com/api/kurikulum/${id}`, {
+    fetch(`http://api.pondokprogrammer.com/api/kurikulum/${id}`, {
       method: 'DELETE',
       headers: {
         Accept: 'application/json',

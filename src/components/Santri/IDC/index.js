@@ -11,7 +11,7 @@ class IDCard extends Component {
   render () {
     return (
       <View style={styles.container}>
-        {/* <View style={styles.header}>
+        <View style={styles.header}>
           <Text style={styles.THeader}> ID CARD </Text>
         </View>
         <View style={styles.profile}>
@@ -22,11 +22,14 @@ class IDCard extends Component {
                 uri: 'http://www.kindpng.com/picc/m/495-4952535_create-digital-profile-icon-blue-user-profile-icon.png',
               }}
             />
-            <Text>Text</Text>
+            <Text>Wandi Pratama</Text>
+            <Text>Mobile Division</Text>
           </View>
-        </View> */}
+        </View>
         <View style={styles.status}>
-          <Text>Text</Text>
+          <View style={styles.tStatus}>
+            <Text>Status</Text>
+          </View>
         </View>
       </View>
     );
