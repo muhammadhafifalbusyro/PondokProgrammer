@@ -40,7 +40,7 @@ class BuatSOP extends React.Component {
     let data = this.props.authentication;
     let token = data.token;
     this.setState({refreshing: true, animationLoad: true});
-    fetch('https://api.pondokprogrammer.com/api/standar_operasional', {
+    fetch('http://api.pondokprogrammer.com/api/standar_operasional', {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer${token}`,
@@ -70,7 +70,7 @@ class BuatSOP extends React.Component {
     let token = data.token;
     this.setState({modalVisible2: true});
     fetch(
-      `https://api.pondokprogrammer.com/api/standar_operasional/${paramID}`,
+      `http://api.pondokprogrammer.com/api/standar_operasional/${paramID}`,
       {
         method: 'DELETE',
         headers: {
@@ -179,7 +179,7 @@ class BuatSOP extends React.Component {
 
     if (this.state.valueSOP != '') {
       this.setState({modalVisible2: true, modalVisible: false, valueSOP: ''});
-      fetch('https://api.pondokprogrammer.com/api/standar_operasional', {
+      fetch('http://api.pondokprogrammer.com/api/standar_operasional', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

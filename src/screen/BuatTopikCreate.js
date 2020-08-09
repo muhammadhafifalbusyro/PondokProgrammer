@@ -30,7 +30,7 @@ class BuatTopikCreate extends React.Component {
       let data = this.props.authentication;
       let token = data.token;
 
-      fetch('https://api.pondokprogrammer.com/api/curriculum/topik', {
+      fetch('http://api.pondokprogrammer.com/api/curriculum/topik', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

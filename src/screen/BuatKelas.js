@@ -39,7 +39,7 @@ class BuatKelas extends React.Component {
     this.setState({refreshing: true, animationLoad: true});
 
     axios
-      .get('https://api.pondokprogrammer.com/api/class', {
+      .get('http://api.pondokprogrammer.com/api/class', {
         headers: {
           Authorization: `Bearer ${token}`,
         },

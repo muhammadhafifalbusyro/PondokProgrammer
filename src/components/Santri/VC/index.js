@@ -36,7 +36,7 @@ class VideoCheck extends Component {
     this.setState({refreshing: true, animationLoad: true});
 
     axios
-      .get(`https://api.pondokprogrammer.com/api/video_playlist`, {
+      .get(`http://api.pondokprogrammer.com/api/video_playlist`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

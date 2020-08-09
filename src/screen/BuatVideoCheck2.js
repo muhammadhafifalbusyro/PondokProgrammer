@@ -52,7 +52,7 @@ class BuatVideoCheck2 extends React.Component {
     this.setState({refreshing: true, animationLoad: true});
 
     axios
-      .get(`https://api.pondokprogrammer.com/api/video_pembelajaran`, {
+      .get(`http://api.pondokprogrammer.com/api/video_pembelajaran`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -91,7 +91,7 @@ class BuatVideoCheck2 extends React.Component {
         valueVideo: '',
         url_video: '',
       });
-      fetch('https://api.pondokprogrammer.com/api/video_pembelajaran', {
+      fetch('http://api.pondokprogrammer.com/api/video_pembelajaran', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -168,7 +168,7 @@ class BuatVideoCheck2 extends React.Component {
         modalVisible3: false,
       });
       fetch(
-        `https://api.pondokprogrammer.com/api/video_pembelajaran/${
+        `http://api.pondokprogrammer.com/api/video_pembelajaran/${
           this.state.videoID
         }`,
         {
@@ -227,7 +227,7 @@ class BuatVideoCheck2 extends React.Component {
     console.log(paramID + '<= ini id nya');
     this.setState({modalVisible2: true, modalVisible3: false});
     fetch(
-      `https://api.pondokprogrammer.com/api/video_pembelajaran/${paramID}`,
+      `http://api.pondokprogrammer.com/api/video_pembelajaran/${paramID}`,
       {
         method: 'DELETE',
         headers: {

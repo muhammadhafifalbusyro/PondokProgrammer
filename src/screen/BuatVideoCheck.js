@@ -49,7 +49,7 @@ class BuatVideoCheck extends React.Component {
     this.setState({refreshing: true, animationLoad: true});
 
     axios
-      .get(`https://api.pondokprogrammer.com/api/video_playlist`, {
+      .get(`http://api.pondokprogrammer.com/api/video_playlist`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -87,7 +87,7 @@ class BuatVideoCheck extends React.Component {
         modalVisible: false,
         valuePlaylist: '',
       });
-      fetch('https://api.pondokprogrammer.com/api/video_playlist', {
+      fetch('http://api.pondokprogrammer.com/api/video_playlist', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -152,7 +152,7 @@ class BuatVideoCheck extends React.Component {
         valuePlaylistUpdate: '',
       });
       fetch(
-        `https://api.pondokprogrammer.com/api/video_playlist/${
+        `http://api.pondokprogrammer.com/api/video_playlist/${
           this.state.playlistID
         }`,
         {
@@ -207,7 +207,7 @@ class BuatVideoCheck extends React.Component {
     let data = this.props.authentication;
     let token = data.token;
     this.setState({modalVisible2: true, modalVisible3: false});
-    fetch(`https://api.pondokprogrammer.com/api/video_playlist/${paramID}`, {
+    fetch(`http://api.pondokprogrammer.com/api/video_playlist/${paramID}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

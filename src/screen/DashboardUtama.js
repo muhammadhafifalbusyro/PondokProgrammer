@@ -62,7 +62,7 @@ class DashboardUtama extends React.Component {
         this.props.navigation.navigate('ProgramPondok');
         break;
       case 2:
-        Linking.openURL('https://wa.me/qr/5JTJKHXEH2R3M1');
+        Linking.openURL('http://wa.me/qr/5JTJKHXEH2R3M1');
         break;
       case 3:
         this.props.navigation.navigate('Login');

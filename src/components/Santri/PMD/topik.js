@@ -32,7 +32,11 @@ class TopikPemahamanMateriDasar extends Component {
   componentDidMount() {
     this.getTopik_id();
     setTimeout(() => {
-      this.getData();
+      if(this.state.id_topik.length === 0){
+        console.log('tidak ada id topik')
+      }else{
+        this.getData();
+      }
     }, 2000);
   }
 
@@ -45,7 +49,7 @@ class TopikPemahamanMateriDasar extends Component {
     this.setState({refreshing: true, animationLoad: true});
     axios
       .get(
-        `https://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}`,
+        `http://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -86,7 +90,7 @@ class TopikPemahamanMateriDasar extends Component {
     this.setState({refreshing: true, animationLoad: true});
     axios
       .get(
-        `https://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}/${id_topik}`,
+        `http://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}/${id_topik}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -95,12 +99,27 @@ class TopikPemahamanMateriDasar extends Component {
       )
       .then(response => {
         const data = response.data;
-        this.setState({
-          topik: data,
-          refreshing: false,
-          status: true,
-          animationLoad: false,
-        });
+        if(data.status || null){
+          this.setState({
+            topik: data,
+            refreshing: false,
+            status: true,
+            animationLoad: false,
+          });
+        }else{
+          this.setState({
+            topik: data,
+            refreshing: false,
+            status: true,
+            animationLoad: false,
+          });
+        }
+        // this.setState({
+          // topik: data,
+          // refreshing: false,
+          // status: true,
+          // animationLoad: false,
+        // });
       })
       .catch(error => {
         console.log(error);
@@ -217,7 +236,7 @@ class TopikPemahamanMateriDasar extends Component {
     const token = auth.token;
     axios
       .post(
-        `https://api.pondokprogrammer.com/api/standar_kompetensi/add`,
+        `http://api.pondokprogrammer.com/api/standar_kompetensi/add`,
         {
           stdKompetensi_id: STDKompetensi_id,
           is_learned: ISlearned,

@@ -32,7 +32,7 @@ class PreviewMateri extends React.Component {
       let token = data.token;
 
       fetch(
-        `https://api.pondokprogrammer.com/api/curriculum/updateTopik/${topik_id}`,
+        `http://api.pondokprogrammer.com/api/curriculum/updateTopik/${topik_id}`,
         {
           method: 'POST',
           headers: {
@@ -84,7 +84,7 @@ class PreviewMateri extends React.Component {
     let id = this.props.route.params.materi.id;
 
     this.setState({modalVisible: true});
-    fetch(`https://api.pondokprogrammer.com/api/curriculum/${id}`, {
+    fetch(`http://api.pondokprogrammer.com/api/curriculum/${id}`, {
       method: 'DELETE',
       headers: {
         Accept: 'application/json',

@@ -95,7 +95,7 @@ class MasukKelas extends Component {
     };
 
     axios
-      .get(`https://api.pondokprogrammer.com/api/class/student/`, {
+      .get(`http://api.pondokprogrammer.com/api/class/student/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

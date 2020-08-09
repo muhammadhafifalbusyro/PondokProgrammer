@@ -65,7 +65,7 @@ class DashboardSantri extends React.Component {
     let id = data.id;
 
     this.setState({modalVisible: true});
-    fetch('https://api.pondokprogrammer.com/api/student_logout', {
+    fetch('http://api.pondokprogrammer.com/api/student_logout', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -122,51 +122,84 @@ class DashboardSantri extends React.Component {
       {cancelable: false},
     );
   };
+  // Full
+  // changeScreen = key => {
+  //   switch (key) {
+  //     case 0:
+  //       this.props.navigation.navigate('DompetSaya');
+  //       break;
+  //     case 1:
+  //       this.props.navigation.navigate('Toko');
+  //       break;
+  //     case 2:
+  //       this.props.navigation.navigate('IDCard');
+  //       break;
+  //     case 3:
+  //       this.props.navigation.navigate('SOP');
+  //       break;
+  //     case 4:
+  //       this.props.navigation.navigate('Kurikulum');
+  //       break;
+  //     case 5:
+  //       this.props.navigation.navigate('MasukKelas');
+  //       break;
+  //     case 6:
+  //       this.props.navigation.navigate('MateriDasar');
+  //       break;
+  //     case 7:
+  //       this.props.navigation.navigate('TugasHarian');
+  //       break;
+  //     case 8:
+  //       this.props.navigation.navigate('MiniProject');
+  //       break;
+  //     case 9:
+  //       this.props.navigation.navigate('VideoCheck');
+  //       break;
+  //     case 10:
+  //       this.props.navigation.navigate('Portofolio');
+  //       break;
+  //     case 11:
+  //       this.props.navigation.navigate('CatatanPelanggaran');
+  //       break;
+  //     case 12:
+  //       this.props.navigation.navigate('Raport');
+  //       break;
+  //     case 13:
+  //       this.props.navigation.navigate('ImpianSaya');
+  //       break;
+  //     case 14:
+  //       this.cautionExit();
+  //       break;
+  //     default:
+  //       alert('lainnya');
+  //   }
+  // };
+
+  // Setengah
   changeScreen = key => {
     switch (key) {
       case 0:
-        this.props.navigation.navigate('DompetSaya');
-        break;
-      case 1:
-        this.props.navigation.navigate('Toko');
-        break;
-      case 2:
         this.props.navigation.navigate('IDCard');
         break;
-      case 3:
+      case 1:
         this.props.navigation.navigate('SOP');
         break;
-      case 4:
+      case 2:
         this.props.navigation.navigate('Kurikulum');
         break;
-      case 5:
+      case 3:
         this.props.navigation.navigate('MasukKelas');
         break;
-      case 6:
+      case 4:
         this.props.navigation.navigate('MateriDasar');
         break;
-      case 7:
+      case 5:
         this.props.navigation.navigate('TugasHarian');
         break;
-      case 8:
-        this.props.navigation.navigate('MiniProject');
-        break;
-      case 9:
+      case 6:
         this.props.navigation.navigate('VideoCheck');
         break;
-      case 10:
-        this.props.navigation.navigate('Portofolio');
-        break;
-      case 11:
-        this.props.navigation.navigate('CatatanPelanggaran');
-        break;
-      case 12:
-        this.props.navigation.navigate('Raport');
-        break;
-      case 13:
-        this.props.navigation.navigate('ImpianSaya');
-        break;
-      case 14:
+      case 7:
         this.cautionExit();
         break;
       default:
