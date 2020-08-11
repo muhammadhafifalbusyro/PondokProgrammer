@@ -68,6 +68,7 @@ class DetailDailyTask extends Component {
     axios
       .get(
         `http://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}/${id_topik}/daily_task`,
+        // `http://api.pondokprogrammer.com/api/curriculum/1/1/2/daily_task`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

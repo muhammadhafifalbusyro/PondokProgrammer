@@ -43,7 +43,7 @@ class VideoCheck extends Component {
       })
       .then(response => {
         const data = response.data;
-        // console.log (data);
+        console.log (data);
         this.setState({
           data: data,
           refreshing: false,

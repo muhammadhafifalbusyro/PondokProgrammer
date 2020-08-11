@@ -25,12 +25,24 @@ class DetailTopikKurikulum extends Component {
       animationLoad: false,
       isLoading: false,
       Sprint: '',
+      markdown: '',
     };
   }
+
+  markdown = () =>
+    setTimeout (() => {
+      const {markdown} = this.state;
+      return (
+          <Markdown>
+            {this.state.markdown}
+          </Markdown>
+      );
+    }, 3000);
+
   render () {
     const {judul, id_topik, Sprint, markdown} = this.props.route.params;
     setTimeout (() => {
-      this.setState ({id_topik: id_topik, Sprint: Sprint});
+      this.setState ({id_topik: id_topik, Sprint: Sprint, markdown: markdown});
     }, 2000);
     return (
       <View style={styles.container}>
@@ -44,6 +56,8 @@ class DetailTopikKurikulum extends Component {
             <Markdown>
               {markdown}
             </Markdown>
+            
+            {/* {this.markdown ()} */}
           </View>
         </ScrollView>
         <TouchableOpacity

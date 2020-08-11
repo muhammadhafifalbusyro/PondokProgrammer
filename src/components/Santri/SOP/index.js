@@ -85,16 +85,10 @@ class SOP extends Component {
     } else if (this.state.status) {
       return this.state.data.map((value, key) => {
         return (
-          <TouchableOpacity
-            activeOpacity={0.7}
-            delayPressIn={10}
-            key={key}
-            onPress={() => alert()}>
-            <View style={styles.subSop}>
+            <View style={styles.subSop} key={key}>
               <Text style={styles.t_sop}>{key + 1}.</Text>
               <Text style={styles.t_sop}>{value.std_operasional}</Text>
             </View>
-          </TouchableOpacity>
         );
       });
     } else {
