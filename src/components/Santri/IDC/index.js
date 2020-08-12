@@ -58,7 +58,10 @@ class IDCard extends Component {
       phone,
       status,
       username,
+      attend_count
     } = this.state.data;
+    const kehadiran = 20 /60 * 100
+    const jumKehadiran = kehadiran.toFixed(0);
     return (
       <View style={styles.container}>
         <View style={styles.header}>
@@ -93,6 +96,9 @@ class IDCard extends Component {
               <Text>{status}</Text>
             </View>
           </View>
+        </View>
+        <View>
+          <Text>{jumKehadiran} %</Text>
         </View>
       </View>
     );
