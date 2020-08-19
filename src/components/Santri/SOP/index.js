@@ -36,9 +36,11 @@ class SOP extends Component {
     const role = data.role;
     this.setState({refreshing: true, animationLoad: true});
 
+    console.log(token)
+
     axios
       .get(
-        `http://api.pondokprogrammer.com/api/standar_operasional?status=${role}`,
+        `https://api.pondokprogrammer.com/api/standar_operasional?status=${role}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -46,13 +48,29 @@ class SOP extends Component {
         },
       )
       .then(response => {
-        // console.log (response.data);
-        this.setState({
-          data: response.data,
-          refreshing: false,
-          status: true,
-          animationLoad: false,
-        });
+        const data = response.data;
+        console.log (response.data);
+        // this.setState({
+        //   data: response.data,
+        //   refreshing: false,
+        //   status: true,
+        //   animationLoad: false,
+        // });
+        if(data.status || null){
+          this.setState({
+            data:[],
+            refreshing: false,
+            status: true,
+            animationLoad: false,
+          });
+        }else{
+          this.setState({
+            data: response.data,
+            refreshing: false,
+            status: true,
+            animationLoad: false,
+          });
+        }
       })
       .catch(error => {
         console.log(error);

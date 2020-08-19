@@ -95,20 +95,31 @@ class MasukKelas extends Component {
     };
 
     axios
-      .get(`http://api.pondokprogrammer.com/api/class/student/`, {
+      .get(`https://api.pondokprogrammer.com/api/class/student/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then(response => {
-        // console.log (response.data);
-        this.setState({
-          data: response.data,
+        const data = response.data;
+        console.log (response.data);
+        if(data.status || null){
+          this.setState({
+            data: [],
+            peserta: [],
+            refreshing: false,
+            status: true,
+            animationLoad: false,
+          });
+        }else{
+          this.setState({
+            data: response.data,
           peserta: response.data.student,
           refreshing: false,
           status: true,
           animationLoad: false,
-        });
+          });
+        }
       })
       .catch(error => {
         console.log(error);

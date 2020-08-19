@@ -44,7 +44,7 @@ class PreviewKelas extends React.Component {
     const id = this.props.route.params.id;
     this.setState({refreshing: true, animationLoad: true});
     axios
-      .get(`http://api.pondokprogrammer.com/api/class/${id}`, {
+      .get(`https://api.pondokprogrammer.com/api/class/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -79,7 +79,7 @@ class PreviewKelas extends React.Component {
     const id = this.props.route.params.id;
     this.setState({refreshing: true, animationLoad: true});
     axios
-      .delete(`http://api.pondokprogrammer.com/api/class/${id}`, {
+      .delete(`https://api.pondokprogrammer.com/api/class/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

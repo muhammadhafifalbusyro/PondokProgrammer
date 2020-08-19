@@ -9,7 +9,9 @@ export const styles = StyleSheet.create ({
   header: {
     height: 50,
     backgroundColor: 'rgb(0, 184, 150)',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
+    alignItems : 'center',
+    flexDirection : 'row'
   },
   pmd: {
     fontSize: 20,

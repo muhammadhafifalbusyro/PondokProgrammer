@@ -45,7 +45,7 @@ class TopikTugasHarian extends Component {
     this.setState({refreshing: true, animationLoad: true});
     axios
       .get(
-        `http://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}`,
+        `https://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -86,7 +86,7 @@ class TopikTugasHarian extends Component {
     this.setState({refreshing: true, animationLoad: true});
     axios
       .get(
-        `http://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}/`,
+        `https://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}/`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

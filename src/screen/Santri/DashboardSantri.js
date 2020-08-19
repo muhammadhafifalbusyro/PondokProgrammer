@@ -63,42 +63,43 @@ class DashboardSantri extends React.Component {
     let data = this.props.authentication;
     let token = data.token;
     let id = data.id;
-
     this.setState({modalVisible: true});
-    fetch('http://api.pondokprogrammer.com/api/student_logout', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        id: id,
-      }),
-    })
-      .then(response => response.json())
-      .then(json => {
-        if (json.status == 'success') {
-          console.log(json.status);
+    AsyncStorage.removeItem('data');
+
+    // fetch('https://api.pondokprogrammer.com/api/student_logout', {
+    //   method: 'POST',
+    //   headers: {
+    //     Accept: 'application/json',
+    //     'Content-type': 'application/json',
+    //     Authorization: `Bearer ${token}`,
+    //   },
+    //   body: JSON.stringify({
+    //     id: id,
+    //   }),
+    // })
+    //   .then(response => response.json())
+    //   .then(json => {
+    //     if (json.status == 'success') {
+    //       console.log(json.status);
           this.setState({modalVisible: false});
-          AsyncStorage.removeItem('data');
+    //       AsyncStorage.removeItem('data');
           this.props.navigation.replace('Main');
-          ToastAndroid.show(
-            'Anda berhasil logout akun',
-            ToastAndroid.SHORT,
-            ToastAndroid.CENTER,
-          );
-        }
-      })
-      .catch(error => {
-        console.log(error);
-        this.setState({modalVisible: false});
-        ToastAndroid.show(
-          'Network error',
-          ToastAndroid.SHORT,
-          ToastAndroid.CENTER,
-        );
-      });
+    //       ToastAndroid.show(
+    //         'Anda berhasil logout akun',
+    //         ToastAndroid.SHORT,
+    //         ToastAndroid.CENTER,
+    //       );
+    //     }
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //     this.setState({modalVisible: false});
+    //     ToastAndroid.show(
+    //       'Network error',
+    //       ToastAndroid.SHORT,
+    //       ToastAndroid.CENTER,
+    //     );
+    //   });
   };
   cautionExit = () => {
     Alert.alert(

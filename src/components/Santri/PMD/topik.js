@@ -49,7 +49,7 @@ class TopikPemahamanMateriDasar extends Component {
     this.setState({refreshing: true, animationLoad: true});
     axios
       .get(
-        `http://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}`,
+        `https://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -91,7 +91,7 @@ class TopikPemahamanMateriDasar extends Component {
     this.setState({refreshing: true, animationLoad: true});
     axios
       .get(
-        `http://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}/${id_topik}`,
+        `https://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}/${id_topik}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -238,7 +238,7 @@ class TopikPemahamanMateriDasar extends Component {
     console.log(STDKompetensi_id, ISlearned, token)
     axios
       .post(
-        `http://api.pondokprogrammer.com/api/standar_kompetensi/add`,
+        `https://api.pondokprogrammer.com/api/standar_kompetensi/add`,
         {
           stdKompetensi_id: STDKompetensi_id,
           is_learned: ISlearned,
