@@ -5,6 +5,7 @@ import {
   StatusBar,
   TouchableOpacity,
   ScrollView,
+  Linking
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {styles} from './styles';
@@ -25,18 +26,46 @@ class DetailTopikKurikulum extends Component {
       animationLoad: false,
       isLoading: false,
       Sprint: '',
+      markdown: '',
     };
   }
-  render () {
-    const {judul, id_topik, Sprint, markdown} = this.props.route.params;
+
+  markdown = () =>
     setTimeout (() => {
-      this.setState ({id_topik: id_topik, Sprint: Sprint});
+      const {markdown} = this.state;
+      return (
+        <Markdown>
+          {this.state.markdown}
+        </Markdown>
+      );
+    }, 3000);
+
+  render () {
+    const {judul, id_topik, Sprint, markdown,video} = this.props.route.params;
+    setTimeout (() => {
+      this.setState ({id_topik: id_topik, Sprint: Sprint, markdown: markdown});
     }, 2000);
     return (
       <View style={styles.container}>
         <StatusBar backgroundColor="rgb(0, 184, 150)" />
         <View style={styles.header}>
           <Text style={styles.pmd}>{judul} </Text>
+          <TouchableOpacity onPress={() => Linking.openURL(`${video}`)}
+            style={{
+              height: 30,
+              width: 75,
+              justifyContent: 'center',
+              alignItems: 'center',
+              flexDirection : 'row',
+              marginLeft : 2,
+              borderWidth : 1,
+              borderRadius : 10,
+              borderColor : '#fff'
+            }}
+          >
+            <Icon name="youtube-play" size={25} color="red" />
+            <Text style={{color: '#fff', marginLeft: 5}}>Video</Text>
+          </TouchableOpacity>
         </View>
         <Loader loading={this.state.isLoading} />
         <ScrollView style={{flex: 1}}>
@@ -44,6 +73,8 @@ class DetailTopikKurikulum extends Component {
             <Markdown>
               {markdown}
             </Markdown>
+
+            {/* {this.markdown ()} */}
           </View>
         </ScrollView>
         <TouchableOpacity

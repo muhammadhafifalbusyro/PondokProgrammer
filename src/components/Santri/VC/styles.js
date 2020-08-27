@@ -129,8 +129,7 @@ export const styles = StyleSheet.create ({
     textAlign: 'center',
   },
   judul: {
-    fontSize : 20,
-    color: 'blue',
+    fontSize : 15,
     fontWeight : 'bold'
   },
   status : {

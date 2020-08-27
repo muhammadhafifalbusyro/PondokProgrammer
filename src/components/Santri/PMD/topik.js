@@ -49,7 +49,7 @@ class TopikPemahamanMateriDasar extends Component {
     this.setState({refreshing: true, animationLoad: true});
     axios
       .get(
-        `http://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}`,
+        `https://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -87,10 +87,11 @@ class TopikPemahamanMateriDasar extends Component {
     const {Sprint} = this.props.route.params;
     const {id_topik} = this.state;
 
+    console.log(jurusan_id, Sprint, id_topik)
     this.setState({refreshing: true, animationLoad: true});
     axios
       .get(
-        `http://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}/${id_topik}`,
+        `https://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}/${id_topik}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -152,7 +153,7 @@ class TopikPemahamanMateriDasar extends Component {
     } else if (this.state.status) {
       return this.state.topik.map((value, key) => {
         const stdKompetensi_id = value.id;
-        const is_learned = true;
+        const is_learned = 1;
         return (
           <View style={styles.mainDetail} key={key}>
             <TouchableOpacity
@@ -234,9 +235,10 @@ class TopikPemahamanMateriDasar extends Component {
 
     const auth = this.props.authentication;
     const token = auth.token;
+    console.log(STDKompetensi_id, ISlearned, token)
     axios
       .post(
-        `http://api.pondokprogrammer.com/api/standar_kompetensi/add`,
+        `https://api.pondokprogrammer.com/api/standar_kompetensi/add`,
         {
           stdKompetensi_id: STDKompetensi_id,
           is_learned: ISlearned,

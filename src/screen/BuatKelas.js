@@ -39,20 +39,30 @@ class BuatKelas extends React.Component {
     this.setState({refreshing: true, animationLoad: true});
 
     axios
-      .get('http://api.pondokprogrammer.com/api/class', {
+      .get('https://api.pondokprogrammer.com/api/class', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then(response => {
-        console.log(response.data);
-        this.setState({
-          data: response.data,
+      const data = response.data;
+      if (data.status || null) {
+        this.setState ({
+          data: data,
           refreshing: false,
           status: true,
           animationLoad: false,
         });
-      })
+      } else {
+        this.setState ({
+          data: [],
+          refreshing: false,
+          status: true,
+          animationLoad: false,
+        });
+      }
+    })
+
       .catch(error => {
         console.log(error);
         ToastAndroid.show(

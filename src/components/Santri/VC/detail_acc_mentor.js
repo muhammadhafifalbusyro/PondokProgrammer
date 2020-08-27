@@ -7,6 +7,7 @@ import {
   ScrollView,
   RefreshControl,
   ToastAndroid,
+  Linking
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {styles} from './styles';
@@ -32,6 +33,7 @@ class DetailVideoCheck extends Component {
       video_check: [],
       id_playlist: '',
       student: [],
+      data : []
     };
   }
 
@@ -54,7 +56,7 @@ class DetailVideoCheck extends Component {
     this.setState({refreshing: true, animationLoad: true});
     axios
       .get(
-        `http://api.pondokprogrammer.com/api/video_playlist/${id_playlist}`,
+        `https://api.pondokprogrammer.com/api/video_playlist/${id_playlist}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -64,9 +66,10 @@ class DetailVideoCheck extends Component {
       .then(response => {
         const data = response.data.video;
         // const video_check = data
-        console.log(data);
+        // console.log(data[0].video_check);
 
         this.setState({
+          data : response.data,
           video: data,
           refreshing: false,
           status: true,
@@ -74,7 +77,7 @@ class DetailVideoCheck extends Component {
         });
       })
       .catch(error => {
-        console.log(error);
+        // console.log(error);
         ToastAndroid.show(
           'Data gagal didapatkan',
           ToastAndroid.SHORT,
@@ -108,9 +111,10 @@ class DetailVideoCheck extends Component {
             <View style={{flex: 1}}>
               {this.state.video
                 ? this.state.video.map((param, i) => {
-                    const Learned = this.state.video[i].is_learned == 0 ? 0 : 1;
-                    const Approved =
-                      this.state.video[i].is_approved == 0 ? 0 : 1;
+                    const Learned = this.state.video[i].video_check.length == 0 ? 0 : 1;
+                    {/* console.log(this.state.video[i].video_check[0].is_approved + "test") */}
+                    {/* const Learned = 0 */}
+                    const Approved = Learned == 0 ? 0 : this.state.video[i].video_check[0].is_approved == 0 ? 0 : 1
                     const status = () => {
                       if (Learned == 0) {
                         return null;
@@ -120,9 +124,9 @@ class DetailVideoCheck extends Component {
                             style={[
                               styles.status,
                               styles.play,
-                              {backgroundColor: 'red'},
+                              {backgroundColor: 'yellow'},
                             ]}>
-                            <Text style={styles.tPlay}>Pending</Text>
+                            <Text style={[styles.tPlay,{color:'#000'}]}>Pending</Text>
                           </View>
                         );
                       } else if (Learned == 1 && Approved == 1) {
@@ -131,12 +135,15 @@ class DetailVideoCheck extends Component {
                             <Text style={styles.tPlay}>Diterima</Text>
                           </View>
                         );
+                      }else {
+                        return null;
                       }
                     };
 
                     const video_id = this.state.video[i].id;
                     console.log(video_id);
                     const is_learned = 1;
+                    {/* const Learned = this.state.data.video_check.length == 0 ? 0 : 1; */}
                     return (
                       <DropDownItem
                         key={i}
@@ -161,25 +168,15 @@ class DetailVideoCheck extends Component {
                               onPress={() =>
                                 this.sendIs_learned({is_learned, video_id})
                               }
-                              style={styles.play}>
+                              style={[styles.play,{backgroundColor: 'red'}]}>
                               <Text style={styles.tPlay}>Selesai</Text>
                             </TouchableOpacity>
                           )}
                           {status()}
-                          {/* {Learned == 1 || Approved == 0
-                            ? <View
-                                style={[
-                                  styles.status,
-                                  styles.play,
-                                  {backgroundColor: 'red'},
-                                ]}
-                              >
-                                <Text>Pending</Text>
-                              </View>
-                            : <View style={[styles.status, styles.play]}>
-                                <Text>Diterima</Text>
-                              </View>} */}
                         </View>
+                        {Learned == 0 ? <Text style={{fontSize : 10}}><Text style={{fontWeight:'bold',backgroundColor: 'red', color: '#fff'}}>Klik Selesai,</Text> Jika Telah Menonton Video</Text> : null}
+                        { Learned == 1 && Approved == 0 ? <Text style={{fontSize : 10}}><Text style={{fontWeight:'bold', backgroundColor: 'yellow'}}>Status Pending,</Text> Menandakan Belum diverifikasi dengan Mentor</Text> : null}
+                        { Learned == 1 && Approved == 1 ? <Text style={{fontSize : 10}}><Text style={{fontWeight:'bold', backgroundColor: 'rgb(0,184,150)'}}>Status Diterima,</Text> Anda telah diverifikasi oleh Mentor</Text> : null}
                       </DropDownItem>
                     );
                   })
@@ -232,13 +229,13 @@ class DetailVideoCheck extends Component {
     this.setState({isLoading: true});
     const Video_id = video_id;
     const ISlearned = is_learned;
-    console.log(Video_id);
+    // console.log(ISlearned, Video_id + "testt");
 
     const auth = this.props.authentication;
     const token = auth.token;
     axios
       .post(
-        `http://api.pondokprogrammer.com/api/video_pembelajaran/add`,
+        `https://api.pondokprogrammer.com/api/video_pembelajaran/add`,
         {
           video_id: `${Video_id}`,
           is_learned: ISlearned,

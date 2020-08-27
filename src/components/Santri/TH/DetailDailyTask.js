@@ -67,7 +67,8 @@ class DetailDailyTask extends Component {
     this.setState({refreshing: true, animationLoad: true});
     axios
       .get(
-        `http://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}/${id_topik}/daily_task`,
+        `https://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}/${id_topik}/daily_task`,
+        // `https://api.pondokprogrammer.com/api/curriculum/1/1/2/daily_task`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -286,7 +287,7 @@ class DetailDailyTask extends Component {
     const token = auth.token;
     axios
       .post(
-        `http://api.pondokprogrammer.com/api/standar_kompetensi/add`,
+        `https://api.pondokprogrammer.com/api/standar_kompetensi/add`,
         {
           stdKompetensi_id: STDKompetensi_id,
           is_learned: ISlearned,
@@ -317,7 +318,7 @@ class DetailDailyTask extends Component {
     const token = data.token;
     axios
       .post(
-        `http://api.pondokprogrammer.com/api/daily_task/add`,
+        `https://api.pondokprogrammer.com/api/daily_task/add`,
         {
           dailyTask_id: dailyTask_id,
           link_github: link_github,
@@ -347,7 +348,7 @@ class DetailDailyTask extends Component {
     const data = this.props.authentication;
     const token = data.token;
     axios
-      .get(`http://api.pondokprogrammer.com/api/daily_task/student`, {
+      .get(`https://api.pondokprogrammer.com/api/daily_task/student`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

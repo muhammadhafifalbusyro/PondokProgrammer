@@ -12,11 +12,11 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {styles} from './styles';
 import {connect} from 'react-redux';
 import Spinner from 'react-native-spinkit';
-const axios = require('axios');
+const axios = require ('axios');
 
 class VideoCheck extends Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super (props);
     this.state = {
       data: [],
       refreshing: false,
@@ -25,40 +25,49 @@ class VideoCheck extends Component {
     };
   }
 
-  componentDidMount() {
-    this.getData();
+  componentDidMount () {
+    this.getData ();
   }
 
   getData = () => {
     const data = this.props.authentication;
     const token = data.token;
 
-    this.setState({refreshing: true, animationLoad: true});
+    this.setState ({refreshing: true, animationLoad: true});
 
     axios
-      .get(`http://api.pondokprogrammer.com/api/video_playlist`, {
+      .get (`https://api.pondokprogrammer.com/api/video_playlist`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
-      .then(response => {
+      .then (response => {
         const data = response.data;
-        // console.log (data);
-        this.setState({
-          data: data,
-          refreshing: false,
-          status: true,
-          animationLoad: false,
-        });
+        console.log (response.data);
+        if (data.status || null) {
+          this.setState ({
+            data: [],
+            refreshing: false,
+            status: true,
+            animationLoad: false,
+          });
+        } else {
+          this.setState ({
+            data: data,
+            refreshing: false,
+            status: true,
+            animationLoad: false,
+          });
+        }
       })
-      .catch(error => {
-        console.log(error);
-        ToastAndroid.show(
+      .catch (error => {
+        console.log (error);
+        ToastAndroid.show (
           'Data gagal didapatkan',
           ToastAndroid.SHORT,
-          ToastAndroid.CENTER,
+          ToastAndroid.CENTER
         );
-        this.setState({
+        this.setState ({
           refreshing: false,
           status: false,
           animationLoad: false,
@@ -67,7 +76,7 @@ class VideoCheck extends Component {
   };
 
   onRefreshScreen = () => {
-    this.getData();
+    this.getData ();
   };
 
   renderListScreen = () => {
@@ -80,19 +89,19 @@ class VideoCheck extends Component {
         </View>
       );
     } else if (this.state.status) {
-      return this.state.data.map((value, key) => {
+      return this.state.data.map ((value, key) => {
         return (
           <TouchableOpacity
             activeOpacity={0.7}
             delayPressIn={10}
             key={key}
             onPress={() =>
-              this.props.navigation.navigate('DetailAcceptedMentor', {
+              this.props.navigation.navigate ('DetailAcceptedMentor', {
                 Playlist: value.playlist,
                 ID_Playlist: value.id,
-              })
-            }
-            style={styles.subPMD}>
+              })}
+            style={styles.subPMD}
+          >
             <View style={styles.flexbox}>
               <View style={styles.widthBox}>
                 <Text style={styles.Tlist}>{value.playlist} </Text>
@@ -113,7 +122,8 @@ class VideoCheck extends Component {
               width: '100%',
               justifyContent: 'center',
               alignItems: 'center',
-            }}>
+            }}
+          >
             <Spinner
               type="Bounce"
               color="rgb(0,184,150)"
@@ -128,7 +138,8 @@ class VideoCheck extends Component {
           <TouchableOpacity
             activeOpacity={0.5}
             delayPressIn={10}
-            onPress={() => this.getData()}>
+            onPress={() => this.getData ()}
+          >
             <Icon
               name="refresh"
               color="rgb(0,184,150)"
@@ -140,7 +151,7 @@ class VideoCheck extends Component {
       );
     }
   };
-  render() {
+  render () {
     return (
       <View style={styles.container}>
         <StatusBar backgroundColor="rgb(0, 184, 150)" />
@@ -154,15 +165,17 @@ class VideoCheck extends Component {
               <RefreshControl
                 colors={['rgb(0,184,150)']}
                 refreshing={this.state.refreshing}
-                onRefresh={() => this.onRefreshScreen()}
+                onRefresh={() => this.onRefreshScreen ()}
               />
-            }>
-            {this.renderListScreen()}
+            }
+          >
+            {this.renderListScreen ()}
           </ScrollView>
         </View>
         <TouchableOpacity
           style={styles.TouchableOpacityStyle}
-          onPress={() => this.props.navigation.goBack()}>
+          onPress={() => this.props.navigation.goBack ()}
+        >
           <Icon name="arrow-left" size={40} color="rgb(0, 184, 150)" />
         </TouchableOpacity>
       </View>
@@ -175,4 +188,4 @@ const mapStateToProps = state => {
   return {authentication};
 };
 
-export default connect(mapStateToProps)(VideoCheck);
+export default connect (mapStateToProps) (VideoCheck);

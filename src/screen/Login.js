@@ -36,18 +36,17 @@ class Login extends React.Component {
     this.setState({isLoading: true});
     if (email != '' && password != '') {
       axios
-        .post('http://api.pondokprogrammer.com/api/student_login', {
+        .post('https://api.pondokprogrammer.com/api/student_login', {
           email: email,
           password: password,
           mobile: true,
         })
         .then(response => {
-          console.log(response);
+          console.log(response.data.token + 'token') ;
           if (response.data.token) {
             if (response.data.data.role == '1') {
               this.setState({isLoading: false});
-              console.log(response.data.token);
-
+              console.log(response.data.token + 'token') ;
               let data = {
                 id: response.data.data.id,
                 token: response.data.token,
