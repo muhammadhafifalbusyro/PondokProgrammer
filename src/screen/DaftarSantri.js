@@ -9,6 +9,7 @@ import {
   RefreshControl,
   StyleSheet,
   Dimensions,
+  ToastAndroid
 } from 'react-native';
 
 import Spinner from 'react-native-spinkit';
@@ -27,9 +28,9 @@ class DaftarSantri extends React.Component {
     animationLoad: false,
   };
 
-  // componentDidMount () {
-  //   this.getData ();
-  // }
+  componentDidMount () {
+    this.getData ();
+  }
 
   getData = () => {
     const data = this.props.authentication;
@@ -79,6 +80,7 @@ class DaftarSantri extends React.Component {
   renderListScreen = () => {
     if (this.state.status) {
       return this.state.data.map ((value, key) => {
+        const jurusan = value.framework ? <Text> {value.framework}</Text> : <Text style={{color: 'red', fontSize : 11, textAlign : 'center'}}>  Belum Pilih Jurusan</Text> 
         return (
           <TouchableOpacity
             activeOpacity={0.7}
@@ -96,7 +98,10 @@ class DaftarSantri extends React.Component {
                 />
                 <View style={{paddingLeft : 5}}>
                   <Text style={{fontSize : 18, fontWeight : 'bold'}}>{value.username}</Text>
-                  <Text>{value.email}</Text>
+                  <View style={{flexDirection : 'row'}}>
+                  <Text>{value.division}</Text>
+                  <Text style={{marginLeft : 10, textAlignVertical : 'center'}}>{jurusan}</Text>
+                  </View>
                 </View>
               </View>
             </View>
@@ -151,8 +156,7 @@ class DaftarSantri extends React.Component {
             Daftar Santri Pondok Programmer
           </Text>
         </View>
-        <Text>Daftar Santri Pondok Programmer</Text>
-        {/* <ScrollView
+        <ScrollView
           style={styles.scrollView}
           refreshControl={
             <RefreshControl
@@ -163,7 +167,7 @@ class DaftarSantri extends React.Component {
           }
         >
           {this.renderListScreen ()}
-        </ScrollView> */}
+        </ScrollView>
       </View>
     );
   }
