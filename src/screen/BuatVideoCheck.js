@@ -55,13 +55,22 @@ class BuatVideoCheck extends React.Component {
         },
       })
       .then(response => {
-        console.log(response.data);
-        this.setState({
-          data: response.data,
-          refreshing: false,
-          status: true,
-          animationLoad: false,
-        });
+        const data = response.data;
+        if (data.status || null) {
+          this.setState({
+            data: [],
+            refreshing: false,
+            status: true,
+            animationLoad: false,
+          });
+        } else {
+          this.setState({
+            data: response.data,
+            refreshing: false,
+            status: true,
+            animationLoad: false,
+          });
+        }
       })
       .catch(error => {
         console.log(error);

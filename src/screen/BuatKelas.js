@@ -45,14 +45,24 @@ class BuatKelas extends React.Component {
         },
       })
       .then(response => {
-        console.log(response.data);
-        this.setState({
-          data: response.data,
+      const data = response.data;
+      if (data.status || null) {
+        this.setState ({
+          data: data,
           refreshing: false,
           status: true,
           animationLoad: false,
         });
-      })
+      } else {
+        this.setState ({
+          data: [],
+          refreshing: false,
+          status: true,
+          animationLoad: false,
+        });
+      }
+    })
+
       .catch(error => {
         console.log(error);
         ToastAndroid.show(

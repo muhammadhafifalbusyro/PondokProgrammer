@@ -20,8 +20,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {connect} from 'react-redux';
 import Spinner from 'react-native-spinkit';
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get ('window').width;
+const windowHeight = Dimensions.get ('window').height;
 
 class BuatSOP extends React.Component {
   state = {
@@ -33,43 +33,57 @@ class BuatSOP extends React.Component {
     valueSOP: '',
     data: [],
   };
-  componentDidMount() {
-    this.getData();
+  componentDidMount () {
+    this.getData ();
   }
   getData = () => {
     let data = this.props.authentication;
     let token = data.token;
-    this.setState({refreshing: true, animationLoad: true});
-    fetch('https://api.pondokprogrammer.com/api/standar_operasional', {
+    this.setState ({refreshing: true, animationLoad: true});
+    fetch ('https://api.pondokprogrammer.com/api/standar_operasional', {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer${token}`,
       },
     })
-      .then(res => res.json())
-      .then(json => {
-        this.setState({
-          data: json,
+      .then (res => res.json ())
+      .then (response => {
+        const data = response;
+        if (data.status || null) {
+          this.setState ({
+            data: [],
+            refreshing: false,
+            status: true,
+            animationLoad: false,
+          });
+        } else {
+          this.setState ({
+            data: data,
+            refreshing: false,
+            status: true,
+            animationLoad: false,
+          });
+        }
+      })
+      .catch (er => {
+        console.log (er);
+        this.setState ({
           refreshing: false,
-          status: true,
+          status: false,
           animationLoad: false,
         });
-      })
-      .catch(er => {
-        console.log(er);
-        this.setState({refreshing: false, status: false, animationLoad: false});
-        ToastAndroid.show(
+        ToastAndroid.show (
           'Network error',
           ToastAndroid.SHORT,
-          ToastAndroid.CENTER,
+          ToastAndroid.CENTER
         );
       });
   };
   deleteData = paramID => {
     let data = this.props.authentication;
     let token = data.token;
-    this.setState({modalVisible2: true});
-    fetch(
+    this.setState ({modalVisible2: true});
+    fetch (
       `https://api.pondokprogrammer.com/api/standar_operasional/${paramID}`,
       {
         method: 'DELETE',
@@ -77,34 +91,34 @@ class BuatSOP extends React.Component {
           'Content-Type': 'application/json',
           Authorization: `Bearer${token}`,
         },
-      },
+      }
     )
-      .then(res => res.json())
-      .then(json => {
-        this.getData();
-        this.setState({modalVisible2: false});
-        console.log(json);
-        ToastAndroid.show(
+      .then (res => res.json ())
+      .then (json => {
+        this.getData ();
+        this.setState ({modalVisible2: false});
+        console.log (json);
+        ToastAndroid.show (
           'Data berhasil dihapus',
           ToastAndroid.SHORT,
-          ToastAndroid.CENTER,
+          ToastAndroid.CENTER
         );
       })
-      .catch(er => {
-        this.setState({modalVisible2: false});
-        console.log(er);
-        ToastAndroid.show(
+      .catch (er => {
+        this.setState ({modalVisible2: false});
+        console.log (er);
+        ToastAndroid.show (
           'Network error',
           ToastAndroid.SHORT,
-          ToastAndroid.CENTER,
+          ToastAndroid.CENTER
         );
       });
   };
   onRefreshScreen = () => {
-    this.getData();
+    this.getData ();
   };
   cautionDelete = value => {
-    Alert.alert(
+    Alert.alert (
       'Hapus SOP',
       'Apa anda yakin ingin menghapusnya ?',
       [
@@ -118,16 +132,16 @@ class BuatSOP extends React.Component {
         {
           text: 'OK',
           onPress: () => {
-            this.deleteData(value);
+            this.deleteData (value);
           },
         },
       ],
-      {cancelable: false},
+      {cancelable: false}
     );
   };
   renderListScreen = () => {
     if (this.state.status) {
-      return this.state.data.map((value, key) => {
+      return this.state.data.map ((value, key) => {
         return (
           <View key={key} style={styles.containerList}>
             <View style={styles.fieldText}>
@@ -139,10 +153,11 @@ class BuatSOP extends React.Component {
               </View>
             </View>
             <TouchableOpacity
-              onPress={() => this.cautionDelete(value.id)}
+              onPress={() => this.cautionDelete (value.id)}
               activeOpacity={0.5}
               delayPressIn={10}
-              style={styles.trash}>
+              style={styles.trash}
+            >
               <Icon name="trash" size={20} color="white" />
             </TouchableOpacity>
           </View>
@@ -159,14 +174,15 @@ class BuatSOP extends React.Component {
             />
           </View>
           <Image
-            source={require('../assets/images/noconnectionlogo.png')}
+            source={require ('../assets/images/noconnectionlogo.png')}
             style={styles.imageOffline}
           />
           <TouchableOpacity
             style={styles.iconRefresh}
             activeOpacity={0.5}
             delayPressIn={10}
-            onPress={() => this.getData()}>
+            onPress={() => this.getData ()}
+          >
             <Icon name="refresh" color="rgb(0,184,150)" size={40} />
           </TouchableOpacity>
         </View>
@@ -178,56 +194,56 @@ class BuatSOP extends React.Component {
     let token = data.token;
 
     if (this.state.valueSOP != '') {
-      this.setState({modalVisible2: true, modalVisible: false, valueSOP: ''});
-      fetch('https://api.pondokprogrammer.com/api/standar_operasional', {
+      this.setState ({modalVisible2: true, modalVisible: false, valueSOP: ''});
+      fetch ('https://api.pondokprogrammer.com/api/standar_operasional', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer${token}`,
         },
-        body: JSON.stringify({
+        body: JSON.stringify ({
           status: '2',
           std_operasional: this.state.valueSOP,
         }),
       })
-        .then(res => res.json())
-        .then(json => {
+        .then (res => res.json ())
+        .then (json => {
           if (json.status) {
-            this.setState({modalVisible2: false});
-            this.getData();
-            ToastAndroid.show(
+            this.setState ({modalVisible2: false});
+            this.getData ();
+            ToastAndroid.show (
               'Data berhasil ditambahkan',
               ToastAndroid.SHORT,
-              ToastAndroid.CENTER,
+              ToastAndroid.CENTER
             );
           } else {
-            this.setState({modalVisible2: false});
-            ToastAndroid.show(
+            this.setState ({modalVisible2: false});
+            ToastAndroid.show (
               'Data gagal ditambahkan',
               ToastAndroid.SHORT,
-              ToastAndroid.CENTER,
+              ToastAndroid.CENTER
             );
           }
         })
-        .catch(er => {
-          this.setState({modalVisible2: false});
-          console.log(er);
-          ToastAndroid.show(
+        .catch (er => {
+          this.setState ({modalVisible2: false});
+          console.log (er);
+          ToastAndroid.show (
             'Network error',
             ToastAndroid.SHORT,
-            ToastAndroid.CENTER,
+            ToastAndroid.CENTER
           );
         });
     } else {
-      ToastAndroid.show(
+      ToastAndroid.show (
         'Data tidak boleh kosong',
         ToastAndroid.SHORT,
-        ToastAndroid.CENTER,
+        ToastAndroid.CENTER
       );
     }
   };
 
-  render() {
+  render () {
     return (
       <View style={styles.container}>
         <Modal
@@ -235,30 +251,33 @@ class BuatSOP extends React.Component {
           transparent={true}
           visible={this.state.modalVisible}
           onRequestClose={() => {
-            this.setState({modalVisible: false});
-          }}>
+            this.setState ({modalVisible: false});
+          }}
+        >
           <View style={styles.centeredView}>
             <View style={styles.modalContainer}>
               <TextInput
                 multiline={true}
                 placeholder="Tuliskan SOP"
                 value={this.state.valueSOP}
-                onChangeText={text => this.setState({valueSOP: text})}
+                onChangeText={text => this.setState ({valueSOP: text})}
                 style={styles.textInput}
               />
               <View style={styles.centeredModalButton}>
                 <TouchableOpacity
-                  onPress={() => this.buatSOP()}
+                  onPress={() => this.buatSOP ()}
                   style={styles.button}
                   activeOpacity={0.5}
-                  delayPressIn={10}>
+                  delayPressIn={10}
+                >
                   <Text style={styles.textButton}>Buat</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() => this.setState({modalVisible: false})}
+                  onPress={() => this.setState ({modalVisible: false})}
                   style={{...styles.button, backgroundColor: 'red'}}
                   activeOpacity={0.5}
-                  delayPressIn={10}>
+                  delayPressIn={10}
+                >
                   <Text style={styles.textButton}>Batal</Text>
                 </TouchableOpacity>
               </View>
@@ -270,12 +289,13 @@ class BuatSOP extends React.Component {
           transparent={true}
           visible={this.state.modalVisible2}
           onRequestClose={() => {
-            ToastAndroid.show(
+            ToastAndroid.show (
               'Tunggu proses sampai selesai',
               ToastAndroid.SHORT,
-              ToastAndroid.CENTER,
+              ToastAndroid.CENTER
             );
-          }}>
+          }}
+        >
           <View style={styles.centeredView2}>
             <View style={styles.modalContainer2}>
               <Spinner visible={true} type="Wave" color="rgb(0,184,150)" />
@@ -290,13 +310,14 @@ class BuatSOP extends React.Component {
             <RefreshControl
               colors={['rgb(0,184,150)']}
               refreshing={this.state.refreshing}
-              onRefresh={() => this.onRefreshScreen()}
+              onRefresh={() => this.onRefreshScreen ()}
             />
-          }>
-          {this.renderListScreen()}
+          }
+        >
+          {this.renderListScreen ()}
         </ScrollView>
-        <AddButton params={() => this.setState({modalVisible: true})} />
-        <BackButton params={() => this.props.navigation.goBack()} />
+        <AddButton params={() => this.setState ({modalVisible: true})} />
+        <BackButton params={() => this.props.navigation.goBack ()} />
       </View>
     );
   }
@@ -307,9 +328,9 @@ const mapStateToProps = state => {
   return {authentication};
 };
 
-export default connect(mapStateToProps)(BuatSOP);
+export default connect (mapStateToProps) (BuatSOP);
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create ({
   container: {
     flex: 1,
   },
