@@ -97,12 +97,22 @@ class Register extends React.Component {
               ToastAndroid.CENTER,
             );
           }
+          else{
+            this.setState({isLoading: false});
+            console.log(response.data.status);
+            ToastAndroid.show(
+              'Pendaftaran berhasil',
+              ToastAndroid.SHORT,
+              ToastAndroid.CENTER,
+            );
+            this.props.navigation.navigate('Login')
+          }
         })
         .catch(error => {
           this.setState({isLoading: false});
           console.log(error);
           ToastAndroid.show(
-            'Registrasi gagal',
+            'Email atau No Telepon Sudah Terdaftar',
             ToastAndroid.SHORT,
             ToastAndroid.CENTER,
           );
@@ -249,3 +259,4 @@ const styles = StyleSheet.create({
     color: 'grey',
   },
 });
+

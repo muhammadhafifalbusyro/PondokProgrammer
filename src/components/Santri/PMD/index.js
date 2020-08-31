@@ -133,10 +133,10 @@ class PemahamanMateriDasar extends Component {
               isVisible={this.state.animationLoad}
             />
           </View>
-          {/* <Image
+          <Image
             source={require ('../../../assets/images/tidakadainternet.png')}
             style={styles.imageOffline}
-          /> */}
+          />
           <Text>Tidak Ada Internet</Text>
           <TouchableOpacity
             activeOpacity={0.5}

@@ -52,7 +52,7 @@ class DetailVideoCheck extends Component {
     const data = this.props.authentication;
     const token = data.token;
     const {id_playlist} = this.state;
-    // console.log(id_playlist)
+    console.log(id_playlist)
     this.setState({refreshing: true, animationLoad: true});
     axios
       .get(
@@ -67,7 +67,7 @@ class DetailVideoCheck extends Component {
         const data = response.data.video;
         // const video_check = data
         // console.log(data[0].video_check);
-
+        console.log(data)
         this.setState({
           data : response.data,
           video: data,
@@ -141,7 +141,7 @@ class DetailVideoCheck extends Component {
                     };
 
                     const video_id = this.state.video[i].id;
-                    console.log(video_id);
+                    {/* console.log(video_id); */}
                     const is_learned = 1;
                     {/* const Learned = this.state.data.video_check.length == 0 ? 0 : 1; */}
                     return (

@@ -86,7 +86,7 @@ class DaftarSantri extends React.Component {
             activeOpacity={0.7}
             delayPressIn={10}
             key={key}
-            onPress={() => alert ()}
+            onPress={() => this.props.navigation.navigate ('MenuPilihSantri',{id_santri : value.id})}
           >
             <View style={{flex: 1, margin: 20}}>
               <View style={{flexDirection: 'row'}}>

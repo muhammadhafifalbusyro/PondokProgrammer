@@ -15,7 +15,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Shimmer from './Shimmer';
 import ImagePicker from 'react-native-image-picker';
 
-import ProgressCircle from 'react-native-progress-circle';
+// import ProgressCircle from 'react-native-progress-circle';
 import {TextInput} from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
 import Loader from './loader';
@@ -697,7 +697,7 @@ class IDCard extends Component {
                     >
                       Kehadiran
                     </Text>
-                    <ProgressCircle
+                    {/* <ProgressCircle
                       percent={toNumberKehadiran}
                       radius={50}
                       borderWidth={8}
@@ -727,7 +727,7 @@ class IDCard extends Component {
                       bgColor="#fff"
                     >
                       <Text style={{fontSize: 18}}>{ProgresBelajar}%</Text>
-                    </ProgressCircle>
+                    </ProgressCircle> */}
                     <TouchableOpacity
                       style={styles.TouchableOpacityStyle}
                       onPress={() => this.props.navigation.goBack ()}

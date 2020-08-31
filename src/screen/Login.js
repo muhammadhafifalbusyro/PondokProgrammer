@@ -42,11 +42,11 @@ class Login extends React.Component {
           mobile: true,
         })
         .then(response => {
-          console.log(response.data.token + 'token') ;
+          console.log(response.data) ;
           if (response.data.token) {
             if (response.data.data.role == '1') {
               this.setState({isLoading: false});
-              console.log(response.data.token + 'token') ;
+              // console.log(response.data.token + 'token') ;
               let data = {
                 id: response.data.data.id,
                 token: response.data.token,
@@ -63,7 +63,7 @@ class Login extends React.Component {
               this.props.navigation.replace('MainMentor');
             } else if (response.data.data.role == '2') {
               this.setState({isLoading: false});
-              console.log(response.data.data.jurusan_id);
+              // console.log(response.data.data.jurusan_id);
 
               let data = {
                 id: response.data.data.id,
