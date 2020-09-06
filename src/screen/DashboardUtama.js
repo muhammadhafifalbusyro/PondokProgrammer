@@ -116,10 +116,12 @@ export default DashboardUtama;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgb(237, 237, 235)',
+    // backgroundColor: 'rgb(237, 237, 235)',
+    backgroundColor: '#fff',
   },
   dashboardTemplate: {
     flex: 1,
+
   },
   iconTemplates: {
     flexWrap: 'wrap',
@@ -131,6 +133,7 @@ const styles = StyleSheet.create({
     height: 115,
     width: windowWidth / 4,
     alignItems: 'center',
+    backgroundColor: '#fff',
   },
   boxIcon: {
     height: 65,
@@ -157,7 +160,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   banner: {
-    height: '30%',
+    marginTop : 10,
+    height: '35%',
     width: '100%',
   },
 });

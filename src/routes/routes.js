@@ -150,6 +150,7 @@ import PreviewKelas from '../screen/PreviewKelas';
 import BuatStandarKompetensiCreate from '../screen/BuatStandarKompetensiCreate';
 import BuatStandarKompetensiCreate2 from '../screen/BuatStandarKompetensiCreate2';
 import BuatStandarKompetensiCreate3 from '../screen/BuatStandarKompetensiCreate3';
+import LupaPassword from '../screen/LupaPassword'
 
 // Dashboard Santri
 import DompetSaya from '../components/Santri/DS';
@@ -290,6 +291,7 @@ function Main() {
       />
       <Stack.Screen name="Register" component={Register} />
       <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="LupaPassword" component={LupaPassword} />
     </Stack.Navigator>
   );
 }
