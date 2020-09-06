@@ -61,9 +61,9 @@ class TopikPemahamanMateriDasar extends Component {
         const data = response.data.topik[0];
         this.setState({
           id_topik: data.id,
-          refreshing: false,
-          status: true,
-          animationLoad: false,
+          // refreshing: false,
+          // status: true,
+          // animationLoad: false,
         });
       })
       .catch(error => {
@@ -103,7 +103,7 @@ class TopikPemahamanMateriDasar extends Component {
         const data = response.data;
         if(data.status || null){
           this.setState({
-            topik: data,
+            topik: [],
             refreshing: false,
             status: true,
             animationLoad: false,
@@ -120,7 +120,7 @@ class TopikPemahamanMateriDasar extends Component {
       .catch(error => {
         console.log(error);
         ToastAndroid.show(
-          'Data gagal didapatkan',
+          'Tidak Ada Data',
           ToastAndroid.SHORT,
           ToastAndroid.CENTER,
         );

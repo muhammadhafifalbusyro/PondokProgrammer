@@ -37,7 +37,7 @@ class DetailDailyTask extends Component {
       link_github: '',
       Rstatus: [],
       filter: [],
-      statusList : false
+      statusList: false,
     };
     this.arrayholder = [];
   }
@@ -65,7 +65,7 @@ class DetailDailyTask extends Component {
     const jurusan_id = this.props.jurusan_id.jurusan_id;
     const {Sprint, id_topik} = this.props.route.params;
 
-    // console.log(Sprint,id_topik, jurusan_id)
+    console.log (Sprint, id_topik, jurusan_id);
     this.setState ({refreshing: true, animationLoad: true});
     axios
       .get (
@@ -145,16 +145,17 @@ class DetailDailyTask extends Component {
                     Kirim Jawaban
                   </Text>
                 </TouchableOpacity>
+
                 {/* {this.arrayholder.length == 0 */}
-                  {/* ? null */}
-                  {/* : */}
-                   <TouchableOpacity
-                      onPress={() => this.toggleModalStatus (dailyTask_id)}
-                      style={styles.play}
-                    >
-                      <Text style={styles.tPlay}>Status</Text>
-                    </TouchableOpacity>
-                    {/* } */}
+                {/* ? null */}
+                {/* : */}
+                <TouchableOpacity
+                  onPress={() => this.toggleModalStatus (dailyTask_id)}
+                  style={styles.play}
+                >
+                  <Text style={styles.tPlay}>Status</Text>
+                </TouchableOpacity>
+                {/* } */}
               </View>
             </DropDownItem>
             <Modal
@@ -221,12 +222,13 @@ class DetailDailyTask extends Component {
                 />
               </TouchableOpacity>
             </Modal>
-            <Modal isVisible={this.state.isModalStatus} transparent={true}>
+            <Modal isVisible={this.state.isModalStatus} transparent={true} >
               <View
                 style={{
                   flex: 1,
                   alignItems: 'center',
                   justifyContent: 'center',
+                  borderRadius: 20,
                 }}
               >
                 <View
@@ -246,7 +248,7 @@ class DetailDailyTask extends Component {
                     <Icon
                       name="chevron-circle-left"
                       size={40}
-                      color="rgb(0, 184, 150)"
+                      color="rgb(32, 42, 20)"
                     />
                   </TouchableOpacity>
                 </View>
@@ -371,16 +373,16 @@ class DetailDailyTask extends Component {
       })
       .then (response => {
         const data = response.data;
-        // console.log (data);
+        console.log (data + 'GetStatus');
         this.setState ({
-          Rstatus: data,
+          Rstatus: {data, ...this.state.task},
         });
         this.arrayholder = data;
       })
       .catch (error => {
         console.log (error);
         ToastAndroid.show (
-          'Data gagal didapatkan',
+          'Tidak Ada Data',
           ToastAndroid.SHORT,
           ToastAndroid.CENTER
         );
@@ -388,7 +390,7 @@ class DetailDailyTask extends Component {
   };
 
   filter = dailyTask_id => {
-    console.log(dailyTask_id + 'data')
+    console.log (dailyTask_id + 'data');
     const newData = this.arrayholder.filter (item => {
       const itemData = item.dailyTask_id;
       const textData = dailyTask_id;
@@ -407,7 +409,7 @@ class DetailDailyTask extends Component {
         <View
           style={[
             styles.nodata,
-            {justifyContent: 'center', backgroundColor: 'rgb(0,184,150)'},
+            {justifyContent: 'center', backgroundColor: 'rgb(0,184,150)', borderRadius : 20},
           ]}
         >
           <Text
@@ -434,36 +436,46 @@ class DetailDailyTask extends Component {
               Status Jawaban Anda :
             </Text>
             {value.is_approved == 0
-              ? <View
-                  style={{
-                    height: 40,
-                    width: 70,
-                    backgroundColor: 'red',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderRadius: 10,
-                  }}
-                >
-                  <Text
-                    style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}
+              ? <View style={{alignItems: 'center'}}>
+                  <View
+                    style={{
+                      height: 40,
+                      width: 70,
+                      backgroundColor: 'orange',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      borderRadius: 10,
+                    }}
                   >
-                    Pending
+                    <Text
+                      style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}
+                    >
+                      Pending
+                    </Text>
+                  </View>
+                  <Text style={{color: 'orange'}}>
+                    Menunggu Verifikasi Mentor
                   </Text>
                 </View>
-              : <View
-                  style={{
-                    height: 40,
-                    width: 70,
-                    backgroundColor: 'rgb(0,184,150)',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderRadius: 10,
-                  }}
-                >
-                  <Text
-                    style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}
+              : <View style={{alignItems: 'center'}}>
+                  <View
+                    style={{
+                      height: 40,
+                      width: 70,
+                      backgroundColor: 'rgb(0,184,150)',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      borderRadius: 10,
+                    }}
                   >
-                    Diterima
+                    <Text
+                      style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}
+                    >
+                      Diterima
+                    </Text>
+                  </View>
+                  <Text style={{color: 'rgb(0,184,150)'}}>
+                    Terverifikasi Mentor
                   </Text>
                 </View>}
           </View>
@@ -474,6 +486,7 @@ class DetailDailyTask extends Component {
 
   render () {
     const {Sprint} = this.props.route.params;
+    console.log (this.state.Rstatus);
     return (
       <View style={styles.container}>
         <StatusBar backgroundColor="rgb(0, 184, 150)" />

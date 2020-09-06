@@ -39,6 +39,8 @@ class DetailVideoCheck extends Component {
   }
 
   componentDidMount () {
+    this.setState ({refreshing: true, animationLoad: true});
+
     const {ID_Playlist} = this.props.route.params;
     this.setState ({
       id_playlist: ID_Playlist,
@@ -54,7 +56,6 @@ class DetailVideoCheck extends Component {
     const token = data.token;
     const {id_playlist} = this.state;
     console.log (id_playlist);
-    this.setState ({refreshing: true, animationLoad: true});
     axios
       .get (
         `https://api.pondokprogrammer.com/api/video_playlist/${id_playlist}`,
