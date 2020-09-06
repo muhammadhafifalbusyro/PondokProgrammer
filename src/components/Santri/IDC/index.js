@@ -15,7 +15,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Shimmer from './Shimmer';
 import ImagePicker from 'react-native-image-picker';
 
-// import ProgressCircle from 'react-native-progress-circle';
 import {TextInput} from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
 import Loader from './loader';
@@ -93,7 +92,7 @@ class IDCard extends Component {
   };
 
   updateImage = () => {
-    this.setState({isLoading:true})
+    this.setState ({isLoading: true});
     const {id} = this.state;
     let data = this.props.authentication;
     let token = data.token;
@@ -109,7 +108,7 @@ class IDCard extends Component {
     formData.append ('image', image);
 
     if (this.state.fileSize >= 1500000) {
-      this.modalImage ()
+      this.modalImage ();
       ToastAndroid.show (
         'Foto terlalu besar, maksimal 1,5 MB',
         ToastAndroid.SHORT,
@@ -128,11 +127,11 @@ class IDCard extends Component {
         .then (response => response.json ())
         .then (res => {
           console.log (res);
-          this.getDataDiri()
-        this.modalImage ();
-        this.setState({isLoading: false})
+          this.getDataDiri ();
+          this.modalImage ();
+          this.setState ({isLoading: false});
         })
-        .catch(err => console.log(err))
+        .catch (err => console.log (err));
     }
   };
 
@@ -316,7 +315,13 @@ class IDCard extends Component {
 
     return (
       <View style={styles.container}>
-        <View style={styles.header}>
+        <View style={[styles.header,{flexDirection : 'row', alignItems : 'center'}]}>
+          <TouchableOpacity
+            style={{alignItems : 'center', marginLeft: 10}}
+            onPress={() => this.props.navigation.goBack ()}
+          >
+            <Icon name="arrow-left" size={20} color="rgb(0, 184, 150)" />
+          </TouchableOpacity>
           <Text style={styles.THeader}> ID CARD </Text>
         </View>
         <View style={styles.profile}>
@@ -517,7 +522,7 @@ class IDCard extends Component {
                   flex: 1,
                   justifyContent: 'center',
                   backgroundColor: 'transparent',
-                  alignItems : 'center'
+                  alignItems: 'center',
                 }}
               >
                 <View
@@ -529,7 +534,13 @@ class IDCard extends Component {
                     justifyContent: 'center',
                   }}
                 >
-                  <View style={{flex : 1, alignItems: 'center',justifyContent:'center'}}>
+                  <View
+                    style={{
+                      flex: 1,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
                     <Image
                       source={this.state.avatarSource}
                       style={{height: '80%', width: '100%'}}
@@ -543,11 +554,31 @@ class IDCard extends Component {
                       alignItems: 'stretch',
                     }}
                   >
-                    <TouchableOpacity style={{backgroundColor: 'rgb(0,184,150)', height : 50, width : 80, borderRadius: 20, alignItems:'center', justifyContent:'center'}} onPress={() => this.modalImage ()}>
-                      <Text style={{color: '#fff',fontSize: 17}}>Batal</Text>
+                    <TouchableOpacity
+                      style={{
+                        backgroundColor: 'rgb(0,184,150)',
+                        height: 50,
+                        width: 80,
+                        borderRadius: 20,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                      onPress={() => this.modalImage ()}
+                    >
+                      <Text style={{color: '#fff', fontSize: 17}}>Batal</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{backgroundColor: 'rgb(0,184,150)', height : 50, width : 80, borderRadius: 20, alignItems:'center', justifyContent:'center'}} onPress={() => this.updateImage ()}>
-                      <Text style={{color: '#fff',fontSize: 17}}>Simpan</Text>
+                    <TouchableOpacity
+                      style={{
+                        backgroundColor: 'rgb(0,184,150)',
+                        height: 50,
+                        width: 80,
+                        borderRadius: 20,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                      onPress={() => this.updateImage ()}
+                    >
+                      <Text style={{color: '#fff', fontSize: 17}}>Simpan</Text>
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -697,16 +728,9 @@ class IDCard extends Component {
                     >
                       Kehadiran
                     </Text>
-                    {/* <ProgressCircle
-                      percent={toNumberKehadiran}
-                      radius={50}
-                      borderWidth={8}
-                      color="#3399FF"
-                      shadowColor="#999"
-                      bgColor="#fff"
-                    >
-                      <Text style={{fontSize: 18}}>{toNumberKehadiran}%</Text>
-                    </ProgressCircle>
+                    <Text style={{fontSize: 18, textAlign: 'center'}}>
+                      {toNumberKehadiran} %
+                    </Text>
                   </View>
                   <View style={{marginRight: 20}}>
                     <Text
@@ -718,26 +742,9 @@ class IDCard extends Component {
                     >
                       Progres Belajar
                     </Text>
-                    <ProgressCircle
-                      percent={ProgresBelajar}
-                      radius={50}
-                      borderWidth={8}
-                      color="#3399FF"
-                      shadowColor="#999"
-                      bgColor="#fff"
-                    >
-                      <Text style={{fontSize: 18}}>{ProgresBelajar}%</Text>
-                    </ProgressCircle> */}
-                    <TouchableOpacity
-                      style={styles.TouchableOpacityStyle}
-                      onPress={() => this.props.navigation.goBack ()}
-                    >
-                      <Icon
-                        name="arrow-left"
-                        size={40}
-                        color="rgb(0, 184, 150)"
-                      />
-                    </TouchableOpacity>
+                    <Text style={{fontSize: 18, textAlign: 'center'}}>
+                      {ProgresBelajar} %
+                    </Text>
                   </View>
                 </View>
               </Shimmer>

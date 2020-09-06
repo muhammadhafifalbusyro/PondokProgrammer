@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   ToastAndroid,
+  Linking
 } from 'react-native';
 
 import BackButton from '../components/BackButton';
@@ -112,7 +113,7 @@ class Login extends React.Component {
             this.setState({isLoading: false});
             console.log(response.data);
             ToastAndroid.show(
-              'Login gagal',
+              'Login Gagal Email atau Password Salah',
               ToastAndroid.SHORT,
               ToastAndroid.CENTER,
             );
@@ -122,7 +123,7 @@ class Login extends React.Component {
           this.setState({isLoading: false});
           console.log(error);
           ToastAndroid.show(
-            'Login gagal',
+            'Login Gagal Email atau Password Salah',
             ToastAndroid.SHORT,
             ToastAndroid.CENTER,
           );
@@ -147,7 +148,8 @@ class Login extends React.Component {
     const {email, password} = this.state;
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>Masuk</Text>
+        <Text style={[styles.title,{textAlign: 'center'}]}>Masuk</Text>
+        <View style={{flex: 1, alignItems : 'center'}}>
         <TextInput
           style={styles.textInput}
           placeholder="Email"
@@ -166,6 +168,12 @@ class Login extends React.Component {
           />
           {this.seePassword()}
         </View>
+        <TouchableOpacity onPress= { () => ToastAndroid.show(
+            'Cooming Soon',
+            ToastAndroid.SHORT,
+            ToastAndroid.TOP)} style={{height : 50, width: '100%', justifyContent : 'center', alignItems : 'flex-start', marginLeft : '20%'}}>
+          <Text style={{fontSize : 12}}>Lupa Password ? </Text>
+        </TouchableOpacity>
         <TouchableOpacity
           onPress={() => this.login(email, password)}
           style={styles.button}
@@ -174,6 +182,7 @@ class Login extends React.Component {
           {this.animationLoading()}
         </TouchableOpacity>
         <BackButton params={() => this.props.navigation.goBack()} />
+        </View>
       </View>
     );
   }
@@ -184,7 +193,6 @@ export default Login;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
   },
   title: {
     fontSize: 30,
@@ -213,7 +221,7 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     padding: 10,
     backgroundColor: 'rgb(0,184,150)',
-    marginTop: 50,
+    marginTop: 20,
     elevation: 3,
     alignItems: 'center',
     justifyContent: 'center',

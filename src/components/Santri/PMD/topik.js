@@ -7,6 +7,7 @@ import {
   ToastAndroid,
   ScrollView,
   RefreshControl,
+  Alert
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {styles} from './styles';
@@ -135,6 +136,29 @@ class TopikPemahamanMateriDasar extends Component {
     this.getData();
   };
 
+  konfirmasi = ({is_learned, stdKompetensi_id}) => {
+    Alert.alert (
+      'Konfirmasi',
+      'Apa anda yakin sudah paham ?',
+      [
+        {
+          text: 'Tidak',
+          onPress: () => {
+            return false;
+          },
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => {
+            this.sendIs_learned({is_learned, stdKompetensi_id});
+          },
+        },
+      ],
+      {cancelable: false}
+    );
+  };
+
   renderListScreen = () => {
     const {topik} = this.state;
     const lengthData = topik.length;
@@ -161,7 +185,7 @@ class TopikPemahamanMateriDasar extends Component {
               style={styles.flexCheckbox}
               
               onPress={() =>
-                this.sendIs_learned({is_learned, stdKompetensi_id})
+                this.konfirmasi({is_learned, stdKompetensi_id})
               }
               >
               <View style={{justifyContent: 'center', marginLeft: 5}}>

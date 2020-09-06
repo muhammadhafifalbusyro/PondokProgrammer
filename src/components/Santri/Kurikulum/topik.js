@@ -74,7 +74,7 @@ class TopikKurikulum extends Component {
       .catch (error => {
         console.log (error);
         ToastAndroid.show (
-          'Data gagal didapatkan',
+          'Tidak Ada Data',
           ToastAndroid.SHORT,
           ToastAndroid.CENTER
         );

@@ -72,7 +72,7 @@ class MasukKelas extends Component {
 
       fetch(`${Data}`, requestOptions)
         .then(response => response.text())
-        .then(response => console.log(response))
+        .then(response => console.log("absensi " + " " + "" + response))
         .catch(error => console.log('error', error));
     }
     this.getClass();
@@ -124,7 +124,7 @@ class MasukKelas extends Component {
       .catch(error => {
         console.log(error);
         ToastAndroid.show(
-          'Data gagal didapatkan',
+          'Tidak Ada Data',
           ToastAndroid.SHORT,
           ToastAndroid.CENTER,
         );
@@ -138,7 +138,7 @@ class MasukKelas extends Component {
 
   previewKelas = value => {
     this.props.navigation.navigate('DetailMasukKelas', {
-      id: value.class_id,
+      id: value.class.id,
     });
   };
 
