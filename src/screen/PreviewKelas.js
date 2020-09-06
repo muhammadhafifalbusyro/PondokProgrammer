@@ -133,6 +133,66 @@ class PreviewKelas extends React.Component {
   onRefreshScreen = () => {
     this.getData();
   };
+
+  deletesantri = (class_id) => {
+    console.log(class_id.class_id)
+      const data = this.props.authentication;
+      const token = data.token;
+      this.setState({refreshing: true, animationLoad: true});
+      axios
+        .delete(`https://api.pondokprogrammer.com/api/class/qr/${class_id.class_id}/${class_id.student_id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then(response => {
+          console.log(response.data);
+          ToastAndroid.show(
+            'Data berhasil dihapus',
+            ToastAndroid.SHORT,
+            ToastAndroid.CENTER,
+          );
+          this.setState({
+            refreshing: false,
+          });
+          this.getData();
+        })
+        .catch(error => {
+          console.log(error);
+          ToastAndroid.show(
+            'Gagal Menghapus Data',
+            ToastAndroid.SHORT,
+            ToastAndroid.CENTER,
+          );
+          this.setState({
+            refreshing: false,
+          });
+        });
+  }
+
+  cautionDeleteSantri = (class_id,student_id) => {
+    Alert.alert(
+      'Hapus Santri',
+      'Apa anda yakin ingin menghapus ?',
+      [
+        {
+          text: 'Tidak',
+          onPress: () => {
+            return false;
+          },
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => {
+            this.deletesantri(class_id,student_id);
+          },
+        },
+      ],
+      {cancelable: false},
+    );
+  };
+
   renderListScreen = () => {
     if (this.state.status) {
       return (
@@ -188,8 +248,11 @@ class PreviewKelas extends React.Component {
                   <View style={styles.boxNumber}>
                     <Text style={styles.textNumber}>{key + 1}</Text>
                   </View>
-                  <View style={styles.boxName}>
+                  <View style={[styles.boxName,{flexDirection:'row'}]}>
                     <Text style={styles.textName}>{value.username}</Text>
+                    <TouchableOpacity onPress={() => this.cautionDeleteSantri({class_id : value.pivot.class_id, student_id: value.pivot.student_id })}>
+                    <Icon name="trash" color="red" size={20} style={{paddingRight : 10}} />
+                    </TouchableOpacity>
                   </View>
                 </View>
               );
@@ -410,7 +473,8 @@ const styles = StyleSheet.create({
   boxName: {
     height: '100%',
     width: '90%',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     padding: 5,
   },
   textName: {

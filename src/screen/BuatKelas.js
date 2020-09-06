@@ -46,7 +46,9 @@ class BuatKelas extends React.Component {
       })
       .then(response => {
       const data = response.data;
-      if (data.status || null) {
+      // console.log(data)
+      if (data || null) {
+        console.log(data)
         this.setState ({
           data: data,
           refreshing: false,
@@ -54,6 +56,7 @@ class BuatKelas extends React.Component {
           animationLoad: false,
         });
       } else {
+        console.log('dua')
         this.setState ({
           data: [],
           refreshing: false,
@@ -129,6 +132,7 @@ class BuatKelas extends React.Component {
     }
   };
   render() {
+    console.log(this.state.data)
     return (
       <View style={styles.container}>
         <Navbar name="Kelas" />

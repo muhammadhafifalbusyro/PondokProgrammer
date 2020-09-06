@@ -8,7 +8,7 @@ export const styles = StyleSheet.create ({
   },
   header: {
     height: 50,
-    justifyContent: 'center',
+    // justifyContent: 'center',
   },
   THeader: {
     fontSize: 20,
@@ -47,7 +47,7 @@ export const styles = StyleSheet.create ({
     alignItems: 'flex-end',
     justifyContent: "flex-end",
     marginLeft : 90,
-    marginTop : 50
+    marginTop : 30
   },
   posisiImage : {
     position: 'absolute',
