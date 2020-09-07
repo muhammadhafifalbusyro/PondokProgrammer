@@ -19,9 +19,9 @@ import {connect} from 'react-redux';
 import Spinner from 'react-native-spinkit';
 import BackButton from '../../../components/BackButton';
 
-const axios = require('axios');
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+const axios = require ('axios');
+const windowWidth = Dimensions.get ('window').width;
+const windowHeight = Dimensions.get ('window').height;
 
 class DetailMasukKelas extends React.Component {
   state = {
@@ -32,24 +32,25 @@ class DetailMasukKelas extends React.Component {
     status: true,
     animationLoad: false,
   };
-  componentDidMount() {
-    this.getData();
+  componentDidMount () {
+    this.getData ();
   }
 
   getData = () => {
     const data = this.props.authentication;
     const token = data.token;
     const id = this.props.route.params.id;
-    this.setState({refreshing: true, animationLoad: true});
+    // console.log (id + 'id kelas');
+    this.setState ({refreshing: true, animationLoad: true});
     axios
-      .get(`http://api.pondokprogrammer.com/api/class/${id}`, {
+      .get(`https://api.pondokprogrammer.com/api/class/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
-      .then(response => {
-        console.log(response.data);
-        this.setState({
+      .then (response => {
+        console.log (response.data);
+        this.setState ({
           data: response.data,
           peserta: response.data.student,
           refreshing: false,
@@ -57,79 +58,23 @@ class DetailMasukKelas extends React.Component {
           animationLoad: false,
         });
       })
-      .catch(error => {
-        console.log(error);
-        ToastAndroid.show(
-          'Data gagal didapatkan',
+      .catch (error => {
+        console.log (error);
+        ToastAndroid.show (
+          'Tidak Ada Data',
           ToastAndroid.SHORT,
-          ToastAndroid.CENTER,
+          ToastAndroid.CENTER
         );
-        this.setState({
+        this.setState ({
           refreshing: false,
           status: false,
           animationLoad: false,
         });
       });
   };
-  deleteData = () => {
-    const data = this.props.authentication;
-    const token = data.token;
-    const id = this.props.route.params.id;
-    this.setState({refreshing: true, animationLoad: true});
-    axios
-      .delete(`http://api.pondokprogrammer.com/api/class/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(response => {
-        console.log(response.data);
-        ToastAndroid.show(
-          'Data berhasil dihapus',
-          ToastAndroid.SHORT,
-          ToastAndroid.CENTER,
-        );
-        this.setState({
-          refreshing: false,
-        });
-        this.props.navigation.goBack();
-      })
-      .catch(error => {
-        console.log(error);
-        ToastAndroid.show(
-          'Data gagal didapatkan',
-          ToastAndroid.SHORT,
-          ToastAndroid.CENTER,
-        );
-        this.setState({
-          refreshing: false,
-        });
-      });
-  };
-  cautionDelete = () => {
-    Alert.alert(
-      'Hapus Materi',
-      'Apa anda yakin ingin menghapusnya ?',
-      [
-        {
-          text: 'Tidak',
-          onPress: () => {
-            return false;
-          },
-          style: 'cancel',
-        },
-        {
-          text: 'OK',
-          onPress: () => {
-            this.deleteData();
-          },
-        },
-      ],
-      {cancelable: false},
-    );
-  };
+
   onRefreshScreen = () => {
-    this.getData();
+    this.getData ();
   };
   renderListScreen = () => {
     if (this.state.status) {
@@ -141,9 +86,10 @@ class DetailMasukKelas extends React.Component {
             <RefreshControl
               colors={['rgb(0,184,150)']}
               refreshing={this.state.refreshing}
-              onRefresh={() => this.onRefreshScreen()}
+              onRefresh={() => this.onRefreshScreen ()}
             />
-          }>
+          }
+        >
           <View style={styles.ListBox}>
             <View style={styles.imageKurikulum}>
               <Text style={styles.titleImage}>{this.state.data.materi} </Text>
@@ -157,7 +103,7 @@ class DetailMasukKelas extends React.Component {
                 {this.state.peserta.length} orang
               </Text>
             </View>
-            {this.state.peserta.map((value, key) => {
+            {this.state.peserta.map ((value, key) => {
               return (
                 <View style={styles.boxListPeserta} key={key}>
                   <View style={styles.boxNumber}>
@@ -182,24 +128,21 @@ class DetailMasukKelas extends React.Component {
               isVisible={this.state.animationLoad}
             />
           </View>
-          {/* <Image
-            source={require('../assets/images/noconnectionlogo.png')}
-            style={styles.imageOffline}
-          /> */}
-          <Text>Ada Koneksi Internet</Text>
+          <Text>Tidak Ada Data</Text>
           <TouchableOpacity
             style={styles.iconRefresh}
             activeOpacity={0.5}
             delayPressIn={10}
-            onPress={() => this.getData()}>
-            <Icon name="refresh" color="rgb(0,184,150)" size={40} />
+            onPress={() => this.getData ()}
+          >
+            <Icon name="refresh"  color="rgb(0,184,150)"  size={30} />
           </TouchableOpacity>
         </View>
       );
     }
   };
 
-  render() {
+  render () {
     return (
       <View style={{flex: 1}}>
         <Modal
@@ -207,10 +150,12 @@ class DetailMasukKelas extends React.Component {
           transparent={true}
           visible={this.state.qrVisible}
           onRequestClose={() => {
-            this.setState({qrVisible: false});
-          }}>
+            this.setState ({qrVisible: false});
+          }}
+        >
           <TouchableWithoutFeedback
-            onPress={() => this.setState({qrVisible: false})}>
+            onPress={() => this.setState ({qrVisible: false})}
+          >
             <View style={styles.centeredView}>
               <View style={styles.modalContainer}>
                 <Image
@@ -222,8 +167,8 @@ class DetailMasukKelas extends React.Component {
           </TouchableWithoutFeedback>
         </Modal>
         <Navbar name="Preview Kelas" />
-        {this.renderListScreen()}
-        <BackButton params={() => this.props.navigation.goBack()} />
+        {this.renderListScreen ()}
+        <BackButton params={() => this.props.navigation.goBack ()} />
       </View>
     );
   }
@@ -233,9 +178,9 @@ const mapStateToProps = state => {
   return {authentication};
 };
 
-export default connect(mapStateToProps)(DetailMasukKelas);
+export default connect (mapStateToProps) (DetailMasukKelas);
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create ({
   ListBox: {
     height: 200,
     width: '100%',

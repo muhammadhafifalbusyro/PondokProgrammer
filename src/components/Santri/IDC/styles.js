@@ -8,7 +8,7 @@ export const styles = StyleSheet.create ({
   },
   header: {
     height: 50,
-    justifyContent: 'center',
+    // justifyContent: 'center',
   },
   THeader: {
     fontSize: 20,
@@ -19,24 +19,43 @@ export const styles = StyleSheet.create ({
   },
   profile: {
     backgroundColor: 'rgb(0, 184, 150)',
-    flex : 0.5,
+    // flex : 0.2,
   },
   status: {
-    flex : 2
+    flex : 2,
   },
   img : {
       height : 100,
       width : 100,
-      borderRadius : 50
+      borderRadius : 50,
+      // resizeMode : 'contain',
   },
   subProfile : {
       flex : 0.2,
       alignItems : 'center',
       justifyContent : 'center',
-      paddingTop : '30%'
+      paddingTop : '25%',
   },
   tStatus : {
     paddingTop : '30%',
     marginLeft : 20
-  }
+  },
+  TouchableOpacityStyle: {
+    position: 'absolute',
+    width: 50,
+    height: 50,
+    alignItems: 'flex-end',
+    justifyContent: "flex-end",
+    marginLeft : 90,
+    marginTop : 30
+  },
+  posisiImage : {
+    position: 'absolute',
+    width: 50,
+    height: 50,
+    alignItems: 'flex-end',
+    justifyContent: "flex-end",
+    marginLeft : 90,
+    marginTop : 50,
+  },
 });

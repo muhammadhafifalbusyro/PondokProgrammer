@@ -6,12 +6,13 @@ import {
   TouchableOpacity,
   StyleSheet,
   ToastAndroid,
+  ScrollView,
 } from 'react-native';
 import {Picker} from '@react-native-community/picker';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import BackButton from '../components/BackButton';
 import Spinner from 'react-native-spinkit';
-const axios = require('axios');
+const axios = require ('axios');
 
 class Register extends React.Component {
   state = {
@@ -27,16 +28,16 @@ class Register extends React.Component {
   seePassword = () => {
     if (this.state.secureText) {
       return (
-        <Text onPress={() => this.setState({secureText: false})}>Lihat</Text>
+        <Text onPress={() => this.setState ({secureText: false})}>Lihat</Text>
       );
     } else {
       return (
-        <Text onPress={() => this.setState({secureText: true})}>Kunci</Text>
+        <Text onPress={() => this.setState ({secureText: true})}>Kunci</Text>
       );
     }
   };
   registrasi = (name, email, password, phone, code, division) => {
-    this.setState({isLoading: true});
+    this.setState ({isLoading: true});
     if (
       name != '' &&
       email != '' &&
@@ -46,7 +47,7 @@ class Register extends React.Component {
       division != ''
     ) {
       axios
-        .post('http://api.pondokprogrammer.com/api/student_register', {
+        .post ('https://api.pondokprogrammer.com/api/student_register', {
           name: name,
           email: email,
           password: password,
@@ -55,64 +56,73 @@ class Register extends React.Component {
           code: code,
           division: division,
         })
-        .then(response => {
+        .then (response => {
           if (response.data.status == 'success') {
-            this.setState({isLoading: false});
-            console.log(response.data.status);
-            ToastAndroid.show(
+            this.setState ({isLoading: false});
+            console.log (response.data.status);
+            ToastAndroid.show (
               'Pendaftaran berhasil',
               ToastAndroid.SHORT,
-              ToastAndroid.CENTER,
+              ToastAndroid.CENTER
             );
           } else if (response.data.email) {
-            this.setState({isLoading: false});
-            console.log(response.data.email[0]);
-            ToastAndroid.show(
+            this.setState ({isLoading: false});
+            console.log (response.data.email[0]);
+            ToastAndroid.show (
               response.data.email[0],
               ToastAndroid.SHORT,
-              ToastAndroid.CENTER,
+              ToastAndroid.CENTER
             );
           } else if (response.data.phone) {
-            this.setState({isLoading: false});
-            console.log(response.phone[0]);
-            ToastAndroid.show(
+            this.setState ({isLoading: false});
+            console.log (response.phone[0]);
+            ToastAndroid.show (
               response.data.phone[0],
               ToastAndroid.SHORT,
-              ToastAndroid.CENTER,
+              ToastAndroid.CENTER
             );
           } else if (response.data.password) {
-            this.setState({isLoading: false});
-            console.log(response.data.password[0]);
-            ToastAndroid.show(
+            this.setState ({isLoading: false});
+            console.log (response.data.password[0]);
+            ToastAndroid.show (
               response.data.password[0],
               ToastAndroid.SHORT,
-              ToastAndroid.CENTER,
+              ToastAndroid.CENTER
             );
           } else if (response.data.code) {
-            this.setState({isLoading: false});
-            console.log(response.data.code[0]);
-            ToastAndroid.show(
+            this.setState ({isLoading: false});
+            console.log (response.data.code[0]);
+            ToastAndroid.show (
               response.data.code[0],
               ToastAndroid.SHORT,
-              ToastAndroid.CENTER,
+              ToastAndroid.CENTER
             );
+          } else {
+            this.setState ({isLoading: false});
+            console.log (response.data.status);
+            ToastAndroid.show (
+              'Pendaftaran berhasil',
+              ToastAndroid.SHORT,
+              ToastAndroid.CENTER
+            );
+            this.props.navigation.navigate ('Login');
           }
         })
-        .catch(error => {
-          this.setState({isLoading: false});
-          console.log(error);
-          ToastAndroid.show(
-            'Registrasi gagal',
+        .catch (error => {
+          this.setState ({isLoading: false});
+          console.log (error);
+          ToastAndroid.show (
+            'Email atau No Telepon Sudah Terdaftar',
             ToastAndroid.SHORT,
-            ToastAndroid.CENTER,
+            ToastAndroid.CENTER
           );
         });
     } else {
-      this.setState({isLoading: false});
-      ToastAndroid.show(
+      this.setState ({isLoading: false});
+      ToastAndroid.show (
         'Data tidak boleh ada yang kosong',
         ToastAndroid.SHORT,
-        ToastAndroid.CENTER,
+        ToastAndroid.CENTER
       );
     }
   };
@@ -123,7 +133,7 @@ class Register extends React.Component {
       return <Text style={styles.textButton}>Daftar Anggota</Text>;
     }
   };
-  render() {
+  render () {
     const {username, email, password, no_tlp, code, picker} = this.state;
     return (
       <View style={styles.container}>
@@ -132,13 +142,13 @@ class Register extends React.Component {
           style={styles.textInput}
           placeholder="Nama lengkap"
           placeholderTextColor="grey"
-          onChangeText={text => this.setState({username: text})}
+          onChangeText={text => this.setState ({username: text})}
           value={this.state.username}
         />
         <TextInput
           style={styles.textInput}
           placeholder="Email"
-          onChangeText={text => this.setState({email: text})}
+          onChangeText={text => this.setState ({email: text})}
           value={this.state.email}
           placeholderTextColor="grey"
         />
@@ -146,7 +156,7 @@ class Register extends React.Component {
           style={styles.textInput}
           placeholder="No Telepon"
           keyboardType="numeric"
-          onChangeText={text => this.setState({no_tlp: text})}
+          onChangeText={text => this.setState ({no_tlp: text})}
           value={this.state.no_tlp}
           placeholderTextColor="grey"
         />
@@ -154,17 +164,17 @@ class Register extends React.Component {
           <TextInput
             style={styles.textInput}
             placeholder="Kata Sandi"
-            onChangeText={text => this.setState({password: text})}
+            onChangeText={text => this.setState ({password: text})}
             value={this.state.password}
             placeholderTextColor="grey"
             secureTextEntry={this.state.secureText}
           />
-          {this.seePassword()}
+          {this.seePassword ()}
         </View>
         <TextInput
           style={styles.textInput}
           placeholder="Kode"
-          onChangeText={text => this.setState({code: text})}
+          onChangeText={text => this.setState ({code: text})}
           value={this.state.code}
           placeholderTextColor="grey"
         />
@@ -176,9 +186,10 @@ class Register extends React.Component {
             prompt="Options"
             onValueChange={(itemValue, itemIndex) => {
               if (itemValue != '0') {
-                this.setState({picker: itemValue});
+                this.setState ({picker: itemValue});
               }
-            }}>
+            }}
+          >
             <Picker.Item label="Pilih Divisi" value="0" color="grey" />
             <Picker.Item label="Backend" value="1" />
             <Picker.Item label="Frontend" value="2" />
@@ -187,21 +198,21 @@ class Register extends React.Component {
         </View>
         <TouchableOpacity
           onPress={() =>
-            this.registrasi(username, email, password, no_tlp, code, picker)
-          }
+            this.registrasi (username, email, password, no_tlp, code, picker)}
           style={styles.button}
           activeOpacity={0.5}
-          delayPressIn={10}>
-          {this.animationLoading()}
+          delayPressIn={10}
+        >
+          {this.animationLoading ()}
         </TouchableOpacity>
-        <BackButton params={() => this.props.navigation.goBack()} />
+        <BackButton params={() => this.props.navigation.goBack ()} />
       </View>
     );
   }
 }
 export default Register;
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create ({
   container: {
     flex: 1,
     alignItems: 'center',

@@ -36,9 +36,11 @@ class SOP extends Component {
     const role = data.role;
     this.setState({refreshing: true, animationLoad: true});
 
+    console.log(token)
+
     axios
       .get(
-        `http://api.pondokprogrammer.com/api/standar_operasional?status=${role}`,
+        `https://api.pondokprogrammer.com/api/standar_operasional?status=${role}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -46,18 +48,34 @@ class SOP extends Component {
         },
       )
       .then(response => {
-        // console.log (response.data);
-        this.setState({
-          data: response.data,
-          refreshing: false,
-          status: true,
-          animationLoad: false,
-        });
+        const data = response.data;
+        console.log (response.data);
+        // this.setState({
+        //   data: response.data,
+        //   refreshing: false,
+        //   status: true,
+        //   animationLoad: false,
+        // });
+        if(data.status || null){
+          this.setState({
+            data:[],
+            refreshing: false,
+            status: true,
+            animationLoad: false,
+          });
+        }else{
+          this.setState({
+            data: response.data,
+            refreshing: false,
+            status: true,
+            animationLoad: false,
+          });
+        }
       })
       .catch(error => {
         console.log(error);
         ToastAndroid.show(
-          'Data gagal didapatkan',
+          'Tidak Ada Data',
           ToastAndroid.SHORT,
           ToastAndroid.CENTER,
         );
@@ -85,16 +103,10 @@ class SOP extends Component {
     } else if (this.state.status) {
       return this.state.data.map((value, key) => {
         return (
-          <TouchableOpacity
-            activeOpacity={0.7}
-            delayPressIn={10}
-            key={key}
-            onPress={() => alert()}>
-            <View style={styles.subSop}>
+            <View style={styles.subSop} key={key}>
               <Text style={styles.t_sop}>{key + 1}.</Text>
               <Text style={styles.t_sop}>{value.std_operasional}</Text>
             </View>
-          </TouchableOpacity>
         );
       });
     } else {

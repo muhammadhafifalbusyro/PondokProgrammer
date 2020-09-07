@@ -28,7 +28,7 @@ const options = {
 class BuatKurikulumCreate extends React.Component {
   state = {
     avatarSource: {
-      uri: 'http://static.thenounproject.com/png/1560819-200.png',
+      uri: 'https://static.thenounproject.com/png/1560819-200.png',
     },
     fileName: '',
     fileSize: '',
@@ -105,7 +105,7 @@ class BuatKurikulumCreate extends React.Component {
           ToastAndroid.CENTER,
         );
       } else {
-        fetch('http://api.pondokprogrammer.com/api/kurikulum', {
+        fetch('https://api.pondokprogrammer.com/api/kurikulum', {
           method: 'POST',
           headers: {
             Accept: 'application/json',

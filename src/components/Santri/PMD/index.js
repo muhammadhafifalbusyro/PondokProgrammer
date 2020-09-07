@@ -40,7 +40,7 @@ class PemahamanMateriDasar extends Component {
     this.setState({refreshing: true, animationLoad: true});
 
     axios
-      .get(`http://api.pondokprogrammer.com/api/curriculum/${jurusan_id}`, {
+      .get(`https://api.pondokprogrammer.com/api/curriculum/${jurusan_id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -68,7 +68,7 @@ class PemahamanMateriDasar extends Component {
       .catch(error => {
         console.log(error);
         ToastAndroid.show(
-          'Data gagal didapatkan',
+          'Tidak Ada Data',
           ToastAndroid.SHORT,
           ToastAndroid.CENTER,
         );
@@ -133,10 +133,10 @@ class PemahamanMateriDasar extends Component {
               isVisible={this.state.animationLoad}
             />
           </View>
-          {/* <Image
+          <Image
             source={require ('../../../assets/images/tidakadainternet.png')}
             style={styles.imageOffline}
-          /> */}
+          />
           <Text>Tidak Ada Internet</Text>
           <TouchableOpacity
             activeOpacity={0.5}

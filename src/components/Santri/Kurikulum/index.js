@@ -40,7 +40,7 @@ class Kurikulum extends Component {
     this.setState({refreshing: true, animationLoad: true});
 
     axios
-      .get(`http://api.pondokprogrammer.com/api/curriculum/${jurusan_id}`, {
+      .get(`https://api.pondokprogrammer.com/api/curriculum/${jurusan_id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -67,7 +67,7 @@ class Kurikulum extends Component {
       .catch(error => {
         console.log(error);
         ToastAndroid.show(
-          'Data gagal didapatkan',
+          'Tidak Ada Data',
           ToastAndroid.SHORT,
           ToastAndroid.CENTER,
         );
@@ -90,6 +90,7 @@ class Kurikulum extends Component {
       return (
         <View style={styles.nodata}>
           <Text style={styles.Tnodata}>Tidak Ada Data</Text>
+          <Text style={[styles.Tnodata,{fontSize : 10, color: 'red'}]}>Silakan Minta Akses Ke Mentor Kemudian Refresh di Dashboard Santri</Text>
         </View>
       );
     } else if (this.state.status) {

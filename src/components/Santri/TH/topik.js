@@ -45,7 +45,7 @@ class TopikTugasHarian extends Component {
     this.setState({refreshing: true, animationLoad: true});
     axios
       .get(
-        `http://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}`,
+        `https://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -56,15 +56,12 @@ class TopikTugasHarian extends Component {
         const data = response.data.topik[0];
         this.setState({
           id_topik: data.id,
-          refreshing: false,
-          status: true,
-          animationLoad: false,
         });
       })
       .catch(error => {
         console.log(error);
         ToastAndroid.show(
-          'Data gagal didapatkan',
+          'Tidak Ada Data',
           ToastAndroid.SHORT,
           ToastAndroid.CENTER,
         );
@@ -86,7 +83,7 @@ class TopikTugasHarian extends Component {
     this.setState({refreshing: true, animationLoad: true});
     axios
       .get(
-        `http://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}/`,
+        `https://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}/`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

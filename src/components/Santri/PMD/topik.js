@@ -7,6 +7,7 @@ import {
   ToastAndroid,
   ScrollView,
   RefreshControl,
+  Alert
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {styles} from './styles';
@@ -49,7 +50,7 @@ class TopikPemahamanMateriDasar extends Component {
     this.setState({refreshing: true, animationLoad: true});
     axios
       .get(
-        `http://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}`,
+        `https://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -60,9 +61,9 @@ class TopikPemahamanMateriDasar extends Component {
         const data = response.data.topik[0];
         this.setState({
           id_topik: data.id,
-          refreshing: false,
-          status: true,
-          animationLoad: false,
+          // refreshing: false,
+          // status: true,
+          // animationLoad: false,
         });
       })
       .catch(error => {
@@ -87,10 +88,11 @@ class TopikPemahamanMateriDasar extends Component {
     const {Sprint} = this.props.route.params;
     const {id_topik} = this.state;
 
+    console.log(jurusan_id, Sprint, id_topik)
     this.setState({refreshing: true, animationLoad: true});
     axios
       .get(
-        `http://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}/${id_topik}`,
+        `https://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}/${id_topik}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -101,7 +103,7 @@ class TopikPemahamanMateriDasar extends Component {
         const data = response.data;
         if(data.status || null){
           this.setState({
-            topik: data,
+            topik: [],
             refreshing: false,
             status: true,
             animationLoad: false,
@@ -114,17 +116,11 @@ class TopikPemahamanMateriDasar extends Component {
             animationLoad: false,
           });
         }
-        // this.setState({
-          // topik: data,
-          // refreshing: false,
-          // status: true,
-          // animationLoad: false,
-        // });
       })
       .catch(error => {
         console.log(error);
         ToastAndroid.show(
-          'Data gagal didapatkan',
+          'Tidak Ada Data',
           ToastAndroid.SHORT,
           ToastAndroid.CENTER,
         );
@@ -140,6 +136,29 @@ class TopikPemahamanMateriDasar extends Component {
     this.getData();
   };
 
+  konfirmasi = ({is_learned, stdKompetensi_id}) => {
+    Alert.alert (
+      'Konfirmasi',
+      'Apa anda yakin sudah paham ?',
+      [
+        {
+          text: 'Tidak',
+          onPress: () => {
+            return false;
+          },
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => {
+            this.sendIs_learned({is_learned, stdKompetensi_id});
+          },
+        },
+      ],
+      {cancelable: false}
+    );
+  };
+
   renderListScreen = () => {
     const {topik} = this.state;
     const lengthData = topik.length;
@@ -152,14 +171,23 @@ class TopikPemahamanMateriDasar extends Component {
     } else if (this.state.status) {
       return this.state.topik.map((value, key) => {
         const stdKompetensi_id = value.id;
-        const is_learned = true;
+        const is_learned = 1;
+
+        const statusList = this.state.topik[key].is_learned === null ? <Text style={[styles.label,{fontSize: 7,marginTop : 0, marginBottom : 0, marginRight : 0,color: 'red'}]}>Klik, Untuk Kirim Centang </Text> : <Text style={[styles.label,{fontSize: 7,marginTop : 0, marginBottom : 0, marginRight : 0,color: 'red'}]}>Menunggu Verifikasi Mentor</Text>
+        const statusCheck = this.state.topik[key].is_approved || this.state.topik[key].is_approved === null ? statusList : <Text style={[styles.label,{fontSize: 7,marginTop : 0, marginBottom : 0, marginRight : 0,color: 'red'}]}>Terverifikasi</Text> 
+        const onPress= () =>
+          this.sendIs_learned({is_learned, stdKompetensi_id})
+        
+        const onPressProps = this.state.topik[key].is_learned === null ? onPress : null  
         return (
           <View style={styles.mainDetail} key={key}>
             <TouchableOpacity
               style={styles.flexCheckbox}
+              
               onPress={() =>
-                this.sendIs_learned({is_learned, stdKompetensi_id})
-              }>
+                this.konfirmasi({is_learned, stdKompetensi_id})
+              }
+              >
               <View style={{justifyContent: 'center', marginLeft: 5}}>
                 {this.state.topik[key].is_learned === null ? (
                   <Icon name="check" color="red" size={20} />
@@ -185,6 +213,7 @@ class TopikPemahamanMateriDasar extends Component {
               </View>
               <View style={styles.viewLabel}>
                 <Text style={styles.label}>{value.std_kompetensi} </Text>
+                {statusCheck}
               </View>
             </TouchableOpacity>
           </View>
@@ -206,10 +235,10 @@ class TopikPemahamanMateriDasar extends Component {
               isVisible={this.state.animationLoad}
             />
           </View>
-          {/* <Image
+          <Image
             source={require ('../../../assets/images/tidakadainternet.png')}
             style={styles.imageOffline}
-          /> */}
+          />
           <Text>Tidak Ada Internet</Text>
           <TouchableOpacity
             activeOpacity={0.5}
@@ -234,9 +263,10 @@ class TopikPemahamanMateriDasar extends Component {
 
     const auth = this.props.authentication;
     const token = auth.token;
+    console.log(STDKompetensi_id, ISlearned, token)
     axios
       .post(
-        `http://api.pondokprogrammer.com/api/standar_kompetensi/add`,
+        `https://api.pondokprogrammer.com/api/standar_kompetensi/add`,
         {
           stdKompetensi_id: STDKompetensi_id,
           is_learned: ISlearned,
@@ -279,11 +309,6 @@ class TopikPemahamanMateriDasar extends Component {
             />
           }>
           {this.renderListScreen()}
-          {/* <View style={styles.mainSubmit}>
-            <TouchableOpacity style={styles.submit}>
-              <Text style={styles.Tsubmit}>Submit</Text>
-            </TouchableOpacity>
-          </View> */}
         </ScrollView>
         <TouchableOpacity
           style={styles.TouchableOpacityStyle}

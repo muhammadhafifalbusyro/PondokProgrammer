@@ -45,7 +45,7 @@ class TopikKurikulum extends Component {
     this.setState ({refreshing: true, animationLoad: true});
     axios
       .get (
-        `http://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}`,
+        `https://api.pondokprogrammer.com/api/curriculum/${jurusan_id}/${Sprint}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -54,8 +54,7 @@ class TopikKurikulum extends Component {
       )
       .then (response => {
         const data = response.data.topik;
-        const long = response.data.topik;
-        console.log (data);
+        console.log("LON" + data[0].video[0].url)
         if (data.status || null) {
           this.setState ({
             topik: [],
@@ -75,7 +74,7 @@ class TopikKurikulum extends Component {
       .catch (error => {
         console.log (error);
         ToastAndroid.show (
-          'Data gagal didapatkan',
+          'Tidak Ada Data',
           ToastAndroid.SHORT,
           ToastAndroid.CENTER
         );
@@ -111,7 +110,8 @@ class TopikKurikulum extends Component {
                   id_topik: value.topik_id,
                   judul: value.judul,
                   Sprint: this.state.Sprint,
-                  markdown : value.markdown
+                  markdown : value.markdown,
+                  video : this.state.topik[key].video[0].url
                 })}
             >
               <View style={styles.listTopik}>

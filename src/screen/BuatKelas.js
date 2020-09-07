@@ -39,20 +39,33 @@ class BuatKelas extends React.Component {
     this.setState({refreshing: true, animationLoad: true});
 
     axios
-      .get('http://api.pondokprogrammer.com/api/class', {
+      .get('https://api.pondokprogrammer.com/api/class', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then(response => {
-        console.log(response.data);
-        this.setState({
-          data: response.data,
+      const data = response.data;
+      // console.log(data)
+      if (data || null) {
+        console.log(data)
+        this.setState ({
+          data: data,
           refreshing: false,
           status: true,
           animationLoad: false,
         });
-      })
+      } else {
+        console.log('dua')
+        this.setState ({
+          data: [],
+          refreshing: false,
+          status: true,
+          animationLoad: false,
+        });
+      }
+    })
+
       .catch(error => {
         console.log(error);
         ToastAndroid.show(
@@ -119,6 +132,7 @@ class BuatKelas extends React.Component {
     }
   };
   render() {
+    console.log(this.state.data)
     return (
       <View style={styles.container}>
         <Navbar name="Kelas" />

@@ -119,6 +119,7 @@ import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import DashboardUtama from '../screen/DashboardUtama';
 import DashboardMentor from '../screen/DashboardMentor';
@@ -149,6 +150,7 @@ import PreviewKelas from '../screen/PreviewKelas';
 import BuatStandarKompetensiCreate from '../screen/BuatStandarKompetensiCreate';
 import BuatStandarKompetensiCreate2 from '../screen/BuatStandarKompetensiCreate2';
 import BuatStandarKompetensiCreate3 from '../screen/BuatStandarKompetensiCreate3';
+import LupaPassword from '../screen/LupaPassword'
 
 // Dashboard Santri
 import DompetSaya from '../components/Santri/DS';
@@ -174,6 +176,9 @@ import SplashScreen from '../components/SplashScreen';
 import DetailDailyTask from '../components/Santri/TH/DetailDailyTask'
 import TopikKurikulum from '../components/Santri/Kurikulum/topik'
 import DetailTopikKurikulum from '../components/Santri/Kurikulum/detail'
+import VideoPilihSantri from '../components/mentor/DaftarSantri/video'
+import KompotensiPilihSantri from '../components/mentor/DaftarSantri/kompotensi'
+import MenuPilihSantri from '../components/mentor/DaftarSantri/'
 
 const Stack = createStackNavigator();
 
@@ -227,6 +232,9 @@ function MainMentor() {
       <Stack.Screen name="BuatKelasCreate" component={BuatKelasCreate} />
       <Stack.Screen name="PreviewKelas" component={PreviewKelas} />
       <Stack.Screen name="DaftarSantri" component={DaftarSantri} />
+      <Stack.Screen name="MenuPilihSantri" component={MenuPilihSantri} />
+      <Stack.Screen name="VideoPilihSantri" component={VideoPilihSantri} />
+      <Stack.Screen name="KompotensiPilihSantri" component={KompotensiPilihSantri} />
     </Stack.Navigator>
   );
 }
@@ -283,6 +291,7 @@ function Main() {
       />
       <Stack.Screen name="Register" component={Register} />
       <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="LupaPassword" component={LupaPassword} />
     </Stack.Navigator>
   );
 }

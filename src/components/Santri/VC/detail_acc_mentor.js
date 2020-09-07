@@ -7,6 +7,8 @@ import {
   ScrollView,
   RefreshControl,
   ToastAndroid,
+  Linking,
+  Alert
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {styles} from './styles';
@@ -15,14 +17,14 @@ import {connect} from 'react-redux';
 import Spinner from 'react-native-spinkit';
 import DropDownItem from 'react-native-drop-down-item';
 
-const IC_ARR_DOWN = require('../../../assets/images/ic_arr_down.png');
-const IC_ARR_UP = require('../../../assets/images/ic_arr_up.png');
+const IC_ARR_DOWN = require ('../../../assets/images/ic_arr_down.png');
+const IC_ARR_UP = require ('../../../assets/images/ic_arr_up.png');
 
-const axios = require('axios');
+const axios = require ('axios');
 
 class DetailVideoCheck extends Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super (props);
     this.state = {
       refreshing: false,
       status: true,
@@ -32,17 +34,20 @@ class DetailVideoCheck extends Component {
       video_check: [],
       id_playlist: '',
       student: [],
+      data: [],
     };
   }
 
-  componentDidMount() {
+  componentDidMount () {
+    this.setState ({refreshing: true, animationLoad: true});
+
     const {ID_Playlist} = this.props.route.params;
-    this.setState({
+    this.setState ({
       id_playlist: ID_Playlist,
     });
 
-    setTimeout(() => {
-      this.getData();
+    setTimeout (() => {
+      this.getData ();
     }, 1000);
   }
 
@@ -50,37 +55,37 @@ class DetailVideoCheck extends Component {
     const data = this.props.authentication;
     const token = data.token;
     const {id_playlist} = this.state;
-    // console.log(id_playlist)
-    this.setState({refreshing: true, animationLoad: true});
+    console.log (id_playlist);
     axios
-      .get(
-        `http://api.pondokprogrammer.com/api/video_playlist/${id_playlist}`,
+      .get (
+        `https://api.pondokprogrammer.com/api/video_playlist/${id_playlist}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        },
+        }
       )
-      .then(response => {
+      .then (response => {
         const data = response.data.video;
         // const video_check = data
-        console.log(data);
-
-        this.setState({
+        // console.log(data[0].video_check);
+        console.log (data);
+        this.setState ({
+          data: response.data,
           video: data,
           refreshing: false,
           status: true,
           animationLoad: false,
         });
       })
-      .catch(error => {
-        console.log(error);
-        ToastAndroid.show(
+      .catch (error => {
+        // console.log(error);
+        ToastAndroid.show (
           'Data gagal didapatkan',
           ToastAndroid.SHORT,
-          ToastAndroid.CENTER,
+          ToastAndroid.CENTER
         );
-        this.setState({
+        this.setState ({
           refreshing: false,
           status: false,
           animationLoad: false,
@@ -89,7 +94,30 @@ class DetailVideoCheck extends Component {
   };
 
   onRefreshScreen = () => {
-    this.getData();
+    this.getData ();
+  };
+
+  konfirmasi = ({is_learned, video_id}) => {
+    Alert.alert (
+      'Konfirmasi',
+      'Apa anda yakin sudah paham ?',
+      [
+        {
+          text: 'Tidak',
+          onPress: () => {
+            return false;
+          },
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => {
+            this.sendIs_learned({is_learned, video_id});
+          },
+        },
+      ],
+      {cancelable: false}
+    );
   };
 
   renderListScreen = () => {
@@ -107,10 +135,17 @@ class DetailVideoCheck extends Component {
           <View style={styles.viewLabel}>
             <View style={{flex: 1}}>
               {this.state.video
-                ? this.state.video.map((param, i) => {
-                    const Learned = this.state.video[i].is_learned == 0 ? 0 : 1;
-                    const Approved =
-                      this.state.video[i].is_approved == 0 ? 0 : 1;
+                ? this.state.video.map ((param, i) => {
+                      var Learned;
+                      var Approved;
+                    if(this.state.video[i].video_check.length == 0) {
+                      Learned = 0,
+                      Approved = 0
+                    }else {
+                      Learned = this.state.video[i].video_check[0].is_learned
+                      Approved = this.state.video[i].video_check[0].is_approved
+                    }
+                    
                     const status = () => {
                       if (Learned == 0) {
                         return null;
@@ -120,9 +155,12 @@ class DetailVideoCheck extends Component {
                             style={[
                               styles.status,
                               styles.play,
-                              {backgroundColor: 'red'},
-                            ]}>
-                            <Text style={styles.tPlay}>Pending</Text>
+                              {backgroundColor: 'orange'},
+                            ]}
+                          >
+                            <Text style={[styles.tPlay, {color: '#fff'}]}>
+                              Pending
+                            </Text>
                           </View>
                         );
                       } else if (Learned == 1 && Approved == 1) {
@@ -131,12 +169,19 @@ class DetailVideoCheck extends Component {
                             <Text style={styles.tPlay}>Diterima</Text>
                           </View>
                         );
+                      } else {
+                        return null;
                       }
                     };
 
                     const video_id = this.state.video[i].id;
-                    console.log(video_id);
+                    {
+                      /* console.log(video_id); */
+                    }
                     const is_learned = 1;
+                    {
+                      /* const Learned = this.state.data.video_check.length == 0 ? 0 : 1; */
+                    }
                     return (
                       <DropDownItem
                         key={i}
@@ -144,42 +189,67 @@ class DetailVideoCheck extends Component {
                         invisibleImage={IC_ARR_DOWN}
                         visibleImage={IC_ARR_UP}
                         header={
-                          <View style={{width: '80%'}}>
+                          <View style={{width: '80%', margin : 10}}>
                             <Text style={styles.judul}>{param.judul}</Text>
                           </View>
-                        }>
+                        }
+                      >
                         <View style={styles.url}>
                           <TouchableOpacity
                             onPress={() =>
-                              Linking.openURL(`${param.url_video}`)
-                            }
-                            style={styles.play}>
+                              Linking.openURL (`${param.url_video}`)}
+                            style={styles.play}
+                          >
                             <Text style={styles.tPlay}>Putar Video</Text>
                           </TouchableOpacity>
-                          {Learned == 1 ? null : (
-                            <TouchableOpacity
-                              onPress={() =>
-                                this.sendIs_learned({is_learned, video_id})
-                              }
-                              style={styles.play}>
-                              <Text style={styles.tPlay}>Selesai</Text>
-                            </TouchableOpacity>
-                          )}
-                          {status()}
-                          {/* {Learned == 1 || Approved == 0
-                            ? <View
-                                style={[
-                                  styles.status,
-                                  styles.play,
-                                  {backgroundColor: 'red'},
-                                ]}
+                          {Learned == 1 
+                            ? null
+                            : <TouchableOpacity
+                                onPress={() =>
+                                  this.konfirmasi ({is_learned, video_id})}
+                                style={[styles.play, {backgroundColor: 'red'}]}
                               >
-                                <Text>Pending</Text>
-                              </View>
-                            : <View style={[styles.status, styles.play]}>
-                                <Text>Diterima</Text>
-                              </View>} */}
+                                <Text style={styles.tPlay}>Selesai</Text>
+                              </TouchableOpacity>}
+                          {status ()}
                         </View>
+                        {Learned == 0
+                          ? <Text style={{fontSize: 10}}>
+                              <Text
+                                style={{
+                                  fontWeight: 'bold',
+                                }}
+                              >
+                                Klik Selesai,
+                              </Text>
+                              {' '}
+                              Jika Telah Menonton Video
+                            </Text>
+                          : null}
+                        {Learned == 1 && Approved == 0
+                          ? <Text style={{fontSize: 10}}>
+                              <Text
+                                style={{
+                                  fontWeight: 'bold',
+                                  color : 'orange'
+                                }}
+                              >
+                                Menunggu Verifikasi Mentor
+                              </Text>
+                            </Text>
+                          : null}
+                        {Learned == 1 && Approved == 1
+                          ? <Text style={{fontSize: 10}}>
+                              <Text
+                                style={{
+                                  fontWeight: 'bold',
+                                  color: 'rgb(0,184,150)',
+                                }}
+                              >
+                                Video Teriverifikasi
+                              </Text>
+                            </Text>
+                          : null}
                       </DropDownItem>
                     );
                   })
@@ -200,7 +270,8 @@ class DetailVideoCheck extends Component {
               width: '100%',
               justifyContent: 'center',
               alignItems: 'center',
-            }}>
+            }}
+          >
             <Spinner
               type="Bounce"
               color="rgb(0,184,150)"
@@ -215,7 +286,8 @@ class DetailVideoCheck extends Component {
           <TouchableOpacity
             activeOpacity={0.5}
             delayPressIn={10}
-            onPress={() => this.getData()}>
+            onPress={() => this.getData ()}
+          >
             <Icon
               name="refresh"
               color="rgb(0,184,150)"
@@ -229,16 +301,16 @@ class DetailVideoCheck extends Component {
   };
 
   sendIs_learned = ({is_learned, video_id}) => {
-    this.setState({isLoading: true});
+    this.setState ({isLoading: true});
     const Video_id = video_id;
     const ISlearned = is_learned;
-    console.log(Video_id);
+    // console.log(ISlearned, Video_id + "testt");
 
     const auth = this.props.authentication;
     const token = auth.token;
     axios
-      .post(
-        `http://api.pondokprogrammer.com/api/video_pembelajaran/add`,
+      .post (
+        `https://api.pondokprogrammer.com/api/video_pembelajaran/add`,
         {
           video_id: `${Video_id}`,
           is_learned: ISlearned,
@@ -247,23 +319,23 @@ class DetailVideoCheck extends Component {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        },
+        }
       )
-      .then(response => console.log(response.data))
-      .catch(error => {
-        console.log(error);
-        this.setState({isLoading: false});
+      .then (response => console.log (response.data))
+      .catch (error => {
+        console.log (error);
+        this.setState ({isLoading: false});
       });
 
-    setTimeout(() => {
-      this.setState({isLoading: false});
+    setTimeout (() => {
+      this.setState ({isLoading: false});
     }, 3000);
-    setTimeout(() => {
-      this.getData();
+    setTimeout (() => {
+      this.getData ();
     }, 3200);
   };
 
-  render() {
+  render () {
     const {Playlist} = this.props.route.params;
     return (
       <View style={styles.container}>
@@ -279,15 +351,17 @@ class DetailVideoCheck extends Component {
               <RefreshControl
                 colors={['rgb(0,184,150)']}
                 refreshing={this.state.refreshing}
-                onRefresh={() => this.onRefreshScreen()}
+                onRefresh={() => this.onRefreshScreen ()}
               />
-            }>
-            {this.renderListScreen()}
+            }
+          >
+            {this.renderListScreen ()}
           </ScrollView>
         </View>
         <TouchableOpacity
           style={styles.TouchableOpacityStyle}
-          onPress={() => this.props.navigation.goBack()}>
+          onPress={() => this.props.navigation.goBack ()}
+        >
           <Icon name="arrow-left" size={40} color="rgb(0, 184, 150)" />
         </TouchableOpacity>
       </View>
@@ -300,4 +374,4 @@ const mapStateToProps = state => {
   return {authentication, jurusan_id};
 };
 
-export default connect(mapStateToProps)(DetailVideoCheck);
+export default connect (mapStateToProps) (DetailVideoCheck);

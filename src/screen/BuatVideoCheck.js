@@ -49,19 +49,28 @@ class BuatVideoCheck extends React.Component {
     this.setState({refreshing: true, animationLoad: true});
 
     axios
-      .get(`http://api.pondokprogrammer.com/api/video_playlist`, {
+      .get(`https://api.pondokprogrammer.com/api/video_playlist`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then(response => {
-        console.log(response.data);
-        this.setState({
-          data: response.data,
-          refreshing: false,
-          status: true,
-          animationLoad: false,
-        });
+        const data = response.data;
+        if (data.status || null) {
+          this.setState({
+            data: [],
+            refreshing: false,
+            status: true,
+            animationLoad: false,
+          });
+        } else {
+          this.setState({
+            data: response.data,
+            refreshing: false,
+            status: true,
+            animationLoad: false,
+          });
+        }
       })
       .catch(error => {
         console.log(error);
@@ -87,7 +96,7 @@ class BuatVideoCheck extends React.Component {
         modalVisible: false,
         valuePlaylist: '',
       });
-      fetch('http://api.pondokprogrammer.com/api/video_playlist', {
+      fetch('https://api.pondokprogrammer.com/api/video_playlist', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -152,7 +161,7 @@ class BuatVideoCheck extends React.Component {
         valuePlaylistUpdate: '',
       });
       fetch(
-        `http://api.pondokprogrammer.com/api/video_playlist/${
+        `https://api.pondokprogrammer.com/api/video_playlist/${
           this.state.playlistID
         }`,
         {
@@ -207,7 +216,7 @@ class BuatVideoCheck extends React.Component {
     let data = this.props.authentication;
     let token = data.token;
     this.setState({modalVisible2: true, modalVisible3: false});
-    fetch(`http://api.pondokprogrammer.com/api/video_playlist/${paramID}`, {
+    fetch(`https://api.pondokprogrammer.com/api/video_playlist/${paramID}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

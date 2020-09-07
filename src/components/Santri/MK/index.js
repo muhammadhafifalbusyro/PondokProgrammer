@@ -72,7 +72,7 @@ class MasukKelas extends Component {
 
       fetch(`${Data}`, requestOptions)
         .then(response => response.text())
-        .then(response => console.log(response))
+        .then(response => console.log("absensi " + " " + "" + response))
         .catch(error => console.log('error', error));
     }
     this.getClass();
@@ -95,25 +95,36 @@ class MasukKelas extends Component {
     };
 
     axios
-      .get(`http://api.pondokprogrammer.com/api/class/student/`, {
+      .get(`https://api.pondokprogrammer.com/api/class/student/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then(response => {
-        // console.log (response.data);
-        this.setState({
-          data: response.data,
+        const data = response.data;
+        console.log (response.data);
+        if(data.status || null){
+          this.setState({
+            data: [],
+            peserta: [],
+            refreshing: false,
+            status: true,
+            animationLoad: false,
+          });
+        }else{
+          this.setState({
+            data: response.data,
           peserta: response.data.student,
           refreshing: false,
           status: true,
           animationLoad: false,
-        });
+          });
+        }
       })
       .catch(error => {
         console.log(error);
         ToastAndroid.show(
-          'Data gagal didapatkan',
+          'Tidak Ada Data',
           ToastAndroid.SHORT,
           ToastAndroid.CENTER,
         );
@@ -127,7 +138,7 @@ class MasukKelas extends Component {
 
   previewKelas = value => {
     this.props.navigation.navigate('DetailMasukKelas', {
-      id: value.class_id,
+      id: value.class.id,
     });
   };
 
