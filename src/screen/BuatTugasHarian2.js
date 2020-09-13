@@ -2,15 +2,17 @@ import React from 'react';
 import {
   View,
   Text,
-  StatusBar,
   ScrollView,
-  Image,
-  TouchableOpacity,
-  RefreshControl,
   StyleSheet,
-  Dimensions,
+  TouchableOpacity,
   ToastAndroid,
+  RefreshControl,
+  Image,
+  Dimensions,
 } from 'react-native';
+import Navbar from '../components/Navbar';
+import BackButton from '../components/BackButton';
+import AddButton from '../components/AddButton';
 
 import Spinner from 'react-native-spinkit';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -20,14 +22,14 @@ const axios = require('axios');
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-class DaftarSantri extends React.Component {
+class BuatTugasHarian2 extends React.Component {
   state = {
     data: [],
     refreshing: false,
     status: true,
     animationLoad: false,
+    curriculum_id: this.props.route.params.id,
   };
-
   componentDidMount() {
     this.getData();
   }
@@ -36,31 +38,22 @@ class DaftarSantri extends React.Component {
     const data = this.props.authentication;
     const token = data.token;
     this.setState({refreshing: true, animationLoad: true});
-
+    let curriculum_id = this.state.curriculum_id;
+    console.log('ini adalah =' + curriculum_id);
     axios
-      .get('https://api.pondokprogrammer.com/api/mentor/student', {
+      .get(`https://api.pondokprogrammer.com/api/curriculum/${curriculum_id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then(response => {
-        const data = response.data;
-        console.log(data);
-        if (data.status || null) {
-          this.setState({
-            data: [],
-            refreshing: false,
-            status: true,
-            animationLoad: false,
-          });
-        } else {
-          this.setState({
-            data: data,
-            refreshing: false,
-            status: true,
-            animationLoad: false,
-          });
-        }
+        console.log(response.data);
+        this.setState({
+          data: response.data.sprint,
+          refreshing: false,
+          status: true,
+          animationLoad: false,
+        });
       })
       .catch(error => {
         console.log(error);
@@ -69,57 +62,32 @@ class DaftarSantri extends React.Component {
           ToastAndroid.SHORT,
           ToastAndroid.CENTER,
         );
-        this.setState({
-          refreshing: false,
-          status: false,
-          animationLoad: false,
-        });
+        this.setState({refreshing: false, status: false, animationLoad: false});
       });
+  };
+  onRefreshScreen = () => {
+    this.getData();
+  };
+
+  previewKurikulum = (sprint, curriculum_id) => {
+    this.props.navigation.navigate('BuatTugasHarian3', {
+      sprint: sprint,
+      curriculum_id: curriculum_id,
+    });
   };
 
   renderListScreen = () => {
+    let curriculum_id = this.state.curriculum_id;
     if (this.state.status) {
       return this.state.data.map((value, key) => {
-        const jurusan = value.framework ? (
-          <Text> {value.framework}</Text>
-        ) : (
-          <Text style={{color: 'red', fontSize: 11, textAlign: 'center'}}>
-            {' '}
-            Belum Pilih Jurusan
-          </Text>
-        );
         return (
           <TouchableOpacity
             activeOpacity={0.7}
             delayPressIn={10}
             key={key}
-            onPress={() =>
-              this.props.navigation.navigate('MenuPilihSantri', {
-                id_santri: value.id,
-              })
-            }>
-            <View style={{flex: 1, margin: 20}}>
-              <View style={{flexDirection: 'row'}}>
-                <Image
-                  source={{
-                    uri: `https://api.pondokprogrammer.com/img/profile/${
-                      value.image
-                    }`,
-                  }}
-                  style={{height: 30, width: 30, borderRadius: 20}}
-                />
-                <View style={{paddingLeft: 5}}>
-                  <Text style={{fontSize: 18, fontWeight: 'bold'}}>
-                    {value.username}
-                  </Text>
-                  <View style={{flexDirection: 'row'}}>
-                    <Text>{value.division}</Text>
-                    <Text style={{marginLeft: 10, textAlignVertical: 'center'}}>
-                      {jurusan}
-                    </Text>
-                  </View>
-                </View>
-              </View>
+            onPress={() => this.previewKurikulum(key + 1, curriculum_id)}>
+            <View style={styles.ListBox}>
+              <Text style={styles.boxTitle}>{value.sprint}</Text>
             </View>
           </TouchableOpacity>
         );
@@ -149,27 +117,10 @@ class DaftarSantri extends React.Component {
       );
     }
   };
-
-  onRefreshScreen = () => {
-    this.getData();
-  };
-
   render() {
     return (
-      <View style={{flex: 1}}>
-        <StatusBar backgroundColor="rgb(0,184,150)" />
-        <View
-          style={{
-            height: 50,
-            width: '100%',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'rgb(0,184,150)',
-          }}>
-          <Text style={{color: '#fff', fontSize: 20, fontWeight: 'bold'}}>
-            Daftar Santri Pondok Programmer
-          </Text>
-        </View>
+      <View style={styles.container}>
+        <Navbar name="Pilih Sprint" />
         <ScrollView
           style={styles.scrollView}
           refreshControl={
@@ -181,18 +132,51 @@ class DaftarSantri extends React.Component {
           }>
           {this.renderListScreen()}
         </ScrollView>
+        <BackButton params={() => this.props.navigation.goBack()} />
       </View>
     );
   }
 }
+
 const mapStateToProps = state => {
   const {authentication} = state.reducers;
   return {authentication};
 };
 
-export default connect(mapStateToProps)(DaftarSantri);
+export default connect(mapStateToProps)(BuatTugasHarian2);
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  ListBox: {
+    height: 70,
+    width: '100%',
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    padding: 10,
+    marginBottom: 5,
+    shadowOffset: {width: 5, height: 5},
+    shadowColor: 'black',
+    shadowOpacity: 1,
+    elevation: 1,
+    backgroundColor: 'white',
+  },
+  imageKurikulum: {
+    height: 150,
+    width: '95%',
+  },
+  boxFrameworkTitle: {
+    height: 50,
+    width: '95%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  frameworkTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'grey',
+  },
   backgroundOffline: {
     height: windowHeight - 50,
     width: windowWidth,
@@ -215,5 +199,10 @@ const styles = StyleSheet.create({
   },
   iconRefresh: {
     marginTop: 30,
+  },
+  boxTitle: {
+    fontSize: 16,
+    color: 'grey',
+    fontWeight: 'bold',
   },
 });

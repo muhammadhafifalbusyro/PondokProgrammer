@@ -22,7 +22,7 @@ const axios = require('axios');
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-class Kompetensi extends React.Component {
+class Tugas extends React.Component {
   state = {
     data: [],
     refreshing: false,
@@ -41,7 +41,7 @@ class Kompetensi extends React.Component {
 
     axios
       .get(
-        `https://api.pondokprogrammer.com/api/standar_kompetensi/student/${
+        `https://api.pondokprogrammer.com/api/daily_task/student/${
           this.state.id_santri
         }`,
         {
@@ -100,9 +100,7 @@ class Kompetensi extends React.Component {
 
     axios
       .put(
-        `https://api.pondokprogrammer.com/api/standar_kompetensi/student/${
-          value.id
-        }`,
+        `https://api.pondokprogrammer.com/api/daily_task/student/${value.id}`,
         {
           is_approved: '1',
         },
@@ -154,9 +152,7 @@ class Kompetensi extends React.Component {
 
     axios
       .put(
-        `https://api.pondokprogrammer.com/api/standar_kompetensi/student/${
-          value.id
-        }`,
+        `https://api.pondokprogrammer.com/api/daily_task/student/${value.id}`,
         {
           is_approved: '0',
         },
@@ -216,7 +212,7 @@ class Kompetensi extends React.Component {
                   borderWidth: 1,
                   borderColor: 'red',
                 }}>
-                <Text>{value.std_kompetensi}</Text>
+                <Text>{value.task}</Text>
               </View>
             </TouchableOpacity>
           );
@@ -235,7 +231,7 @@ class Kompetensi extends React.Component {
                   borderWidth: 1,
                   borderColor: 'lime',
                 }}>
-                <Text>{value.std_kompetensi}</Text>
+                <Text>{value.task}</Text>
               </View>
             </TouchableOpacity>
           );
@@ -269,7 +265,7 @@ class Kompetensi extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Navbar name="Std Kompetensi Check" />
+        <Navbar name="Tugas harian Check" />
         <ScrollView
           style={styles.scrollView}
           refreshControl={
@@ -292,7 +288,7 @@ const mapStateToProps = state => {
   return {authentication};
 };
 
-export default connect(mapStateToProps)(Kompetensi);
+export default connect(mapStateToProps)(Tugas);
 
 const styles = StyleSheet.create({
   container: {

@@ -119,7 +119,7 @@ import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import DashboardUtama from '../screen/DashboardUtama';
 import DashboardMentor from '../screen/DashboardMentor';
@@ -150,7 +150,10 @@ import PreviewKelas from '../screen/PreviewKelas';
 import BuatStandarKompetensiCreate from '../screen/BuatStandarKompetensiCreate';
 import BuatStandarKompetensiCreate2 from '../screen/BuatStandarKompetensiCreate2';
 import BuatStandarKompetensiCreate3 from '../screen/BuatStandarKompetensiCreate3';
-import LupaPassword from '../screen/LupaPassword'
+import LupaPassword from '../screen/LupaPassword';
+import BuatTugasHarian2 from '../screen/BuatTugasHarian2';
+import BuatTugasHarian3 from '../screen/BuatTugasHarian3';
+import BuatTugasHarian4 from '../screen/BuatTugasHarian4';
 
 // Dashboard Santri
 import DompetSaya from '../components/Santri/DS';
@@ -173,12 +176,13 @@ import DetailMiniProject from '../components/Santri/MP/detail';
 import DetailAcceptedMentor from '../components/Santri/VC/detail_acc_mentor';
 import DetailMasukKelas from '../components/Santri/MK/detail';
 import SplashScreen from '../components/SplashScreen';
-import DetailDailyTask from '../components/Santri/TH/DetailDailyTask'
-import TopikKurikulum from '../components/Santri/Kurikulum/topik'
-import DetailTopikKurikulum from '../components/Santri/Kurikulum/detail'
-import VideoPilihSantri from '../components/mentor/DaftarSantri/video'
-import KompotensiPilihSantri from '../components/mentor/DaftarSantri/kompotensi'
-import MenuPilihSantri from '../components/mentor/DaftarSantri/'
+import DetailDailyTask from '../components/Santri/TH/DetailDailyTask';
+import TopikKurikulum from '../components/Santri/Kurikulum/topik';
+import DetailTopikKurikulum from '../components/Santri/Kurikulum/detail';
+import VideoPilihSantri from '../components/mentor/DaftarSantri/video';
+import KompotensiPilihSantri from '../components/mentor/DaftarSantri/kompotensi';
+import MenuPilihSantri from '../components/mentor/DaftarSantri/';
+import Tugas from '../components/mentor/DaftarSantri/tugas';
 
 const Stack = createStackNavigator();
 
@@ -224,7 +228,11 @@ function MainMentor() {
         name="BuatStandarKompetensiCreate3"
         component={BuatStandarKompetensiCreate3}
       />
+      <Stack.Screen name="Tugas" component={Tugas} />
       <Stack.Screen name="BuatTugasHarian" component={BuatTugasHarian} />
+      <Stack.Screen name="BuatTugasHarian2" component={BuatTugasHarian2} />
+      <Stack.Screen name="BuatTugasHarian3" component={BuatTugasHarian3} />
+      <Stack.Screen name="BuatTugasHarian4" component={BuatTugasHarian4} />
       <Stack.Screen name="BuatMiniProject" component={BuatMiniProject} />
       <Stack.Screen name="BuatVideoCheck" component={BuatVideoCheck} />
       <Stack.Screen name="BuatVideoCheck2" component={BuatVideoCheck2} />
@@ -234,7 +242,10 @@ function MainMentor() {
       <Stack.Screen name="DaftarSantri" component={DaftarSantri} />
       <Stack.Screen name="MenuPilihSantri" component={MenuPilihSantri} />
       <Stack.Screen name="VideoPilihSantri" component={VideoPilihSantri} />
-      <Stack.Screen name="KompotensiPilihSantri" component={KompotensiPilihSantri} />
+      <Stack.Screen
+        name="KompotensiPilihSantri"
+        component={KompotensiPilihSantri}
+      />
     </Stack.Navigator>
   );
 }
@@ -271,7 +282,10 @@ function MainSantri() {
       <Stack.Screen name="DetailMasukKelas" component={DetailMasukKelas} />
       <Stack.Screen name="DetailDailyTask" component={DetailDailyTask} />
       <Stack.Screen name="TopikKurikulum" component={TopikKurikulum} />
-      <Stack.Screen name="DetailTopikKurikulum" component={DetailTopikKurikulum} />
+      <Stack.Screen
+        name="DetailTopikKurikulum"
+        component={DetailTopikKurikulum}
+      />
     </Stack.Navigator>
   );
 }
